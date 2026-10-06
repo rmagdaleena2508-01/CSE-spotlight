@@ -7,7 +7,9 @@ import { createClient } from "@/lib/supabase/server";
 import { namesMatch, studentEmail, facultyEmail } from "@/lib/roster";
 import { password, rollNo } from "@/lib/schemas";
 
-export type FormState = { error?: string; step?: "password"; rollNo?: string; name?: string } | undefined;
+export type FormState =
+  | { error?: string; step?: "password"; rollNo?: string; name?: string; username?: string }
+  | undefined;
 
 const WINDOW_MINUTES = 15;
 const MAX_FAILED = 5;
@@ -69,8 +71,11 @@ export async function firstLogin(prev: FormState, form: FormData): Promise<FormS
 }
 
 async function checkFirstLogin(form: FormData): Promise<FormState> {
-  const result = await checkRoster(String(form.get("roll_no") ?? ""), String(form.get("name") ?? ""));
-  if (!result.ok) return { error: result.error };
+  const rawRoll = String(form.get("roll_no") ?? "");
+  const rawName = String(form.get("name") ?? "");
+  const result = await checkRoster(rawRoll, rawName);
+  // Send the typed values back so the form does not clear on an error.
+  if (!result.ok) return { error: result.error, rollNo: rawRoll, name: rawName };
   return { step: "password", rollNo: result.roll, name: String(form.get("name")) };
 }
 
@@ -117,18 +122,19 @@ async function claimAccount(_: FormState, form: FormData): Promise<FormState> {
 }
 
 export async function studentLogin(_: FormState, form: FormData): Promise<FormState> {
-  const roll = rollNo.safeParse(form.get("roll_no") ?? "");
-  if (!roll.success) return { error: roll.error.issues[0].message };
+  const rawRoll = String(form.get("roll_no") ?? "");
+  const roll = rollNo.safeParse(rawRoll);
+  if (!roll.success) return { error: roll.error.issues[0].message, rollNo: rawRoll };
   const pw = String(form.get("password") ?? "");
-  if (!pw) return { error: "Enter your password" };
+  if (!pw) return { error: "Enter your password", rollNo: rawRoll };
 
-  if (await tooManyAttempts(roll.data)) return { error: BLOCKED };
+  if (await tooManyAttempts(roll.data)) return { error: BLOCKED, rollNo: rawRoll };
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email: studentEmail(roll.data), password: pw });
   if (error) {
     await recordFailure(roll.data);
-    return { error: "Wrong roll number or password. First time here? Use the First time tab." };
+    return { error: "Wrong roll number or password. First time here? Use the First time tab.", rollNo: rawRoll };
   }
   redirect("/dashboard");
 }
@@ -136,16 +142,16 @@ export async function studentLogin(_: FormState, form: FormData): Promise<FormSt
 export async function facultyLogin(_: FormState, form: FormData): Promise<FormState> {
   const username = String(form.get("username") ?? "").trim().toLowerCase();
   const pw = String(form.get("password") ?? "");
-  if (!/^[a-z0-9._-]{3,40}$/.test(username) || !pw) return { error: "Enter your username and password" };
+  if (!/^[a-z0-9._-]{3,40}$/.test(username) || !pw) return { error: "Enter your username and password", username };
 
   const key = `faculty:${username}`;
-  if (await tooManyAttempts(key)) return { error: BLOCKED };
+  if (await tooManyAttempts(key)) return { error: BLOCKED, username };
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email: facultyEmail(username), password: pw });
   if (error) {
     await recordFailure(key);
-    return { error: "Wrong username or password." };
+    return { error: "Wrong username or password.", username };
   }
   redirect("/faculty/roster");
 }

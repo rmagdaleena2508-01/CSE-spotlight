@@ -26,7 +26,7 @@ function StudentLogin() {
         <FormError state={state} />
         <Field>
           <FieldLabel htmlFor="login-roll">Roll number</FieldLabel>
-          <Input id="login-roll" name="roll_no" autoComplete="username" placeholder="RA2511003040001" required />
+          <Input id="login-roll" name="roll_no" autoComplete="username" placeholder="RA2511003040001" defaultValue={state?.rollNo} required />
         </Field>
         <Field>
           <FieldLabel htmlFor="login-password">Password</FieldLabel>
@@ -76,11 +76,11 @@ function FirstTime() {
         <FormError state={state} />
         <Field>
           <FieldLabel htmlFor="first-roll">Roll number</FieldLabel>
-          <Input id="first-roll" name="roll_no" placeholder="RA2511003040001" required />
+          <Input id="first-roll" name="roll_no" placeholder="RA2511003040001" defaultValue={state?.rollNo} required />
         </Field>
         <Field>
           <FieldLabel htmlFor="first-name">Your name</FieldLabel>
-          <Input id="first-name" name="name" autoComplete="name" required />
+          <Input id="first-name" name="name" autoComplete="name" defaultValue={state?.name} required />
           <FieldDescription>As it is on the class list. Dots and word order do not matter.</FieldDescription>
         </Field>
         <Button type="submit" disabled={pending}>
@@ -99,7 +99,7 @@ function FacultyLogin() {
         <FormError state={state} />
         <Field>
           <FieldLabel htmlFor="faculty-username">Username</FieldLabel>
-          <Input id="faculty-username" name="username" autoComplete="username" required />
+          <Input id="faculty-username" name="username" autoComplete="username" defaultValue={state?.username} required />
         </Field>
         <Field>
           <FieldLabel htmlFor="faculty-password">Password</FieldLabel>

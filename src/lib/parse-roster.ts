@@ -15,13 +15,15 @@ export function parseRoster(buffer: ArrayBuffer): ParsedRoster {
   const book = XLSX.read(buffer, { type: "array" });
   const sheet = book.Sheets[book.SheetNames[0]];
   if (!sheet) throw new Error("The file has no sheets.");
-  const grid = XLSX.utils.sheet_to_json<unknown[]>(sheet, { header: 1, blankrows: false, defval: "" });
+  // Keep blank rows, and add where the sheet starts, so "line" matches the row number shown in Excel.
+  const grid = XLSX.utils.sheet_to_json<unknown[]>(sheet, { header: 1, blankrows: true, defval: "" });
+  const firstRow = sheet["!ref"] ? XLSX.utils.decode_range(sheet["!ref"]).s.r : 0;
 
   let headerRow = -1;
   let rollCol = -1;
   let nameCol = -1;
   for (let r = 0; r < Math.min(grid.length, 20) && headerRow < 0; r++) {
-    const cells = grid[r].map((c) => String(c).trim().toLowerCase());
+    const cells = (grid[r] ?? []).map((c) => String(c).trim().toLowerCase());
     const roll = cells.findIndex((c) => /^(reg(istration)?|roll)\s*\.?\s*(no|number)?\.?$/.test(c));
     const name = cells.findIndex((c) => c.includes("name"));
     if (roll >= 0 && name >= 0) {
@@ -35,12 +37,12 @@ export function parseRoster(buffer: ArrayBuffer): ParsedRoster {
   const seen = new Set<string>();
   const result: ParsedRoster = { rows: [], invalid: [], duplicates: [] };
   for (let r = headerRow + 1; r < grid.length; r++) {
-    const rawRoll = String(grid[r][rollCol] ?? "");
-    const name = String(grid[r][nameCol] ?? "").replace(/\s+/g, " ").trim();
+    const rawRoll = String(grid[r]?.[rollCol] ?? "");
+    const name = String(grid[r]?.[nameCol] ?? "").replace(/\s+/g, " ").trim();
     if (!rawRoll.trim() && !name) continue;
     const roll = normalizeRoll(rawRoll);
     if (!ROLL_PATTERN.test(roll) || !name) {
-      result.invalid.push({ line: r + 1, value: rawRoll || "(empty)" });
+      result.invalid.push({ line: firstRow + r + 1, value: rawRoll || "(empty)" });
       continue;
     }
     if (seen.has(roll)) {

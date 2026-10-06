@@ -38,8 +38,8 @@ export function RosterUpload() {
           <div className="space-y-3 rounded-lg border bg-background p-4 text-sm" aria-live="polite">
             <p>
               <span className="font-medium">{state.fileName}</span>: {preview.rows.length} students found.
-              {preview.duplicates.length > 0 && ` ${preview.duplicates.length} repeated, skipped.`}
-              {preview.invalid.length > 0 && ` ${preview.invalid.length} rows have a bad roll number, skipped.`}
+              {preview.duplicates.length > 0 && ` ${preview.duplicates.length} repeated ${preview.duplicates.length === 1 ? "row" : "rows"} skipped.`}
+              {preview.invalid.length > 0 && ` ${preview.invalid.length} ${preview.invalid.length === 1 ? "row has" : "rows have"} a bad roll number, skipped.`}
             </p>
             {preview.invalid.length > 0 && (
               <p className="text-muted-foreground">
