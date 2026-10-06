@@ -36,6 +36,21 @@ A website to show what our students win and do.
 
 </details>
 
+## Plan
+
+<details>
+<summary>Day 1: the base</summary>
+
+- **Set up:** Next.js app and a Supabase project.
+- **Tables:** `students`, `faculty`, `achievements` with rules so kids only touch their own posts.
+- **Files:** private box for certificates, open box for photos.
+- **Class list:** teacher uploads the Excel. We check each roll number, skip repeats, and show a preview first.
+- **Log in:** first time, roll number and name. Then you make a password. Too many wrong tries get blocked.
+- **Add a win:** event, date, group, prize, team, story, certificate, and up to 5 photos.
+- **Test:** fake kids log in and post.
+
+</details>
+
 ## Docs
 
 - [Product plan (PRD)](docs/PRD.pdf)
