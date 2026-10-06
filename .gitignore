@@ -1,0 +1,10 @@
+node_modules/
+.next/
+.env*
+!.env.example
+
+# Real student lists stay off GitHub
+*.xlsx
+*.xls
+*.csv
+.DS_Store
