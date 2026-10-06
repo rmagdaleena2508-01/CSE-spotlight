@@ -26,8 +26,15 @@ A website to show what our students win and do.
 
 ## Built With
 
-- Next.js
-- Supabase
+<details>
+<summary>Tech stack</summary>
+
+- **Frontend:** Next.js, TypeScript, Tailwind CSS and shadcn/ui, with React Hook Form and Zod for forms.
+- **Backend:** Supabase PostgreSQL, Auth, Storage and Next.js server actions; PDF reports from HTML templates.
+- **Security:** roll-number roster check, hashed passwords, Row Level Security, private certificate storage, rate limits.
+- **Hosting:** Vercel.
+
+</details>
 
 ## Docs
 
