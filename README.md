@@ -99,6 +99,59 @@ A website to show what our students win and do.
 
 </details>
 
+<details>
+<summary>Phase 2 (Day 2): plan</summary>
+
+Day 2 builds what everyone sees, plus the faculty review page. By the end, the site looks like your professor's sketch and faculty can verify or remove posts.
+
+1. **Home: four category rows.**
+   - One row each for Technical, Non-Technical, Arts and Sports, showing up to 6 recent posts.
+   - Arrows on desktop and swipe on phones, with no auto-scroll.
+   - A "View all" link on each row.
+   - Each card shows a photo (or a category placeholder), name, event, date, result and the "Faculty verified" badge.
+2. **All achievements page:**
+   - Filters for category, result, level and month, plus search.
+   - 12 posts per page, and the filters stay in the URL so a link can be shared.
+3. **Past achievements:**
+   - Home shows the current term.
+   - A "Past achievements" link opens older posts, as in the sketch.
+4. **Detail page:** the full story, a photo gallery, event, organizer, level, result and team member names. No roll numbers or certificates.
+5. **Reactions:**
+   - Like (thumbs up), Heart or Fire, for logged-in students only, one reaction each.
+   - Clicking the same one again removes it.
+   - Everyone can see the counts.
+6. **Faculty review page:**
+   - A list of every post with filters (waiting, verified, removed).
+   - Faculty open the certificate in a preview.
+   - Verify adds the badge. Remove asks for a reason, hides the post, and the student sees the reason.
+7. **Test:** the full flow in the browser with fake students, then delete them.
+
+**One question first:** when should a post move from "current" to "past"?
+
+- **By semester (recommended):** July–December and January–June. Home shows this semester.
+- **By month:** home shows the last 30 days.
+- **By academic year:** June to May.
+
+**Why filters stay in the URL**
+
+When someone picks filters, the page address in the browser changes to match them. Copying that address copies the filtered view.
+
+Example: your professor wants to show the HOD all the national-level Sports wins from September.
+
+1. She opens the achievements page and picks Sports, Won, National and September.
+2. The address bar changes to something like: `cse-spotlight.app/achievements?category=sports&result=award&level=national&month=2026-09`
+3. She copies that link and sends it on WhatsApp.
+4. The HOD opens it and sees the same filtered list straight away, without picking anything.
+
+Without this, the address stays as plain `/achievements`. The HOD would see every post and have to pick the four filters again.
+
+It also helps in two other ways:
+
+- **Back button:** after opening a post and pressing back, the filters are still set.
+- **Refresh:** reloading the page keeps the filters.
+
+</details>
+
 ## Docs
 
 - [Product plan (PRD)](docs/PRD.pdf)
