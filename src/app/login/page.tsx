@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: "Log in · CSE Spotlight" };
 export default async function LoginPage({ searchParams }: PageProps<"/login">) {
   const viewer = await getViewer();
   if (viewer?.kind === "student") redirect("/dashboard");
-  if (viewer?.kind === "faculty") redirect("/faculty/roster");
+  if (viewer?.kind === "faculty") redirect("/faculty/review");
 
   const { as } = await searchParams;
   return (

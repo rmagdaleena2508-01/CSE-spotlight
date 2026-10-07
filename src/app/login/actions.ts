@@ -153,7 +153,7 @@ export async function facultyLogin(_: FormState, form: FormData): Promise<FormSt
     await recordFailure(key);
     return { error: "Wrong username or password.", username };
   }
-  redirect("/faculty/roster");
+  redirect("/faculty/review");
 }
 
 export async function logout() {

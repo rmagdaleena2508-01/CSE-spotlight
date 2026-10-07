@@ -150,6 +150,19 @@ It also helps in two other ways:
 - **Back button:** after opening a post and pressing back, the filters are still set.
 - **Refresh:** reloading the page keeps the filters.
 
+**Result: done**
+
+- **Current vs past:** by semester (July–December, January–June).
+- **Built:** the home page with four category rows, the all-achievements page with filters and search, past achievements, the detail page, Like / Heart / Fire reactions, and the faculty review page with certificate preview, verify and remove.
+- **Tested in the browser with fake students:**
+  - The rows show this semester only, and past posts move to Past achievements.
+  - Filters and search update the link. A shared link, Back and refresh all keep the filters.
+  - Reactions can be picked, switched and taken back, and the counts stay after a refresh.
+  - Verify adds the badge. Remove needs a reason, the post disappears from the site, and the student sees the reason.
+- **Privacy:** the public pages never show roll numbers or certificate links. Visitors can't read or add reactions, or call verify. A student can't react as someone else.
+- **Fixed during testing:** the header ran off the screen on phones.
+- **Cleaned up:** all test data was deleted. The site has the 52 real students and no posts yet.
+
 </details>
 
 ## Docs
