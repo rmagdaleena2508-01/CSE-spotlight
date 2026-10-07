@@ -1,8 +1,6 @@
-import Link from "next/link";
-import { History } from "lucide-react";
 import { AchievementCard } from "@/components/achievement-card";
 import { CategoryShelf } from "@/components/category-shelf";
-import { buttonVariants } from "@/components/ui/button";
+import { Hero } from "@/components/hero";
 import { CATEGORIES } from "@/lib/schemas";
 import { PUBLIC_CARD_COLUMNS, type PublicCard } from "@/lib/published";
 import { currentSemester } from "@/lib/semester";
@@ -29,25 +27,9 @@ export default async function Home() {
   );
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10">
-      <section>
-        <p className="text-sm font-medium text-primary">{semester.label}</p>
-        <h1 className="mt-1 text-3xl font-semibold tracking-tight sm:text-4xl">What CSE students did this semester</h1>
-        <p className="mt-2 max-w-2xl text-muted-foreground">
-          Wins and events from our class, posted by students and checked by faculty.
-        </p>
-        <div className="mt-6 flex flex-wrap gap-2">
-          <Link href="/achievements" className={buttonVariants({ size: "lg" })}>
-            Explore achievements
-          </Link>
-          <Link href="/submit" className={buttonVariants({ size: "lg", variant: "outline" })}>
-            Add your achievement
-          </Link>
-          <Link href="/achievements?period=past" className={buttonVariants({ size: "lg", variant: "ghost" })}>
-            <History aria-hidden /> Past achievements
-          </Link>
-        </div>
-      </section>
+    <>
+      <Hero semesterLabel={semester.label} />
+      <main className="mx-auto max-w-6xl px-4 pb-12">
 
       {shelves.map((s) => (
         <CategoryShelf
@@ -63,6 +45,7 @@ export default async function Home() {
           ))}
         </CategoryShelf>
       ))}
-    </main>
+      </main>
+    </>
   );
 }
