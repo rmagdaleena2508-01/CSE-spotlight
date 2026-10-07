@@ -34,6 +34,8 @@ A website to show what our students win and do.
 - **Security:** roll-number roster check, hashed passwords, Row Level Security, private certificate storage, rate limits.
 - **Hosting:** Vercel.
 
+**Why this stack:** One TypeScript codebase runs pages and server logic together. Supabase gives login, database, file storage and access rules in one free service, so no separate backend. Vercel hosts Next.js natively, keeping setup small for a solo build.
+
 </details>
 
 ## Plan
