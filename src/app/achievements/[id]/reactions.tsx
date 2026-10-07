@@ -12,8 +12,8 @@ type State = { mine: Kind | null; counts: Record<Kind, number> };
 
 const BUTTONS: { kind: Kind; label: string; icon: typeof Heart; on: string }[] = [
   { kind: "like", label: "Like", icon: ThumbsUp, on: "border-primary bg-primary/10 text-primary" },
-  { kind: "heart", label: "Heart", icon: Heart, on: "border-rose-500 bg-rose-50 text-rose-600" },
-  { kind: "fire", label: "Fire", icon: Flame, on: "border-orange-500 bg-orange-50 text-orange-600" },
+  { kind: "heart", label: "Heart", icon: Heart, on: "border-rose-500 bg-rose-50 text-rose-600 dark:bg-rose-950 dark:text-rose-300" },
+  { kind: "fire", label: "Fire", icon: Flame, on: "border-orange-500 bg-orange-50 text-orange-600 dark:bg-orange-950 dark:text-orange-300" },
 ];
 
 function toggle(state: State, kind: Kind): State {

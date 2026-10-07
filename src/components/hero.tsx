@@ -4,22 +4,21 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 // Full-width lake scene. Phones get the tall picture, laptops the wide one.
-// Night versions: add <source> lines with media "(prefers-color-scheme: dark)"
-// above the day ones once public/hero/night-*.webp exist.
+// In dark mode the photo is hidden and the hero is plain black, like the rest of the site.
 export function Hero({ semesterLabel }: { semesterLabel: string }) {
   return (
-    <section className="relative isolate overflow-hidden">
+    <section className="relative isolate overflow-hidden bg-black">
       <picture>
         <source media="(max-width: 767px)" srcSet="/hero/day-mobile.webp" type="image/webp" />
         <img
           src="/hero/day-desktop.webp"
           alt=""
           fetchPriority="high"
-          className="absolute inset-0 -z-10 size-full object-cover object-[center_40%]"
+          className="absolute inset-0 -z-10 size-full object-cover object-[center_40%] dark:hidden"
         />
       </picture>
       {/* Soft fade so white text stays readable on the bright sky. */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-slate-900/45 via-slate-900/15 to-transparent" aria-hidden />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-slate-900/45 via-slate-900/15 to-transparent dark:hidden" aria-hidden />
 
       <div className="mx-auto flex min-h-[78svh] max-w-6xl flex-col justify-start px-4 pt-16 pb-24 sm:min-h-[72vh] sm:pt-24">
         <p className="text-sm font-medium text-white/90 [text-shadow:0_1px_2px_rgb(0_0_0/0.4)]">{semesterLabel}</p>
@@ -33,7 +32,7 @@ export function Hero({ semesterLabel }: { semesterLabel: string }) {
           <Link href="/achievements" className={buttonVariants({ size: "lg" })}>
             Explore achievements
           </Link>
-          <Link href="/submit" className={cn(buttonVariants({ size: "lg", variant: "outline" }), "border-white/60 bg-white/90 hover:bg-white")}>
+          <Link href="/submit" className={cn(buttonVariants({ size: "lg", variant: "outline" }), "border-white/60 bg-white/90 text-stone-900 hover:bg-white hover:text-stone-900 dark:border-white/30 dark:bg-transparent dark:text-white dark:hover:bg-white/10 dark:hover:text-white")}>
             Add your achievement
           </Link>
           <Link
