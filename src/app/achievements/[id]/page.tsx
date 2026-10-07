@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, BadgeCheck, Building2, CalendarDays, Layers, Users } from "lucide-react";
+import { ArrowLeft, BadgeCheck, Building2, CalendarDays, GraduationCap, Layers, MapPin, Users } from "lucide-react";
 import { CategoryPlaceholder } from "@/components/category-placeholder";
-import { categoryLabel, formatDate, levelLabel, resultLabel } from "@/lib/labels";
+import { categoryLabel, classLabel, dateRange, levelLabel, resultLabel, rupees, typeLabel } from "@/lib/labels";
 import { photoUrl } from "@/lib/photos";
 import { getViewer } from "@/lib/session";
 import { createClient } from "@/lib/supabase/server";
@@ -55,8 +55,10 @@ export default async function AchievementPage({ params }: PageProps<"/achievemen
 
       <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
         <span className="rounded-full bg-muted px-2.5 py-0.5 font-medium">{categoryLabel(a.category)}</span>
+        <span className="rounded-full bg-muted px-2.5 py-0.5">{typeLabel(a.achievement_type)}</span>
         <span className={isAward ? "rounded-full bg-gold-soft px-2.5 py-0.5 font-medium text-gold" : "rounded-full bg-muted px-2.5 py-0.5"}>
           {resultLabel(a)}
+          {a.cash_prize ? ` · ${rupees(a.cash_prize)}` : ""}
         </span>
         {a.is_verified ? (
           <span className="inline-flex items-center gap-1 font-medium text-primary">
@@ -68,14 +70,18 @@ export default async function AchievementPage({ params }: PageProps<"/achievemen
       </div>
 
       <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">{a.event_name}</h1>
-      <p className="mt-1 text-lg text-muted-foreground">{a.student_name}</p>
+      <p className="mt-1 text-lg text-muted-foreground">
+        {a.student_name}
+        {classLabel(a.year_of_study, a.section) && <span className="text-base"> · {classLabel(a.year_of_study, a.section)}</span>}
+      </p>
+      {a.work_title && <p className="mt-2 text-base italic">&ldquo;{a.work_title}&rdquo;</p>}
 
       <dl className="mt-6 grid gap-3 rounded-xl border bg-card p-4 text-sm sm:grid-cols-2">
         <div className="flex gap-2">
           <CalendarDays className="mt-0.5 size-4 text-muted-foreground" aria-hidden />
           <div>
             <dt className="text-muted-foreground">Date</dt>
-            <dd className="font-medium">{formatDate(a.event_date)}</dd>
+            <dd className="font-medium">{dateRange(a.event_date, a.end_date)}</dd>
           </div>
         </div>
         <div className="flex gap-2">
@@ -85,6 +91,24 @@ export default async function AchievementPage({ params }: PageProps<"/achievemen
             <dd className="font-medium">{a.organizer}</dd>
           </div>
         </div>
+        {a.venue && (
+          <div className="flex gap-2">
+            <MapPin className="mt-0.5 size-4 text-muted-foreground" aria-hidden />
+            <div>
+              <dt className="text-muted-foreground">Held at</dt>
+              <dd className="font-medium">{a.venue}</dd>
+            </div>
+          </div>
+        )}
+        {a.mentor && (
+          <div className="flex gap-2">
+            <GraduationCap className="mt-0.5 size-4 text-muted-foreground" aria-hidden />
+            <div>
+              <dt className="text-muted-foreground">Guided by</dt>
+              <dd className="font-medium">{a.mentor}</dd>
+            </div>
+          </div>
+        )}
         <div className="flex gap-2">
           <Layers className="mt-0.5 size-4 text-muted-foreground" aria-hidden />
           <div>

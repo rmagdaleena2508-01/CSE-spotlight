@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, FileText } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { categoryLabel, formatDate, levelLabel, resultLabel } from "@/lib/labels";
+import { categoryLabel, classLabel, dateRange, levelLabel, resultLabel, rupees, typeLabel } from "@/lib/labels";
 import { photoUrl } from "@/lib/photos";
 import { requireFaculty } from "@/lib/session";
 import { createClient } from "@/lib/supabase/server";
@@ -43,6 +43,7 @@ export default async function ReviewPostPage({ params }: PageProps<"/faculty/rev
           <h1 className="mt-2 text-3xl font-semibold tracking-tight">{a.event_name}</h1>
           <p className="mt-1 text-muted-foreground">
             {a.student_name} · <span className="font-mono text-sm">{a.roll_no}</span>
+            {classLabel(a.year_of_study, a.section) && ` · ${classLabel(a.year_of_study, a.section)}`}
           </p>
         </div>
         <ReviewActions id={a.id} status={a.status} studentName={a.student_name} />
@@ -64,11 +65,16 @@ export default async function ReviewPostPage({ params }: PageProps<"/faculty/rev
           <h2 id="details" className="text-xl font-semibold">What they posted</h2>
           <dl className="mt-3 divide-y rounded-xl border bg-card text-sm">
             {[
+              ["Type", typeLabel(a.achievement_type)],
+              ...(a.work_title ? [["Title", a.work_title]] : []),
               ["Organizer", a.organizer],
-              ["Event date", formatDate(a.event_date)],
+              ["Held at", a.venue || "Not given"],
+              ["Event date", dateRange(a.event_date, a.end_date)],
               ["Category", categoryLabel(a.category)],
               ["Level", levelLabel(a.level)],
               ["Result", resultLabel(a)],
+              ...(a.cash_prize ? [["Cash prize", rupees(a.cash_prize)]] : []),
+              ...(a.mentor ? [["Guide", a.mentor]] : []),
               ["Took part", a.participation_type === "team" ? `Team${a.team_name ? ` "${a.team_name}"` : ""}` : "Alone"],
               ["Posted", new Date(a.created_at).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })],
             ].map(([k, v]) => (
@@ -89,6 +95,14 @@ export default async function ReviewPostPage({ params }: PageProps<"/faculty/rev
                 ))}
               </ul>
             </div>
+          )}
+          {a.proof_url && (
+            <p className="mt-4 text-sm">
+              Proof link:{" "}
+              <a href={a.proof_url} target="_blank" rel="noopener noreferrer nofollow" className="break-all text-primary underline-offset-4 hover:underline">
+                {a.proof_url}
+              </a>
+            </p>
           )}
           <h3 className="mt-4 text-sm font-medium">Description</h3>
           <p className="mt-1 text-sm leading-relaxed whitespace-pre-line">{a.description}</p>
@@ -122,7 +136,7 @@ export default async function ReviewPostPage({ params }: PageProps<"/faculty/rev
           </ul>
           {a.photo_paths.length > 0 && (
             <>
-              <h3 className="mt-6 text-sm font-medium">Photos</h3>
+              <h3 className="mt-6 text-sm font-medium">Photos (first one is the main photo)</h3>
               <ul className="mt-2 grid grid-cols-2 gap-2">
                 {a.photo_paths.map((p: string, i: number) => (
                   <li key={p}>

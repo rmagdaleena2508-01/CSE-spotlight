@@ -26,6 +26,22 @@ export const LEVELS = [
   { value: "international", label: "International" },
 ] as const;
 
+export const ACHIEVEMENT_TYPES = [
+  { value: "competition", label: "Competition" },
+  { value: "hackathon", label: "Hackathon" },
+  { value: "paper", label: "Paper presentation / publication" },
+  { value: "certification", label: "Certification / course" },
+  { value: "talk", label: "Talk or workshop given" },
+  { value: "sports", label: "Sports" },
+  { value: "project", label: "Project" },
+  { value: "other", label: "Other" },
+] as const;
+
+export const YEARS = ["I", "II", "III", "IV"] as const;
+
+// Types where the title of the paper, project or talk matters.
+export const NEEDS_WORK_TITLE = ["paper", "project", "talk"] as const;
+
 const trimmed = (min: number, max: number, label: string) =>
   z
     .string()
@@ -41,10 +57,34 @@ export const achievementSchema = z
   .object({
     event_name: trimmed(3, 150, "Event name"),
     organizer: trimmed(3, 150, "Organizer"),
+    year_of_study: z.enum(YEARS, { error: "Pick your year" }),
+    section: trimmed(1, 20, "Section"),
+    achievement_type: z.enum(
+      ["competition", "hackathon", "paper", "certification", "talk", "sports", "project", "other"],
+      { error: "Pick what kind of achievement this is" },
+    ),
+    venue: trimmed(3, 150, "Venue"),
     event_date: z
       .string()
       .regex(/^\d{4}-\d{2}-\d{2}$/, "Pick the event date")
       .refine((d) => d <= todayInIndia(), "Event date cannot be in the future"),
+    end_date: z
+      .string()
+      .refine((d) => d === "" || /^\d{4}-\d{2}-\d{2}$/.test(d), "Pick a valid date")
+      .refine((d) => d === "" || d <= todayInIndia(), "End date cannot be in the future")
+      .optional(),
+    cash_prize: z
+      .string()
+      .trim()
+      .refine((v) => v === "" || /^[1-9]\d{0,7}$/.test(v), "Write the amount in rupees, numbers only, like 2000")
+      .optional(),
+    work_title: z.string().trim().max(250, "Keep the title under 250 characters").optional(),
+    mentor: z.string().trim().max(120, "Keep the name under 120 characters").optional(),
+    proof_url: z
+      .string()
+      .trim()
+      .refine((v) => v === "" || /^https:\/\/\S+$/.test(v), "Paste a full link starting with https://")
+      .optional(),
     category: z.enum(["technical", "non_technical", "arts", "sports"], { error: "Pick a category" }),
     level: z.enum(["intra_college", "inter_college", "state", "national", "international"], {
       error: "Pick a level",
@@ -65,6 +105,15 @@ export const achievementSchema = z
     description: trimmed(30, 1500, "Description"),
   })
   .superRefine((v, ctx) => {
+    if (v.end_date && v.end_date < v.event_date) {
+      ctx.addIssue({ code: "custom", path: ["end_date"], message: "End date cannot be before the start date" });
+    }
+    if ((NEEDS_WORK_TITLE as readonly string[]).includes(v.achievement_type) && (v.work_title ?? "").length < 3) {
+      ctx.addIssue({ code: "custom", path: ["work_title"], message: "Give the title of your paper, project or talk" });
+    }
+    if (v.mentor && v.mentor.length < 3) {
+      ctx.addIssue({ code: "custom", path: ["mentor"], message: "Write the full name of your guide" });
+    }
     if (v.result_type !== "award") return;
     const hasRank = !!v.rank && /^[1-9]\d*$/.test(v.rank);
     const hasTitle = !!v.award_title && v.award_title.length >= 2;
@@ -79,10 +128,10 @@ export type AchievementInput = z.input<typeof achievementSchema>;
 
 export const FILE_RULES = {
   certificates: {
-    max: 3,
+    max: 1,
     maxBytes: 10 * 1024 * 1024,
     types: ["application/pdf", "image/jpeg", "image/png"],
-    label: "PDF, JPG or PNG, up to 10 MB each",
+    label: "PDF, JPG or PNG, up to 10 MB",
   },
   photos: {
     max: 5,
