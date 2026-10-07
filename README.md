@@ -176,7 +176,7 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
    - A new Report page where faculty pick a date range (e.g. September) and, optionally, a category.
    - It uses verified posts only.
    - The layout is copied from your sample newsletters: college heading, month, a highlights section, then one section per category with photos, names, events and results, and page numbers.
-   - Gemini (optional) writes a short intro paragraph. Faculty can edit it before downloading. Gemini only writes the words; the layout is fixed.
+   - No AI. The PDF follows the newsletter template and is filled with the verified posts. Faculty can type a short intro before downloading.
    - Faculty preview it, then download the PDF.
    - The PDF is built with a JavaScript PDF library (`@react-pdf/renderer`), which runs on Vercel without the heavy headless browser that HTML-to-PDF tools need.
    - CSV export of the same posts for Excel (it's in the PRD). It's small, so I'll add it.
