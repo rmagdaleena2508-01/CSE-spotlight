@@ -24,6 +24,7 @@ export async function SiteHeader() {
           {viewer?.kind === "faculty" && (
             <>
               <Link href="/faculty/review" className={buttonVariants({ variant: "ghost", size: "sm" })}>Review</Link>
+              <Link href="/faculty/report" className={buttonVariants({ variant: "ghost", size: "sm" })}>Report</Link>
               <Link href="/faculty/roster" className={buttonVariants({ variant: "ghost", size: "sm" })}>Class list</Link>
             </>
           )}
