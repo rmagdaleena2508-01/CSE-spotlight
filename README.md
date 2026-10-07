@@ -167,6 +167,33 @@ It also helps in two other ways:
 
 </details>
 
+<details>
+<summary>Phase 3 (Day 3): plan</summary>
+
+Day 3 adds the newsletter PDF report, a final polish pass, and puts the site online. By the end, faculty get the monthly report in one click and the site has a real link people can open.
+
+1. **Newsletter PDF report (faculty only):**
+   - A new Report page where faculty pick a date range (e.g. September) and, optionally, a category.
+   - It uses verified posts only.
+   - The layout is copied from your sample newsletters: college heading, month, a highlights section, then one section per category with photos, names, events and results, and page numbers.
+   - Gemini (optional) writes a short intro paragraph. Faculty can edit it before downloading. Gemini only writes the words; the layout is fixed.
+   - Faculty preview it, then download the PDF.
+   - The PDF is built with a JavaScript PDF library (`@react-pdf/renderer`), which runs on Vercel without the heavy headless browser that HTML-to-PDF tools need.
+   - CSV export of the same posts for Excel (it's in the PRD). It's small, so I'll add it.
+2. **Polish:**
+   - Loading placeholders while pages load, and a check of empty states.
+   - Keyboard and screen-reader checks.
+   - Students can edit their own post while it's still waiting for verification. That isn't built yet; it's a small addition.
+   - The app icon and page titles.
+3. **Going online:**
+   - Deploy to Vercel and add the keys there (the secret key stays server-only).
+   - Point Supabase's login settings at the live address.
+   - Run a full test on the live link.
+4. **Faculty guide:** a short `docs/FACULTY_GUIDE.md` covering how to upload the class list, review posts, and get the report.
+5. **Test:** the full flow with fake posts, generating a PDF, then deleting the test data.
+
+</details>
+
 ## Docs
 
 - [Product plan (PRD)](docs/PRD.pdf)
