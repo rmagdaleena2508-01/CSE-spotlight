@@ -52,7 +52,7 @@ export default async function AchievementsPage({ searchParams }: PageProps<"/ach
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="text-3xl font-semibold tracking-tight">{heading}</h1>
+      <h1 className="text-4xl sm:text-5xl">{heading}</h1>
       {f.period === "past" && (
         <p className="mt-1 text-muted-foreground">Everything from before {semester.label}.</p>
       )}

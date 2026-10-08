@@ -49,7 +49,7 @@ export default async function ReviewPage({ searchParams }: PageProps<"/faculty/r
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-10">
-      <h1 className="text-3xl font-semibold tracking-tight">Review posts</h1>
+      <h1 className="text-4xl sm:text-5xl">Review posts</h1>
       <p className="mt-2 text-muted-foreground">
         Posts are live as soon as students add them. Check the proof, then verify or remove.
       </p>

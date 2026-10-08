@@ -69,7 +69,7 @@ export default async function AchievementPage({ params }: PageProps<"/achievemen
         )}
       </div>
 
-      <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">{a.event_name}</h1>
+      <h1 className="mt-3 text-3xl sm:text-4xl">{a.event_name}</h1>
       <p className="mt-1 text-lg text-muted-foreground">
         {a.student_name}
         {classLabel(a.year_of_study, a.section) && <span className="text-base"> · {classLabel(a.year_of_study, a.section)}</span>}
@@ -130,12 +130,12 @@ export default async function AchievementPage({ params }: PageProps<"/achievemen
       </dl>
 
       <section className="mt-8" aria-labelledby="story">
-        <h2 id="story" className="text-xl font-semibold">About it</h2>
+        <h2 id="story" className="text-2xl">About it</h2>
         <p className="mt-2 leading-relaxed whitespace-pre-line">{a.description}</p>
       </section>
 
       <section className="mt-8" aria-labelledby="photos">
-        <h2 id="photos" className="text-xl font-semibold">Photos</h2>
+        <h2 id="photos" className="text-2xl">Photos</h2>
         {photos.length === 0 ? (
           <CategoryPlaceholder category={a.category} className="mt-3 aspect-[4/3] w-full max-w-md rounded-xl" />
         ) : (
@@ -162,7 +162,7 @@ export default async function AchievementPage({ params }: PageProps<"/achievemen
       </section>
 
       <section className="mt-8" aria-labelledby="react">
-        <h2 id="react" className="text-xl font-semibold">Cheer them on</h2>
+        <h2 id="react" className="text-2xl">Cheer them on</h2>
         <div className="mt-3">
           <Reactions
             key={`${mine}-${a.like_count}-${a.heart_count}-${a.fire_count}`}

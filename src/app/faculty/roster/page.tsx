@@ -18,7 +18,7 @@ export default async function RosterPage() {
 
   return (
     <main className="mx-auto max-w-4xl px-4 py-10">
-      <h1 className="text-3xl font-semibold tracking-tight">Class list</h1>
+      <h1 className="text-4xl sm:text-5xl">Class list</h1>
       <p className="mt-2 text-muted-foreground">
         Upload the Excel sheet with &quot;Reg no&quot; and &quot;Student name&quot; columns. Only students on this list can log in.
       </p>
@@ -26,7 +26,7 @@ export default async function RosterPage() {
       <RosterUpload />
 
       <div className="mt-10 flex items-baseline justify-between">
-        <h2 className="text-xl font-semibold">Students</h2>
+        <h2 className="text-2xl">Students</h2>
         <p className="text-sm text-muted-foreground">
           {students?.length ?? 0} on the list · {claimed} have logged in
         </p>

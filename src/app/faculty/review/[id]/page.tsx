@@ -40,7 +40,7 @@ export default async function ReviewPostPage({ params }: PageProps<"/faculty/rev
           <Badge variant={a.status === "verified" ? "default" : a.status === "removed" ? "destructive" : "secondary"}>
             {a.status === "live" ? "Waiting for you" : a.status === "verified" ? "Verified" : "Removed"}
           </Badge>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight">{a.event_name}</h1>
+          <h1 className="mt-2 text-4xl">{a.event_name}</h1>
           <p className="mt-1 text-muted-foreground">
             {a.student_name} · <span className="font-mono text-sm">{a.roll_no}</span>
             {classLabel(a.year_of_study, a.section) && ` · ${classLabel(a.year_of_study, a.section)}`}
@@ -62,7 +62,7 @@ export default async function ReviewPostPage({ params }: PageProps<"/faculty/rev
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
         <section aria-labelledby="details">
-          <h2 id="details" className="text-xl font-semibold">What they posted</h2>
+          <h2 id="details" className="text-2xl">What they posted</h2>
           <dl className="mt-3 divide-y rounded-xl border bg-card text-sm">
             {[
               ["Type", typeLabel(a.achievement_type)],
@@ -109,7 +109,7 @@ export default async function ReviewPostPage({ params }: PageProps<"/faculty/rev
         </section>
 
         <section aria-labelledby="proof">
-          <h2 id="proof" className="text-xl font-semibold">Proof</h2>
+          <h2 id="proof" className="text-2xl">Proof</h2>
           {certificates.length === 0 && <p className="mt-3 text-sm text-muted-foreground">No certificate. Check the photos below.</p>}
           <ul className="mt-3 space-y-4">
             {certificates.map((c, i) => {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, type ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,11 +9,13 @@ import { Button } from "@/components/ui/button";
 // One row of cards. Arrow buttons on wider screens, swipe on phones, no auto-scroll.
 export function CategoryShelf({
   title,
+  sticker,
   viewAllHref,
   empty,
   children,
 }: {
   title: string;
+  sticker?: { src: string; w: number; h: number };
   viewAllHref: string;
   empty: boolean;
   children: ReactNode;
@@ -28,9 +31,12 @@ export function CategoryShelf({
   }
 
   return (
-    <section aria-labelledby={headingId} className="mt-10">
-      <div className="flex items-center gap-2">
-        <h2 id={headingId} className="text-xl font-semibold">
+    <section aria-labelledby={headingId} className="mt-20">
+      <div className="flex items-center gap-3">
+        {sticker && (
+          <Image src={sticker.src} alt="" width={sticker.w} height={sticker.h} sizes="56px" className="h-auto w-12 -rotate-12 sm:w-14" />
+        )}
+        <h2 id={headingId} className="font-display text-3xl text-white sm:text-4xl">
           {title}
         </h2>
         <div className="ml-auto flex items-center gap-1">
@@ -46,20 +52,20 @@ export function CategoryShelf({
           )}
           <Link
             href={viewAllHref}
-            className="inline-flex h-8 items-center gap-1 rounded-lg px-2.5 text-sm font-medium text-primary hover:bg-muted"
+            className="inline-flex h-9 items-center gap-1 rounded-md px-3 text-sm font-bold text-primary shadow-[inset_0_0_0_1px_var(--primary)] hover:bg-primary/10"
           >
             View all <ArrowRight className="size-4" aria-hidden />
           </Link>
         </div>
       </div>
       {empty ? (
-        <p className="mt-3 rounded-xl border border-dashed bg-card p-6 text-sm text-muted-foreground">
+        <p className="mt-5 rounded-[20px] border border-dashed border-white/15 p-8 text-center text-muted-foreground">
           No {title} posts this semester yet.
         </p>
       ) : (
         <ul
           ref={track}
-          className="mt-3 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-2 motion-reduce:scroll-auto [scrollbar-width:thin]"
+          className="mt-6 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-2 motion-reduce:scroll-auto [scrollbar-width:thin]"
         >
           {children}
         </ul>

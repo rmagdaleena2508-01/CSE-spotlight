@@ -23,7 +23,7 @@ export default async function ReportPage({ searchParams }: PageProps<"/faculty/r
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-10">
-      <h1 className="text-3xl font-semibold tracking-tight">Newsletter report</h1>
+      <h1 className="text-4xl sm:text-5xl">Newsletter report</h1>
       <p className="mt-2 max-w-2xl text-muted-foreground">
         Faculty-verified achievements for the design team: a PDF list, a spreadsheet, and a ZIP of photos. Entry numbers
         match across all three.
@@ -64,7 +64,7 @@ export default async function ReportPage({ searchParams }: PageProps<"/faculty/r
         </a>
       </section>
 
-      <h2 className="mt-8 flex items-center gap-2 text-xl font-semibold">
+      <h2 className="mt-8 flex items-center gap-2 text-2xl">
         <FileDown className="size-5 text-muted-foreground" aria-hidden />
         {params.label}
         {params.category && ` · ${categoryLabel(params.category)}`}

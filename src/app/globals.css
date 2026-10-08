@@ -2,8 +2,8 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-/* Follows the device setting: dark mode on the phone or laptop turns the site dark. */
-@custom-variant dark (@media (prefers-color-scheme: dark));
+/* The site is always dark (Campus Crew style), so every dark: style always applies. */
+@custom-variant dark (&);
 
 @theme inline {
   --color-background: var(--background);
@@ -12,7 +12,7 @@
   --font-mono: var(--font-geist-mono);
   --color-gold: var(--gold);
   --color-gold-soft: var(--gold-soft);
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-pixel);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -51,79 +51,45 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* Always black, like HackerRank Campus Crew: near-black page, one lime accent. */
 :root {
-  color-scheme: light;
-  /* Warm off-white: between pure white and cream. */
-  --background: #faf8f3;
-  --foreground: #1c1917;
-  --card: #fffefb;
-  --card-foreground: #1c1917;
-  --popover: #fffefb;
-  --popover-foreground: #1c1917;
-  --primary: #1d4ed8;
-  --primary-foreground: #ffffff;
-  --secondary: #f2eee5;
-  --secondary-foreground: #1c1917;
-  --muted: #f2eee5;
-  --muted-foreground: #57534e;
-  --accent: #f2eee5;
-  --accent-foreground: #1c1917;
-  --destructive: #dc2626;
-  --border: #e7e1d5;
-  --input: #ddd6c8;
-  --ring: #1d4ed8;
+  color-scheme: dark;
+  --background: #0b0a0a;
+  --foreground: #ffffff;
+  --card: #141419;
+  --card-foreground: #ffffff;
+  --popover: #141419;
+  --popover-foreground: #ffffff;
+  --primary: #aef96c;
+  --primary-foreground: #080809;
+  --secondary: #1c1c22;
+  --secondary-foreground: #ffffff;
+  --muted: #1c1c22;
+  --muted-foreground: #a1a1aa;
+  --accent: #1c1c22;
+  --accent-foreground: #ffffff;
+  --destructive: #f87171;
+  --border: #2a2a31;
+  --input: #34343c;
+  --ring: #aef96c;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.75rem;
-  --gold: #b45309;
-  --gold-soft: #fef3c7;
-  --sidebar: #faf8f3;
-  --sidebar-foreground: #1c1917;
-  --sidebar-primary: #1d4ed8;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f2eee5;
-  --sidebar-accent-foreground: #1c1917;
-  --sidebar-border: #e7e1d5;
-  --sidebar-ring: #1d4ed8;
+  --radius: 0.5rem;
+  --gold: #fbbf24;
+  --gold-soft: #3a2a08;
+  --sidebar: #141419;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #aef96c;
+  --sidebar-primary-foreground: #080809;
+  --sidebar-accent: #1c1c22;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #2a2a31;
+  --sidebar-ring: #aef96c;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    /* Fully black page; cards sit just above it. */
-    --background: #000000;
-    --foreground: #f5f5f4;
-    --card: #0f0f0f;
-    --card-foreground: #f5f5f4;
-    --popover: #141414;
-    --popover-foreground: #f5f5f4;
-    --primary: #3b82f6;
-    --primary-foreground: #ffffff;
-    --secondary: #1c1c1c;
-    --secondary-foreground: #f5f5f4;
-    --muted: #1c1c1c;
-    --muted-foreground: #a8a29e;
-    --accent: #1c1c1c;
-    --accent-foreground: #f5f5f4;
-    --destructive: #f87171;
-    --border: #262626;
-    --input: #333333;
-    --ring: #60a5fa;
-    --gold: #fbbf24;
-    --gold-soft: #3a2a08;
-    --sidebar: #000000;
-    --sidebar-foreground: #f5f5f4;
-    --sidebar-primary: #3b82f6;
-    --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #1c1c1c;
-    --sidebar-accent-foreground: #f5f5f4;
-    --sidebar-border: #262626;
-    --sidebar-ring: #60a5fa;
-  }
-}
 
 @layer base {
   * {
@@ -134,5 +100,30 @@
   }
   html {
     @apply font-sans;
+  }
+  /* Page and section headings use the pixel display font, never bold (Campus Crew). */
+  h1,
+  h2 {
+    font-family: var(--font-pixel), ui-monospace, monospace;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+}
+/* Pixel display type: headings only, never bold, wide tracking on the hero line. */
+@utility font-display {
+  font-family: var(--font-pixel), ui-monospace, monospace;
+  font-weight: 400;
+}
+
+/* Slow spin for the round badge, off for people who reduce motion. */
+@keyframes crew-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@utility animate-crew-spin {
+  animation: crew-spin 14s linear infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
   }
 }

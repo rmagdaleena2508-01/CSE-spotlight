@@ -26,7 +26,7 @@ export default async function Dashboard({ searchParams }: PageProps<"/dashboard"
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="text-3xl font-semibold tracking-tight">Hi, {student.name}</h1>
+      <h1 className="text-4xl sm:text-5xl">Hi, {student.name}</h1>
       <p className="mt-1 text-muted-foreground">{student.rollNo}</p>
 
       {posted && (
@@ -36,7 +36,7 @@ export default async function Dashboard({ searchParams }: PageProps<"/dashboard"
       )}
 
       <div className="mt-8 flex items-center justify-between">
-        <h2 className="text-xl font-semibold">My posts</h2>
+        <h2 className="text-2xl">My posts</h2>
         <Link href="/submit" className={buttonVariants()}>Add a win</Link>
       </div>
 

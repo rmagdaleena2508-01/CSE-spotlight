@@ -19,7 +19,7 @@ export default async function SubmitPage() {
     .maybeSingle();
   return (
     <main className="mx-auto max-w-2xl px-4 py-10">
-      <h1 className="text-3xl font-semibold tracking-tight">Add a win</h1>
+      <h1 className="text-4xl sm:text-5xl">Add a win</h1>
       <p className="mt-2 text-muted-foreground">
         Posting as <span className="font-medium text-foreground">{student.name}</span> ({student.rollNo}). Your post goes
         live right away. Faculty check it later and can remove it if something is wrong.

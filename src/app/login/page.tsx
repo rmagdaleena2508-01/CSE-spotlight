@@ -13,7 +13,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
   const { as } = await searchParams;
   return (
     <main className="mx-auto w-full max-w-md px-4 py-10 sm:py-16">
-      <h1 className="text-3xl font-semibold tracking-tight">Log in</h1>
+      <h1 className="text-4xl sm:text-5xl">Log in</h1>
       <p className="mt-2 text-muted-foreground">Students use their roll number. Faculty use their username.</p>
       <LoginTabs initialTab={as === "faculty" ? "faculty" : "student"} />
     </main>

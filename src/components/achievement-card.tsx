@@ -16,11 +16,11 @@ export function AchievementCard({ a, className }: { a: PublicCard; className?: s
     <Link
       href={`/achievements/${a.id}`}
       className={cn(
-        "group flex flex-col overflow-hidden rounded-xl border bg-card transition-shadow hover:shadow-md focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
+        "group flex flex-col rounded-[22px] bg-white p-2.5 text-[#080809] transition-transform duration-200 hover:-translate-y-1 hover:-rotate-1 focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-none motion-reduce:transition-none motion-reduce:hover:transform-none",
         className,
       )}
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-[14px] bg-neutral-900">
         {photo ? (
           <Image
             src={photoUrl(photo)}
@@ -35,32 +35,32 @@ export function AchievementCard({ a, className }: { a: PublicCard; className?: s
         <span
           className={cn(
             "absolute top-2 left-2 rounded-full px-2.5 py-0.5 text-xs font-medium",
-            isAward ? "bg-gold-soft text-gold" : "bg-card/90 text-foreground",
+            isAward ? "bg-[#fbbf24] text-[#080809]" : "bg-white text-[#080809]",
           )}
         >
           {resultLabel(a)}
         </span>
       </div>
-      <div className="flex flex-1 flex-col gap-1 p-4">
-        <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+      <div className="flex flex-1 flex-col gap-1 px-2 pt-3 pb-1.5">
+        <p className="text-xs font-medium tracking-wide text-neutral-500 uppercase">
           {categoryLabel(a.category)} · {formatDate(a.event_date)}
         </p>
-        <h3 className="line-clamp-2 font-medium leading-snug">{a.event_name}</h3>
-        <p className="text-sm text-muted-foreground">
+        <h3 className="line-clamp-2 text-lg leading-snug font-bold">{a.event_name}</h3>
+        <p className="text-sm text-neutral-600">
           {a.student_name}
           {a.participation_type === "team" && (a.team_name ? ` · Team ${a.team_name}` : " · Team")}
         </p>
         <div className="mt-auto flex items-center justify-between pt-2 text-sm">
           {a.is_verified ? (
-            <span className="inline-flex items-center gap-1 text-primary">
-              <BadgeCheck className="size-4" aria-hidden /> Faculty verified
+            <span className="inline-flex items-center gap-1 rounded-full bg-[#aef96c] px-2 py-0.5 text-xs font-bold text-[#080809]">
+              <BadgeCheck className="size-3.5" aria-hidden /> Faculty verified
             </span>
           ) : (
-            <span className="text-muted-foreground">Not checked yet</span>
+            <span className="text-xs text-neutral-500">Not checked yet</span>
           )}
           {reactions > 0 && (
             <span
-              className="inline-flex items-center gap-2 text-muted-foreground"
+              className="inline-flex items-center gap-2 text-neutral-500"
               aria-label={`${a.like_count} likes, ${a.heart_count} hearts, ${a.fire_count} fires`}
             >
               <span className="inline-flex items-center gap-0.5"><ThumbsUp className="size-3.5" aria-hidden />{a.like_count}</span>

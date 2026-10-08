@@ -1,7 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { History } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 // Sticker pile along the bottom of the hero card, in the style of a laptop lid:
@@ -16,63 +14,71 @@ const STICKERS = [
   { src: "/stickers/palette.webp", w: 640, h: 610, className: "right-[-8%] sm:right-[-4%] bottom-[11%] sm:bottom-[2%] w-[30%] sm:w-[21%] rotate-[18deg]" },
 ];
 
+// Round badge with text running around the edge. Only the text ring spins.
+function SpinBadge({ className }: { className?: string }) {
+  return (
+    <div className={cn("absolute aspect-square", className)}>
+      <svg viewBox="0 0 200 200" className="size-full drop-shadow-[0_8px_16px_rgb(0_0_0/0.35)]">
+        <circle cx="100" cy="100" r="96" fill="#ffffff" />
+        <circle cx="100" cy="100" r="88" fill="#1d4ed8" stroke="#111111" strokeWidth="3" />
+        <circle cx="100" cy="100" r="44" fill="#111111" />
+        <circle cx="100" cy="100" r="38" fill="#aef96c" />
+        <text x="100" y="114" textAnchor="middle" fontSize="40" fontWeight="700" fill="#080809" fontFamily="var(--font-sans)">
+          &lt;/&gt;
+        </text>
+      </svg>
+      <svg viewBox="0 0 200 200" className="absolute inset-0 size-full animate-crew-spin">
+        <defs>
+          <path id="badge-ring" d="M100,100 m-66,0 a66,66 0 1,1 132,0 a66,66 0 1,1 -132,0" />
+        </defs>
+        <text fontSize="17" fill="#ffffff" letterSpacing="3.2" fontFamily="var(--font-pixel)">
+          <textPath href="#badge-ring">CSE SPOTLIGHT · DCSE · SRM VDP ·</textPath>
+        </text>
+      </svg>
+    </div>
+  );
+}
+
 export function Hero({ semesterLabel }: { semesterLabel: string }) {
   return (
-    <div className="px-2 pt-2 sm:px-4 sm:pt-4">
-      <section className="relative isolate overflow-hidden rounded-[20px] bg-black">
-        {/* Light mode: the lake photo. Dark mode: plain black with a faint grid. */}
-        <picture>
-          <source media="(max-width: 767px)" srcSet="/hero/day-mobile.webp" type="image/webp" />
-          <img
-            src="/hero/day-desktop.webp"
-            alt=""
-            fetchPriority="high"
-            className="absolute inset-0 -z-10 size-full object-cover object-[center_40%] dark:hidden"
-          />
-        </picture>
+    <div className="relative px-2 pt-2 sm:px-5 sm:pt-5">
+      {/* Soft lime glow behind the card. */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-[70vh] bg-[radial-gradient(60%_60%_at_50%_0%,rgb(174_249_108/0.14),transparent_70%)]"
+        aria-hidden
+      />
+      <section className="relative isolate mx-auto max-w-[1400px] overflow-hidden rounded-[20px] bg-black">
+        {/* Faint square grid, like Campus Crew. */}
         <div
-          className="absolute inset-0 -z-10 bg-gradient-to-b from-slate-900/45 via-slate-900/10 to-transparent dark:hidden"
-          aria-hidden
-        />
-        <div
-          className="absolute inset-0 -z-10 hidden [background-image:linear-gradient(rgb(255_255_255/0.06)_1px,transparent_1px),linear-gradient(90deg,rgb(255_255_255/0.06)_1px,transparent_1px)] [background-size:56px_56px] dark:block"
+          className="absolute inset-0 -z-10 [background-image:linear-gradient(rgb(255_255_255/0.07)_1px,transparent_1px),linear-gradient(90deg,rgb(255_255_255/0.07)_1px,transparent_1px)] [background-position:center] [background-size:56px_56px] [mask-image:linear-gradient(to_bottom,black_55%,transparent)]"
           aria-hidden
         />
 
-        <div className="relative z-10 mx-auto flex min-h-[86svh] max-w-3xl flex-col items-center px-5 pt-14 pb-[42vw] text-center sm:min-h-[88vh] sm:pt-20 sm:pb-[22vw] lg:pb-[19vw]">
-          <p className="text-sm font-medium tracking-wide text-white/90 [text-shadow:0_1px_2px_rgb(0_0_0/0.4)]">
-            {semesterLabel}
-          </p>
-          <h1 className="mt-3 text-4xl font-semibold tracking-tight text-balance text-white [text-shadow:0_2px_12px_rgb(0_0_0/0.35)] sm:text-6xl">
+        <div className="relative z-10 mx-auto flex min-h-[86svh] max-w-4xl flex-col items-center px-5 pt-16 pb-[44vw] text-center sm:min-h-[88vh] sm:pt-24 sm:pb-[22vw] lg:pb-[18vw]">
+          <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">{semesterLabel}</p>
+          <h1 className="font-display mt-5 text-[clamp(1.9rem,4.6vw,4.4rem)] leading-[1.15] tracking-[0.13em] text-balance text-white uppercase">
             What CSE students did this semester
           </h1>
-          <p className="mt-4 max-w-xl text-lg text-white/90 [text-shadow:0_1px_6px_rgb(0_0_0/0.4)] sm:text-xl">
+          <p className="mt-6 max-w-[795px] text-lg leading-8 text-white/90 sm:text-2xl sm:leading-9">
             Wins and events from our class, posted by students and checked by faculty.
           </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Link href="/achievements" className={cn(buttonVariants({ size: "lg" }), "h-12 px-6 text-base font-semibold")}>
+          <div className="mt-10 flex flex-wrap justify-center gap-4">
+            <Link
+              href="/achievements"
+              className="inline-flex h-[60px] items-center rounded-md bg-primary px-8 text-lg font-bold text-primary-foreground transition-colors hover:bg-primary/85 sm:text-xl"
+            >
               Explore achievements
             </Link>
             <Link
               href="/submit"
-              className={cn(
-                buttonVariants({ size: "lg", variant: "outline" }),
-                "h-12 border-transparent bg-white/90 px-6 text-base font-semibold text-stone-900 hover:bg-white hover:text-stone-900",
-                "dark:bg-transparent dark:text-white dark:shadow-[inset_0_0_0_1px_rgb(255_255_255/0.5)] dark:hover:bg-white/10 dark:hover:text-white",
-              )}
+              className="inline-flex h-[60px] items-center rounded-md px-8 text-lg font-bold text-primary shadow-[inset_0_0_0_1px_var(--primary)] transition-colors hover:bg-primary/10 sm:text-xl"
             >
-              Add your achievement
+              Add your win
             </Link>
           </div>
-          <Link
-            href="/achievements?period=past"
-            className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-white/90 underline-offset-4 hover:underline"
-          >
-            <History className="size-4" aria-hidden /> Past achievements
-          </Link>
         </div>
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-full" aria-hidden>
+        <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
           {STICKERS.map((s) => (
             <Image
               key={s.src}
@@ -80,13 +86,11 @@ export function Hero({ semesterLabel }: { semesterLabel: string }) {
               alt=""
               width={s.w}
               height={s.h}
-              sizes="(min-width: 640px) 20vw, 32vw"
-              className={cn(
-                "absolute h-auto drop-shadow-[0_8px_16px_rgb(0_0_0/0.25)] select-none",
-                s.className,
-              )}
+              sizes="(min-width: 640px) 22vw, 34vw"
+              className={cn("absolute h-auto drop-shadow-[0_8px_16px_rgb(0_0_0/0.35)] select-none", s.className)}
             />
           ))}
+          <SpinBadge className="right-[14%] bottom-[16%] hidden w-[12%] -rotate-12 sm:block" />
         </div>
       </section>
     </div>
