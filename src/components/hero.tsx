@@ -57,7 +57,9 @@ export function Hero({ semesterLabel }: { semesterLabel: string }) {
         <div className="relative z-10 mx-auto flex min-h-[86svh] max-w-4xl flex-col items-center px-5 pt-16 pb-[44vw] text-center sm:min-h-[88vh] sm:pt-24 sm:pb-[22vw] lg:pb-[18vw]">
           <p className="text-sm font-medium tracking-[0.2em] text-primary uppercase">{semesterLabel}</p>
           <h1 className="font-display mt-5 text-[clamp(1.9rem,4.6vw,4.4rem)] leading-[1.15] tracking-[0.13em] text-balance text-white uppercase">
-            What CSE students did this semester
+            What{" "}
+            <span className="font-[family-name:var(--font-inter)] font-bold tracking-[0.04em]">CSE</span>{" "}
+            students did this semester
           </h1>
           <p className="mt-6 max-w-[795px] text-lg leading-8 text-white/90 sm:text-2xl sm:leading-9">
             Wins and events from our class, posted by students and checked by faculty.
