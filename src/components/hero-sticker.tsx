@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 // Stickers are links only on laptops (wide screen with a real hover pointer); on phones
 // and tablets they stay plain decoration.
 
-const LAPTOP = "(min-width: 1024px) and (hover: hover) and (pointer: fine)";
+const LAPTOP = "(min-width: 900px) and (hover: hover) and (pointer: fine)";
 
 function useIsLaptop() {
   return useSyncExternalStore(

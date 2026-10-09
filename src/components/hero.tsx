@@ -10,29 +10,49 @@ import { cn } from "@/lib/utils";
 // On laptops each one is a link that lifts off the page on hover (see HeroSticker).
 const STICKERS = [
   {
-    src: "/stickers/scroll.webp", w: 640, h: 593, rotate: -10,
+    src: "/stickers/scroll.webp",
+    w: 640,
+    h: 593,
+    rotate: -10,
     className: "left-[0%] bottom-[0%] w-[19%]",
-    href: "/achievements?category=non_technical", label: "Non-technical achievements",
+    href: "/achievements?category=non_technical",
+    label: "Non-technical achievements",
   },
   {
-    src: "/stickers/cap.webp", w: 640, h: 604, rotate: -4,
+    src: "/stickers/cap.webp",
+    w: 640,
+    h: 604,
+    rotate: -4,
     className: "left-[19%] bottom-[9%] w-[20%]",
-    href: "/achievements?category=technical", label: "Technical achievements",
+    href: "/achievements?category=technical",
+    label: "Technical achievements",
   },
   {
-    src: "/stickers/trophy.webp", w: 624, h: 640, rotate: 4,
+    src: "/stickers/trophy.webp",
+    w: 624,
+    h: 640,
+    rotate: 4,
     className: "left-[41%] bottom-[20%] w-[16%]",
-    href: "/achievements?result=award", label: "Wins and awards",
+    href: "/achievements?result=award",
+    label: "Wins and awards",
   },
   {
-    src: "/stickers/palette.webp", w: 640, h: 610, rotate: 10,
+    src: "/stickers/palette.webp",
+    w: 640,
+    h: 610,
+    rotate: 10,
     className: "left-[59%] bottom-[33%] w-[18%]",
-    href: "/achievements?category=arts", label: "Arts achievements",
+    href: "/achievements?category=arts",
+    label: "Arts achievements",
   },
   {
-    src: "/stickers/football.webp", w: 640, h: 556, rotate: 16,
+    src: "/stickers/football.webp",
+    w: 640,
+    h: 556,
+    rotate: 16,
     className: "left-[80%] bottom-[48%] w-[19%]",
-    href: "/achievements?category=sports", label: "Sports achievements",
+    href: "/achievements?category=sports",
+    label: "Sports achievements",
   },
 ];
 
@@ -53,7 +73,8 @@ function Word({ text, i }: { text: string; i: number }) {
       <span
         className={cn(
           "word-rise",
-          cse && "font-[family-name:var(--font-cse)] font-semibold italic [font-variation-settings:'SOFT'_100,'WONK'_1]",
+          cse &&
+            "font-[family-name:var(--font-cse)] font-semibold italic [font-variation-settings:'SOFT'_100,'WONK'_1]",
         )}
         style={{ "--i": i } as CSSProperties}
       >
@@ -68,7 +89,9 @@ export function Hero({ semesterLabel }: { semesterLabel: string }) {
     // Outer layer: white with a faint grid.
     <div
       className={cn(
-        "relative isolate overflow-hidden -mt-[76px] bg-white px-3 pt-[100px] pb-10 sm:-mt-[84px] sm:px-6 sm:pt-[116px] sm:pb-14",
+        "relative isolate overflow-hidden -mt-[76px] bg-white px-3 pt-[100px] pb-10 sm:-mt-[84px] sm:px-6 sm:max-[899px]:pt-[116px] sm:max-[899px]:pb-14",
+        // Laptops: the whole hero is exactly one screen tall, so nothing needs scrolling.
+        "min-[900px]:flex min-[900px]:h-[100svh] min-[900px]:flex-col min-[900px]:pt-[96px] min-[900px]:pb-5",
         OUTER_GRID,
       )}
     >
@@ -85,19 +108,19 @@ export function Hero({ semesterLabel }: { semesterLabel: string }) {
           slight zoom when the page opens (CSI's intro-sky). Wider than tall on laptops. */}
       <section
         className={cn(
-          "intro-sky relative mx-auto max-w-[1392px] overflow-hidden rounded-[28px] bg-white",
+          "intro-sky relative mx-auto w-full max-w-[1392px] overflow-hidden rounded-[28px] bg-white min-[900px]:min-h-0 min-[900px]:flex-1",
           "shadow-[0_0_0_1px_rgb(0_0_0/0.06),0_0_60px_8px_rgb(255_200_87/0.45),0_0_140px_40px_rgb(255_221_128/0.35)]",
           CARD_GRID,
         )}
       >
-        <div className="relative z-10 mx-auto flex max-w-[1100px] flex-col items-center px-5 pt-14 pb-12 text-center sm:pt-28 sm:pb-20">
+        <div className="relative z-10 mx-auto flex max-w-[1100px] flex-col items-center px-5 pt-14 pb-12 text-center sm:max-[899px]:pt-28 sm:max-[899px]:pb-20 min-[900px]:h-full min-[900px]:pt-[clamp(1.25rem,6vh,4.5rem)] min-[900px]:pb-[clamp(0.75rem,3vh,2rem)]">
           <p
             className="intro-rise text-[11px] font-medium tracking-[0.18em] text-black/55 uppercase sm:text-xs"
             style={{ "--d": "0.1s" } as CSSProperties}
           >
             {semesterLabel}
           </p>
-          <h1 className="mt-4 font-[family-name:var(--font-headline)] text-[clamp(2.25rem,5.2vw,4.5rem)] leading-[1.04] tracking-[-0.02em] text-balance text-black">
+          <h1 className="mt-4 font-[family-name:var(--font-headline)] text-[clamp(2.25rem,5.2vw,4.5rem)] leading-[1.04] min-[900px]:text-[clamp(2rem,min(5.2vw,8.5vh),4.5rem)] tracking-[-0.02em] text-balance text-black">
             {LINE_ONE.map((w, i) => (
               <Word key={w} text={w} i={i} />
             ))}
@@ -107,12 +130,13 @@ export function Hero({ semesterLabel }: { semesterLabel: string }) {
             ))}
           </h1>
           <p
-            className="intro-rise mt-5 max-w-[460px] text-base leading-7 text-black/70 sm:text-lg sm:leading-[1.6]"
+            className="intro-rise mt-5 max-w-[460px] text-base leading-7 text-black/70 sm:text-lg sm:leading-[1.6] min-[900px]:mt-[clamp(0.5rem,2vh,1.25rem)]"
             style={{ "--d": "0.8s" } as CSSProperties}
           >
-            Wins and events from our department, posted by students and checked by faculty.
+            Wins and events from our department, posted by students and checked
+            by faculty.
           </p>
-          <div className="mt-7 flex flex-wrap justify-center gap-3">
+          <div className="mt-7 flex flex-wrap justify-center gap-3 min-[900px]:mt-[clamp(0.75rem,3vh,1.75rem)]">
             <Link
               href="/achievements"
               className="intro-rise inline-flex h-11 items-center rounded-full bg-black px-6 text-[15px] font-medium text-white transition-colors hover:bg-black/85"
@@ -130,36 +154,40 @@ export function Hero({ semesterLabel }: { semesterLabel: string }) {
           </div>
 
           {/* Sticker orbit: a tight centred group under the buttons. */}
-          <div className="relative mt-12 aspect-[800/300] w-full max-w-[800px] sm:mt-16">
-            <svg
-              viewBox="0 0 100 100"
-              preserveAspectRatio="none"
-              className="intro-rise pointer-events-none absolute inset-0 size-full overflow-visible"
-              style={{ "--d": "1.1s" } as CSSProperties}
-              aria-hidden
-            >
-              <path
-                d="M 2 96 Q 55 92 98 30"
-                fill="none"
-                stroke="rgb(0 0 0 / 0.18)"
-                strokeWidth="1.5"
-                strokeDasharray="6 7"
-                vectorEffect="non-scaling-stroke"
-              />
-            </svg>
-            {STICKERS.map((s, i) => (
-              <HeroSticker
-                key={s.src}
-                src={s.src}
-                width={s.w}
-                height={s.h}
-                href={s.href}
-                label={s.label}
-                rotate={s.rotate}
-                className={s.className}
-                delay={1.15 + i * 0.08}
-              />
-            ))}
+          {/* On laptops this area takes whatever height is left in the card, and the sticker
+              box inside shrinks to fit it, so the stickers are never cut off. */}
+          <div className="relative mt-12 w-full sm:max-[899px]:mt-16 min-[900px]:mt-[clamp(0.5rem,3vh,2rem)] min-[900px]:min-h-0 min-[900px]:flex-1 min-[900px]:[container-type:size]">
+            <div className="relative mx-auto aspect-[800/300] w-full max-w-[800px] min-[900px]:absolute min-[900px]:bottom-0 min-[900px]:left-1/2 min-[900px]:w-[min(100cqw,800px,calc(100cqh*8/3))] min-[900px]:-translate-x-1/2">
+              <svg
+                viewBox="0 0 100 100"
+                preserveAspectRatio="none"
+                className="intro-rise pointer-events-none absolute inset-0 size-full overflow-visible"
+                style={{ "--d": "1.1s" } as CSSProperties}
+                aria-hidden
+              >
+                <path
+                  d="M 2 96 Q 55 92 98 30"
+                  fill="none"
+                  stroke="rgb(0 0 0 / 0.18)"
+                  strokeWidth="1.5"
+                  strokeDasharray="6 7"
+                  vectorEffect="non-scaling-stroke"
+                />
+              </svg>
+              {STICKERS.map((s, i) => (
+                <HeroSticker
+                  key={s.src}
+                  src={s.src}
+                  width={s.w}
+                  height={s.h}
+                  href={s.href}
+                  label={s.label}
+                  rotate={s.rotate}
+                  className={s.className}
+                  delay={1.15 + i * 0.08}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
