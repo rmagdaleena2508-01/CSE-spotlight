@@ -178,7 +178,7 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
           {/* The card zooms out of this seal (not the whole pill), as on the CSI site: starting
               from a small target gives the macOS window its full, unhurried travel. */}
           <span ref={sealRef} className="grid size-9 place-items-center rounded-full bg-white/90 ring-1 ring-black/8">
-            <Image src="/brand/srmist-seal.png" alt="" width={244} height={238} priority className="size-7 object-contain" />
+            <Image src="/brand/srmist-seal.png" alt="" width={480} height={480} priority className="size-8 object-contain" />
           </span>
           <span className="hidden text-[0.9375rem] leading-tight font-medium tracking-[-0.02em] text-[#0b0a0a] sm:block">
             CSE Spotlight
