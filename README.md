@@ -29,7 +29,7 @@ A website to show what our students win and do.
 <details>
 <summary>Tech stack</summary>
 
-- **Frontend:** Next.js, TypeScript, Tailwind CSS and shadcn/ui, with React Hook Form and Zod for forms.
+- **Frontend:** Next.js, TypeScript, Tailwind CSS and shadcn/ui, with React Hook Form and Zod for forms, and Motion for animation.
 - **Backend:** Supabase PostgreSQL, Auth, Storage and Next.js server actions; PDF reports from HTML templates.
 - **Security:** roll-number roster check, hashed passwords, Row Level Security, private certificate storage, rate limits.
 - **Hosting:** Vercel.
@@ -207,9 +207,23 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - Each category row shows its own sticker.
 - **Hero (done):**
   - A white grid background, a separate white card on top, and a warm sunshine glow around it.
-  - Black text, and the stickers laid out like the Campus Crew example.
+  - The card is wider than it is tall: up to 1392 px wide on laptops.
+  - Black text, always centred, like the CSI site: a two-line headline, a short subtitle, and two small round buttons.
   - It says "Wins and events from our department".
   - The headline font is Young Serif and the word "CSE" is Fraunces. These stand in for RL Madena and Buche until those font files are added.
+- **Stickers (done):**
+  - Five stickers sit on a curved path, like planets on an orbit, in this order: certificate, cap, trophy, palette, football.
+  - On laptops each one is a link. On hover it tilts toward the mouse, lifts off the page, and casts a soft shadow, following Motion's tilt card.
+  - The links go to Non-Technical, Technical, wins and awards, Arts, and Sports.
+  - On phones and tablets they are only decoration.
+- **Top bar (done):**
+  - The same liquid glass as the CSI site: three floating glass pills that get thicker once you scroll.
+  - On phones the menu unfolds like folded paper.
+  - The SRMIST seal at the top left opens the same college card as the CSI site, linking to srmistvdp.edu.in. Closing it breaks the card into pixels.
+  - A soft blur fades in at the top of the page while you scroll, and is off at the very top.
+- **Opening animation (done):**
+  - The page fades in piece by piece, the same way as the CSI site: the card, the top bar, the headline words, the text, the buttons, then the stickers.
+  - It plays once per visit, and every visit opens at the top of the home page.
 - **Still to do:** students editing a post while it waits, going online on Vercel, the faculty guide, and the final test.
 
 </details>
