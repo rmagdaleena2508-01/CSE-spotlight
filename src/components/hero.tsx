@@ -59,7 +59,7 @@ export function Hero({ semesterLabel }: { semesterLabel: string }) {
             <br className="lg:hidden" /> this semester
           </h1>
           <p className="mt-7 max-w-[900px] text-lg leading-8 text-black/80 sm:text-2xl sm:leading-10">
-            Wins and events from our class, posted by students and checked by faculty.
+            Wins and events from our department, posted by students and checked by faculty.
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <Link
