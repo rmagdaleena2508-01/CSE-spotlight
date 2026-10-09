@@ -6,9 +6,9 @@ import { ArrowLeft, BadgeCheck, Building2, CalendarDays, GraduationCap, Layers, 
 import { CategoryPlaceholder } from "@/components/category-placeholder";
 import { categoryLabel, classLabel, dateRange, levelLabel, resultLabel, rupees, typeLabel } from "@/lib/labels";
 import { photoUrl } from "@/lib/photos";
-import { getViewer } from "@/lib/session";
+import { ReactionBar } from "@/components/reaction-bar";
+import { loadReactionInfo } from "@/lib/reactions/load";
 import { createClient } from "@/lib/supabase/server";
-import { Reactions } from "./reactions";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -30,18 +30,8 @@ export default async function AchievementPage({ params }: PageProps<"/achievemen
   const a = await load(id);
   if (!a) notFound();
 
-  const viewer = await getViewer();
-  let mine: "like" | "heart" | "fire" | null = null;
-  if (viewer?.kind === "student") {
-    const supabase = await createClient();
-    const { data } = await supabase
-      .from("reactions")
-      .select("kind")
-      .eq("achievement_id", id)
-      .eq("user_id", viewer.userId)
-      .maybeSingle();
-    mine = data?.kind ?? null;
-  }
+  const cheers = await loadReactionInfo([id]);
+  const mine = cheers.mine[id] ?? null;
 
   const photos: string[] = a.photo_paths ?? [];
   const members: string[] = a.team_member_names ?? [];
@@ -161,14 +151,17 @@ export default async function AchievementPage({ params }: PageProps<"/achievemen
         )}
       </section>
 
-      <section className="mt-8" aria-labelledby="react">
+      <section id={`post-${a.id}`} className="mt-8 scroll-mt-28" aria-labelledby="react">
         <h2 id="react" className="text-2xl">Cheer them on</h2>
         <div className="mt-3">
-          <Reactions
-            key={`${mine}-${a.like_count}-${a.heart_count}-${a.fire_count}`}
+          <ReactionBar
+            key={`${mine}-${a.celebrate_count}-${a.heart_count}`}
             id={a.id}
-            canReact={viewer?.kind === "student"}
-            initial={{ mine, counts: { like: a.like_count, heart: a.heart_count, fire: a.fire_count } }}
+            studentName={a.student_name}
+            counts={{ celebrate: a.celebrate_count, heart: a.heart_count }}
+            mine={mine}
+            latest={cheers.latest[id] ?? null}
+            signedIn={cheers.signedIn}
           />
         </div>
       </section>

@@ -264,6 +264,17 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - The top bar stays still while the page under it changes.
   - Loading blocks fade away when the real page arrives.
   - Changing filters or typing in search does not fade the page.
+- **Student Spotlight (done):**
+  - Right after the top section, the home page has a "Student Spotlight" row: tall photo cards you swipe sideways, in the style of Apple's product cards (Aceternity's "Apple Cards Carousel"). It replaces the four category rows.
+  - Tabs above the row sort the cards: All, Technical, Non-Technical, Arts, Sports. Arrows move the row on laptops; on phones you swipe.
+  - Tap a card and it grows into the full story: photo, result, date, level, organizer and the student's own words.
+  - Spotlight has its own page too (`/spotlight`, "Spotlight" in the top bar), with its own category bar that stays at the top while you scroll, and one row per category.
+- **Celebrate and Heart (done):**
+  - Two reactions replace Like / Heart / Fire, like LinkedIn. One per person per post: pick one, switch, or tap again to take it back.
+  - Under every card it says who cheered: "You and 12 others" or "R Priya and 12 others". Tap that line to see everyone's names. Faculty can react too, and get a "Faculty" tag.
+  - Only names are shown, never roll numbers.
+  - Not logged in? Pressing Celebrate or Heart opens a friendly prompt: "Join the celebration for R Priya" (or "Send R Priya some love"), with "Log in and celebrate", "New here? Sign up with your roll number" and "Maybe later".
+  - The site remembers which cheer they wanted. After logging in or signing up, they land back on the same card and the cheer is added for them, with a "You celebrated R Priya's win!" message.
 - **Still to do:** students editing a post while it waits, going online on Vercel, the faculty guide, and the final test.
 
 </details>

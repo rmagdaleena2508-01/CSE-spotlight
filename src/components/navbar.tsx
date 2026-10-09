@@ -22,6 +22,7 @@ type Item = { href: string; label: string };
 function itemsFor(viewer: NavViewer): Item[] {
   const base: Item[] = [
     { href: "/", label: "Home" },
+    { href: "/spotlight", label: "Spotlight" },
     { href: "/achievements", label: "Achievements" },
   ];
   if (viewer?.kind === "student") return [...base, { href: "/dashboard", label: "My posts" }];

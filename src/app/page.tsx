@@ -1,52 +1,38 @@
-import { AchievementCard } from "@/components/achievement-card";
-import { CategoryShelf } from "@/components/category-shelf";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { Hero } from "@/components/hero";
-import { CATEGORY_STICKER } from "@/lib/category-stickers";
-import { CATEGORIES } from "@/lib/schemas";
-import { PUBLIC_CARD_COLUMNS, type PublicCard } from "@/lib/published";
-import { currentSemester } from "@/lib/semester";
-import { createClient } from "@/lib/supabase/server";
+import { SpotlightCarousel } from "@/components/spotlight/spotlight-carousel";
+import { loadSpotlight } from "@/lib/spotlight";
 
 export default async function Home() {
-  const supabase = await createClient();
-  const semester = currentSemester();
-
-  // Six newest posts per category from this semester.
-  const shelves = await Promise.all(
-    CATEGORIES.map(async (c) => {
-      const { data } = await supabase
-        .from("published_achievements")
-        .select(PUBLIC_CARD_COLUMNS)
-        .eq("category", c.value)
-        .gte("event_date", semester.start)
-        .order("event_date", { ascending: false })
-        .order("id")
-        .limit(6)
-        .overrideTypes<PublicCard[], { merge: false }>();
-      return { ...c, posts: data ?? [] };
-    }),
-  );
+  // The newest wins from every category; the tabs above the row sort them on the spot.
+  const { posts, cheers } = await loadSpotlight({ limit: 24 });
 
   return (
     <>
       <Hero />
       <main className="mx-auto max-w-6xl px-4 pb-24">
-
-      {shelves.map((s) => (
-        <CategoryShelf
-          key={s.value}
-          title={s.label}
-          sticker={CATEGORY_STICKER[s.value]}
-          viewAllHref={`/achievements?period=current&category=${s.value}`}
-          empty={s.posts.length === 0}
-        >
-          {s.posts.map((a) => (
-            <li key={a.id} className="w-[80%] shrink-0 snap-start sm:w-[45%] lg:w-[31.5%]">
-              <AchievementCard a={a} className="h-full" />
-            </li>
-          ))}
-        </CategoryShelf>
-      ))}
+        <section id="spotlight" aria-labelledby="spotlight-title" className="scroll-mt-28 pt-16 sm:pt-20">
+          <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
+            <div>
+              <h2 id="spotlight-title" className="text-4xl sm:text-5xl">
+                Student Spotlight
+              </h2>
+              <p className="mt-2 max-w-xl text-muted-foreground">
+                Fresh wins from our department. Tap a card to read the story, then celebrate it.
+              </p>
+            </div>
+            <Link
+              href="/spotlight"
+              className="lift inline-flex h-10 items-center gap-1.5 rounded-full bg-white px-4 text-sm font-medium shadow-[inset_0_0_0_1px_rgb(0_0_0/0.14)]"
+            >
+              Open Spotlight <ArrowRight className="size-4" aria-hidden />
+            </Link>
+          </div>
+          <div className="mt-6">
+            <SpotlightCarousel posts={posts} cheers={cheers} />
+          </div>
+        </section>
       </main>
     </>
   );

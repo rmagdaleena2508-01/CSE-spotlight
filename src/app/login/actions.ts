@@ -128,7 +128,13 @@ async function claimAccount(_: FormState, form: FormData): Promise<FormState> {
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email: studentEmail(result.roll), password: pw.data });
   if (error) return { error: "Account created. Please log in with your new password." };
-  redirect("/dashboard");
+  redirect(nextPath(form, "/dashboard"));
+}
+
+/** A path on this site to return to after logging in, or the fallback. Never another site. */
+function nextPath(form: FormData, fallback: string) {
+  const next = String(form.get("next") ?? "");
+  return next.startsWith("/") && !next.startsWith("//") && !next.startsWith("/\\") ? next : fallback;
 }
 
 export async function studentLogin(_: FormState, form: FormData): Promise<FormState> {
@@ -146,7 +152,7 @@ export async function studentLogin(_: FormState, form: FormData): Promise<FormSt
     await recordFailure(roll.data);
     return { error: "Wrong roll number or password. New here? Press Sign up below.", rollNo: rawRoll };
   }
-  redirect("/dashboard");
+  redirect(nextPath(form, "/dashboard"));
 }
 
 export async function facultyLogin(_: FormState, form: FormData): Promise<FormState> {
@@ -163,7 +169,7 @@ export async function facultyLogin(_: FormState, form: FormData): Promise<FormSt
     await recordFailure(key);
     return { error: "Wrong username or password.", username };
   }
-  redirect("/faculty/review");
+  redirect(nextPath(form, "/faculty/review"));
 }
 
 export async function logout() {

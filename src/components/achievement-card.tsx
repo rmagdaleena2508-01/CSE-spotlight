@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BadgeCheck, Flame, Heart, ThumbsUp } from "lucide-react";
+import { BadgeCheck, Heart, PartyPopper } from "lucide-react";
 import { CategoryPlaceholder } from "@/components/category-placeholder";
 import { categoryLabel, formatDate, resultLabel } from "@/lib/labels";
 import { photoUrl } from "@/lib/photos";
@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 export function AchievementCard({ a, className }: { a: PublicCard; className?: string }) {
   const photo = a.photo_paths[0];
   const isAward = a.result_type === "award";
-  const reactions = a.like_count + a.heart_count + a.fire_count;
+  const reactions = a.celebrate_count + a.heart_count;
 
   return (
     <Link
@@ -61,11 +61,10 @@ export function AchievementCard({ a, className }: { a: PublicCard; className?: s
           {reactions > 0 && (
             <span
               className="inline-flex items-center gap-2 text-neutral-500"
-              aria-label={`${a.like_count} likes, ${a.heart_count} hearts, ${a.fire_count} fires`}
+              aria-label={`${a.celebrate_count} celebrated, ${a.heart_count} loved`}
             >
-              <span className="inline-flex items-center gap-0.5"><ThumbsUp className="size-3.5" aria-hidden />{a.like_count}</span>
+              <span className="inline-flex items-center gap-0.5"><PartyPopper className="size-3.5" aria-hidden />{a.celebrate_count}</span>
               <span className="inline-flex items-center gap-0.5"><Heart className="size-3.5" aria-hidden />{a.heart_count}</span>
-              <span className="inline-flex items-center gap-0.5"><Flame className="size-3.5" aria-hidden />{a.fire_count}</span>
             </span>
           )}
         </div>
