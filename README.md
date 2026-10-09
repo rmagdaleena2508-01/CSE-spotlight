@@ -196,7 +196,7 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
 
 **Progress so far**
 
-- **Newsletter report (done):** faculty pick a semester and download three files: a PDF list with the SRM logo top-left on page 1, a spreadsheet (CSV), and a ZIP of photos. Only verified posts go in, and entry numbers match across all three. The design team does the final layout in Canva.
+- **Newsletter report (done):** faculty pick a semester and download three files: a PDF list with the new SRM Vadapalani logo (the same one as the website) top-left on page 1, a spreadsheet (CSV), and a ZIP of photos. Only verified posts go in, and entry numbers match across all three. The design team does the final layout in Canva.
 - **Submit form (done):**
   - Name and roll number stay compulsory.
   - New fields for the newsletter: year and section, kind of win, venue, end date, cash prize, paper or project title, faculty guide, and a proof link (faculty only).

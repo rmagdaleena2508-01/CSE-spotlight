@@ -167,6 +167,7 @@ function ReportDocument({
 }
 
 export async function renderReportPdf(rows: ReportRow[], params: ReportParams, generatedBy: string) {
-  const logo = await readFile(path.join(process.cwd(), "public/brand/srm-logo.png"));
+  // The same SRM Vadapalani logo as the website, at a size that stays sharp in print.
+  const logo = await readFile(path.join(process.cwd(), "public/brand/srm-vadapalani-logo-clear.png"));
   return renderToBuffer(<ReportDocument rows={rows} params={params} logo={logo} generatedBy={generatedBy} />);
 }
