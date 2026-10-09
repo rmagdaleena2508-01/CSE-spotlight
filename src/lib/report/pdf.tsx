@@ -110,7 +110,7 @@ function ReportDocument({
           {/* eslint-disable-next-line jsx-a11y/alt-text -- react-pdf Image has no alt */}
           <Image src={logo} style={s.logo} />
           <View style={s.headerText}>
-            <Text style={s.dept}>Department of Computer Science & Engineering</Text>
+            <Text style={s.dept}>Dept. Of Computer Science & Engineering, SRMIST VDP</Text>
             <Text style={s.title}>Student Achievements</Text>
             <Text style={s.period}>
               {params.label}
