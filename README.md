@@ -192,6 +192,26 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
 4. **Faculty guide:** a short `docs/FACULTY_GUIDE.md` covering how to upload the class list, review posts, and get the report.
 5. **Test:** the full flow with fake posts, generating a PDF, then deleting the test data.
 
+**Progress so far**
+
+- **Newsletter report (done):** faculty pick a semester and download three files: a PDF list with the SRM logo top-left on page 1, a spreadsheet (CSV), and a ZIP of photos. Only verified posts go in, and entry numbers match across all three. The design team does the final layout in Canva.
+- **Submit form (done):**
+  - Name and roll number stay compulsory.
+  - New fields for the newsletter: year and section, kind of win, venue, end date, cash prize, paper or project title, faculty guide, and a proof link (faculty only).
+  - Exactly one certificate is required. Photos are optional, up to 5, and students pick a main photo.
+  - Every box shows light example text that disappears when you type.
+- **Look and feel (done):**
+  - The site follows HackerRank Campus Crew (notes in `docs/DESIGN_NOTES.md`): a black page, one lime colour for buttons, Satoshi for text, and pixel-style headings.
+  - The header is a dark bar with a white pill button.
+  - Achievement cards look like stickers, with a thick white frame.
+  - Each category row shows its own sticker.
+- **Hero (done):**
+  - A white grid background, a separate white card on top, and a warm sunshine glow around it.
+  - Black text, and the stickers laid out like the Campus Crew example.
+  - It says "Wins and events from our department".
+  - The headline font is Young Serif and the word "CSE" is Fraunces. These stand in for RL Madena and Buche until those font files are added.
+- **Still to do:** students editing a post while it waits, going online on Vercel, the faculty guide, and the final test.
+
 </details>
 
 ## Docs
