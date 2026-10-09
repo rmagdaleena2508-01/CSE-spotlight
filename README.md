@@ -231,6 +231,7 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
 - **Top bar (done):**
   - The same liquid glass as the CSI site: three floating glass pills that get thicker once you scroll.
   - On phones the menu unfolds like folded paper.
+  - The seal at the top left is the round SRM seal from the official SRM Vadapalani logo (gold ring, blue tree, "Learn · Leap · Lead"). The college card uses the same seal.
   - The whole "CSE Spotlight" pill at the top left is one button. It opens the same college card as the CSI site, linking to srmistvdp.edu.in.
   - The card grows out of the small seal like a Mac window, at the same pace as the CSI site.
   - Closing it breaks the card into pixels, starting from the top-left corner.
@@ -253,6 +254,8 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - If the menu is longer than the screen, it scrolls on its own.
   - Tested on a phone-sized screen: home, achievements, login, sign up, My posts and Add a win.
   - Fixed during testing: the Add a win page slid sideways on phones because of a hidden upload box.
+  - To try it on your own phone before it goes online: connect the phone to the same Wi-Fi as the Mac running the site, and open the Mac's Wi-Fi address with port 8801 (for example `http://192.168.0.5:8801`). The Mac must stay on.
+  - GitHub Pages can't host this site, because login, forms and reports need a server. The site will go online on Vercel instead.
 - **Page changes (done):**
   - Going from home to Achievements (and back) no longer jumps. The old page fades out fast and the new one rises in softly.
   - The top bar stays still while the page under it changes.
