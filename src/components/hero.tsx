@@ -62,6 +62,16 @@ const OUTER_GRID =
 const CARD_GRID =
   "[background-image:linear-gradient(rgb(0_0_0/0.05)_1px,transparent_1px),linear-gradient(90deg,rgb(0_0_0/0.05)_1px,transparent_1px)] [background-size:56px_56px] [background-position:center]";
 
+// Hero buttons: on hover they rise toward the viewer and a soft shadow spreads beneath,
+// eased over half a second on CSI's editorial curve so it never snaps. Pressing sinks
+// them back a touch. Off for people who reduce motion.
+const LIFT =
+  "inline-flex h-11 items-center rounded-full px-6 text-[15px] font-medium will-change-transform " +
+  "shadow-[0_2px_6px_-2px_rgb(0_0_0/0.2)] transition-[translate,scale,box-shadow] duration-500 ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+  "hover:-translate-y-1 hover:scale-[1.04] hover:shadow-[0_18px_32px_-12px_rgb(0_0_0/0.45)] " +
+  "active:translate-y-0 active:scale-[0.98] active:duration-150 " +
+  "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100";
+
 // Headline words rise in one after another (CSI's word-rise); --i staggers them.
 const LINE_ONE = ["What", "CSE", "students", "did"];
 const LINE_TWO = ["this", "semester."];
@@ -137,20 +147,18 @@ export function Hero({ semesterLabel }: { semesterLabel: string }) {
             by faculty.
           </p>
           <div className="mt-7 flex flex-wrap justify-center gap-3 min-[900px]:mt-[clamp(0.75rem,3vh,1.75rem)]">
-            <Link
-              href="/achievements"
-              className="intro-rise inline-flex h-11 items-center rounded-full bg-black px-6 text-[15px] font-medium text-white transition-colors hover:bg-black/85"
-              style={{ "--d": "0.95s" } as CSSProperties}
-            >
-              Explore achievements
-            </Link>
-            <Link
-              href="/submit"
-              className="intro-rise inline-flex h-11 items-center rounded-full bg-primary px-6 text-[15px] font-medium text-black transition-colors hover:bg-primary/85"
-              style={{ "--d": "1.05s" } as CSSProperties}
-            >
-              Add your win
-            </Link>
+            {/* The entrance runs on the wrapper, the hover lift on the button: a CSS animation's
+                end state would otherwise override the hover transform. */}
+            <span className="intro-rise inline-flex" style={{ "--d": "0.95s" } as CSSProperties}>
+              <Link href="/achievements" className={cn(LIFT, "bg-black text-white")}>
+                Explore achievements
+              </Link>
+            </span>
+            <span className="intro-rise inline-flex" style={{ "--d": "1.05s" } as CSSProperties}>
+              <Link href="/submit" className={cn(LIFT, "bg-primary text-black")}>
+                Add your win
+              </Link>
+            </span>
           </div>
 
           {/* Sticker orbit: a tight centred group under the buttons. */}

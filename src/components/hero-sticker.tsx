@@ -31,7 +31,8 @@ function useIsLaptop() {
   );
 }
 
-const SPRING = { stiffness: 220, damping: 18, mass: 0.6 };
+// Soft, well-damped springs: the sticker eases into place instead of snapping or wobbling.
+const SPRING = { stiffness: 120, damping: 20, mass: 0.8 };
 /** Largest tilt toward the pointer, in degrees. Small angles look polished. */
 const MAX_TILT = 12;
 
@@ -109,12 +110,12 @@ export function HeroSticker({
               initial={false}
               whileHover={{ scale: 1.14, y: -14, z: 40 }}
               whileTap={{ scale: 1.06, y: -6 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              transition={{ type: "spring", stiffness: 140, damping: 22, mass: 0.9 }}
             >
               {/* Shadow on its own layer: it spreads and darkens as the sticker lifts. */}
               <span
                 aria-hidden
-                className="absolute inset-x-[12%] -bottom-[10%] h-[22%] rounded-[50%] bg-black/0 blur-md transition-all duration-300 ease-[var(--ease-editorial)] group-hover:-bottom-[18%] group-hover:bg-black/30 group-hover:blur-xl"
+                className="absolute inset-x-[12%] -bottom-[10%] h-[22%] rounded-[50%] bg-black/0 blur-md transition-all duration-500 ease-[var(--ease-editorial)] group-hover:-bottom-[18%] group-hover:bg-black/30 group-hover:blur-xl"
               />
               {art}
             </motion.div>
