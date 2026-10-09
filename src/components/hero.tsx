@@ -2,16 +2,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-// Five stickers sitting on one curved path, like planets along an orbit: low on the
-// left and rising to the right. Order: scroll, cap, trophy, palette, football.
-// Left/bottom/width are percentages of the card, so the curve scales with the screen.
-// Everything stays fully inside the card and nothing moves.
+// Five stickers on one curved path, like planets along an orbit: low on the left,
+// rising to the right. Order: scroll, cap, trophy, palette, football.
+// They live in a small centred box (max 720px wide), so the group stays tight and
+// centred on every screen. Left/bottom/width are percentages of that box. Static.
 const STICKERS = [
-  { src: "/stickers/scroll.webp", w: 640, h: 593, className: "left-[3%] bottom-[4%] w-[19%] sm:left-[4%] sm:bottom-[4%] sm:w-[17%] -rotate-[10deg]" },
-  { src: "/stickers/cap.webp", w: 640, h: 604, className: "left-[20%] bottom-[5%] w-[21%] sm:left-[22%] sm:bottom-[8%] sm:w-[18%] -rotate-[4deg]" },
-  { src: "/stickers/trophy.webp", w: 624, h: 640, className: "left-[40%] bottom-[8%] w-[18%] sm:left-[42%] sm:bottom-[12%] sm:w-[14%] rotate-[4deg]" },
-  { src: "/stickers/palette.webp", w: 640, h: 610, className: "left-[59%] bottom-[12%] w-[19%] sm:left-[60%] sm:bottom-[18%] sm:w-[16%] rotate-[10deg]" },
-  { src: "/stickers/football.webp", w: 640, h: 556, className: "left-[79%] bottom-[18%] w-[19%] sm:left-[79%] sm:bottom-[27%] sm:w-[16%] rotate-[16deg]" },
+  { src: "/stickers/scroll.webp", w: 640, h: 593, className: "left-[0%] bottom-[0%] w-[19%] -rotate-[10deg]" },
+  { src: "/stickers/cap.webp", w: 640, h: 604, className: "left-[19%] bottom-[9%] w-[20%] -rotate-[4deg]" },
+  { src: "/stickers/trophy.webp", w: 624, h: 640, className: "left-[41%] bottom-[20%] w-[16%] rotate-[4deg]" },
+  { src: "/stickers/palette.webp", w: 640, h: 610, className: "left-[59%] bottom-[33%] w-[18%] rotate-[10deg]" },
+  { src: "/stickers/football.webp", w: 640, h: 556, className: "left-[80%] bottom-[48%] w-[19%] rotate-[16deg]" },
 ];
 
 // Tailwind needs these as whole class names, so they are written out in full.
@@ -23,7 +23,7 @@ const CARD_GRID =
 export function Hero({ semesterLabel }: { semesterLabel: string }) {
   return (
     // Outer layer: white with a faint grid.
-    <div className={cn("relative isolate overflow-hidden bg-white px-3 pt-6 pb-10 sm:px-[9%] sm:pt-12 sm:pb-16", OUTER_GRID)}>
+    <div className={cn("relative isolate overflow-hidden bg-white px-3 pt-6 pb-10 sm:px-8 sm:pt-12 sm:pb-16", OUTER_GRID)}>
       {/* Sunshine around the card: warm, blurred light pooling at the corners and edges. */}
       <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
         <div className="absolute top-[-12%] left-[-6%] h-[70%] w-[55%] rounded-full bg-[radial-gradient(closest-side,rgb(255_214_102/0.75),rgb(255_183_77/0.35)_45%,transparent)] blur-3xl" />
@@ -36,67 +36,63 @@ export function Hero({ semesterLabel }: { semesterLabel: string }) {
       {/* The card: white, its own fine grid, a warm halo around it. */}
       <section
         className={cn(
-          "relative mx-auto max-w-[1640px] overflow-hidden rounded-[28px] bg-white",
+          "relative mx-auto max-w-[1200px] overflow-hidden rounded-[28px] bg-white",
           "shadow-[0_0_0_1px_rgb(0_0_0/0.06),0_0_60px_8px_rgb(255_200_87/0.45),0_0_140px_40px_rgb(255_221_128/0.35)]",
           CARD_GRID,
         )}
       >
-        <div className="relative z-10 mx-auto flex min-h-[78svh] max-w-5xl flex-col items-center px-5 pt-16 pb-[52vw] text-center sm:min-h-[86vh] sm:pt-28 sm:pb-[25vw] lg:pb-[22vw]">
-          <p className="text-xs font-medium tracking-[0.25em] text-black/60 uppercase sm:text-sm">{semesterLabel}</p>
-          <h1 className="mt-5 font-[family-name:var(--font-headline)] text-[clamp(1.8rem,3vw,3.6rem)] leading-[1.15] tracking-[0.03em] text-black uppercase lg:whitespace-nowrap">
+        <div className="relative z-10 mx-auto flex max-w-[1060px] flex-col items-center px-5 pt-14 pb-10 text-center sm:pt-24 sm:pb-14">
+          <p className="text-[11px] font-medium tracking-[0.18em] text-black/55 uppercase sm:text-xs">{semesterLabel}</p>
+          <h1 className="mt-4 font-[family-name:var(--font-headline)] text-[clamp(2.25rem,5.2vw,4.5rem)] leading-[1.04] tracking-[-0.02em] text-balance text-black">
             What{" "}
-            <span className="font-[family-name:var(--font-cse)] font-semibold normal-case tracking-normal [font-variation-settings:'SOFT'_100,'WONK'_1]">
+            <span className="font-[family-name:var(--font-cse)] font-semibold italic [font-variation-settings:'SOFT'_100,'WONK'_1]">
               CSE
             </span>{" "}
-            students did
-            <br className="lg:hidden" /> this semester
+            students did <br className="hidden sm:block" />
+            this semester.
           </h1>
-          <p className="mt-7 max-w-[900px] text-lg leading-8 text-black/80 sm:text-2xl sm:leading-10">
+          <p className="mt-5 max-w-[460px] text-base leading-7 text-black/70 sm:text-lg sm:leading-[1.6]">
             Wins and events from our department, posted by students and checked by faculty.
           </p>
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
+          <div className="mt-7 flex flex-wrap justify-center gap-3">
             <Link
               href="/achievements"
-              className="inline-flex h-[60px] items-center rounded-md bg-primary px-8 text-lg font-bold text-black transition-colors hover:bg-primary/85 sm:text-xl"
+              className="inline-flex h-11 items-center rounded-full bg-black px-6 text-[15px] font-medium text-white transition-colors hover:bg-black/85"
             >
               Explore achievements
             </Link>
             <Link
               href="/submit"
-              className="inline-flex h-[60px] items-center rounded-md px-8 text-lg font-bold text-black shadow-[inset_0_0_0_1.5px_rgb(0_0_0)] transition-colors hover:bg-black/5 sm:text-xl"
+              className="inline-flex h-11 items-center rounded-full bg-primary px-6 text-[15px] font-medium text-black transition-colors hover:bg-primary/85"
             >
               Add your win
             </Link>
           </div>
-        </div>
 
-        <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
-          {/* Faint dashed orbit the stickers sit on. */}
-          <svg
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-            className="absolute inset-x-0 bottom-0 h-[40%] w-full sm:h-[45%]"
-          >
-            <path
-              d="M -2 92 Q 55 88 102 22"
-              fill="none"
-              stroke="rgb(0 0 0 / 0.18)"
-              strokeWidth="1.5"
-              strokeDasharray="6 7"
-              vectorEffect="non-scaling-stroke"
-            />
-          </svg>
-          {STICKERS.map((s) => (
-            <Image
-              key={s.src}
-              src={s.src}
-              alt=""
-              width={s.w}
-              height={s.h}
-              sizes="(min-width: 640px) 18vw, 21vw"
-              className={cn("absolute h-auto drop-shadow-[0_10px_18px_rgb(0_0_0/0.18)] select-none", s.className)}
-            />
-          ))}
+          {/* Sticker orbit: a tight centred group under the buttons. */}
+          <div className="pointer-events-none relative mt-12 aspect-[720/270] w-full max-w-[720px] sm:mt-16" aria-hidden>
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 size-full overflow-visible">
+              <path
+                d="M 2 96 Q 55 92 98 30"
+                fill="none"
+                stroke="rgb(0 0 0 / 0.18)"
+                strokeWidth="1.5"
+                strokeDasharray="6 7"
+                vectorEffect="non-scaling-stroke"
+              />
+            </svg>
+            {STICKERS.map((s) => (
+              <Image
+                key={s.src}
+                src={s.src}
+                alt=""
+                width={s.w}
+                height={s.h}
+                sizes="(min-width: 768px) 144px, 20vw"
+                className={cn("absolute h-auto drop-shadow-[0_8px_14px_rgb(0_0_0/0.16)] select-none", s.className)}
+              />
+            ))}
+          </div>
         </div>
       </section>
     </div>
