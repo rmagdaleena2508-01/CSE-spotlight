@@ -94,7 +94,7 @@ function Word({ text, i }: { text: string; i: number }) {
   );
 }
 
-export function Hero({ semesterLabel }: { semesterLabel: string }) {
+export function Hero() {
   return (
     // Outer layer: white with a faint grid.
     <div
@@ -124,13 +124,8 @@ export function Hero({ semesterLabel }: { semesterLabel: string }) {
         )}
       >
         <div className="relative z-10 mx-auto flex max-w-[1100px] flex-col items-center px-5 pt-14 pb-12 text-center sm:max-[899px]:pt-28 sm:max-[899px]:pb-20 min-[900px]:h-full min-[900px]:pt-[clamp(1.25rem,6vh,4.5rem)] min-[900px]:pb-[clamp(0.75rem,3vh,2rem)]">
-          <p
-            className="intro-rise text-[11px] font-medium tracking-[0.18em] text-black/55 uppercase sm:text-xs"
-            style={{ "--d": "0.1s" } as CSSProperties}
-          >
-            {semesterLabel}
-          </p>
-          <h1 className="mt-4 font-[family-name:var(--font-headline)] text-[clamp(2.25rem,5.2vw,4.5rem)] leading-[1.04] min-[900px]:text-[clamp(2rem,min(5.2vw,8.5vh),4.5rem)] tracking-[-0.02em] text-balance text-black">
+          {/* No date label: students add wins as they happen, so the hero is not tied to a term. */}
+          <h1 className="font-[family-name:var(--font-headline)] text-[clamp(2.25rem,5.2vw,4.5rem)] leading-[1.04] min-[900px]:text-[clamp(2rem,min(5.2vw,8.5vh),4.5rem)] tracking-[-0.02em] text-balance text-black">
             {LINE_ONE.map((w, i) => (
               <Word key={w} text={w} i={i} />
             ))}

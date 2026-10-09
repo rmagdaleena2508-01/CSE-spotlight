@@ -211,6 +211,7 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - On laptops the whole top section fits on one screen. The stickers shrink to fit the space under the buttons, so nobody has to scroll to see them.
   - Black text, always centred, like the CSI site: a two-line headline, a short subtitle, and two small round buttons.
   - It says "Wins and events from the Dept. Of Computer Science & Engineering, SRMIST VDP".
+  - There is no date label: students add wins as they happen, so the top section is not tied to a term.
   - The headline font is Young Serif and the word "CSE" is Fraunces. These stand in for RL Madena and Buche until those font files are added.
 - **Stickers (done):**
   - Five stickers sit on a curved path, like planets on an orbit, in this order: certificate, cap, trophy, palette, football.

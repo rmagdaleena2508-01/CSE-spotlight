@@ -29,7 +29,7 @@ export default async function Home() {
 
   return (
     <>
-      <Hero semesterLabel={semester.label} />
+      <Hero />
       <main className="mx-auto max-w-6xl px-4 pb-24">
 
       {shelves.map((s) => (

@@ -80,8 +80,8 @@ function FirstTime() {
         </Field>
         <Field>
           <FieldLabel htmlFor="first-name">Your name</FieldLabel>
-          <Input id="first-name" name="name" autoComplete="name" defaultValue={state?.name} required />
-          <FieldDescription>As it is on the class list. Dots and word order do not matter.</FieldDescription>
+          <Input id="first-name" name="name" autoComplete="name" placeholder="e.g. R PRIYA" autoCapitalize="characters" defaultValue={state?.name} required />
+          <FieldDescription>Write your name in CAPS, including the initial.</FieldDescription>
         </Field>
         <Button type="submit" disabled={pending}>
           {pending ? "Checking…" : "Continue"}
