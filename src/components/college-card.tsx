@@ -15,13 +15,13 @@ const COLLEGE_URL = "https://srmistvdp.edu.in/";
 /** Columns in the dissolve grid; rows follow from the card's shape. */
 const COLS = 12;
 /** Seconds for the pixel front to sweep from the top-left corner to the bottom-right.
- *  The whole close takes about 1.4s: half a second slower than the CSI original, so it reads calmly. */
-const SWEEP = 0.77;
+ *  The whole close takes about 1.2s: a little slower than the CSI original, so it reads calmly. */
+const SWEEP = 0.63;
 /** Longest random delay added to a single pixel, so rows break up unevenly. */
 const JITTER = 0.09;
 /** How long a pixel stays solid before it starts to fade. */
 const HOLD = 0.1;
-const FADE = 0.35;
+const FADE = 0.29;
 const TOTAL_MS = (SWEEP + JITTER * 2 + HOLD + FADE) * 1000;
 
 type Pixel = { row: number; col: number; tint: boolean; jitterIn: number; jitterOut: number };
