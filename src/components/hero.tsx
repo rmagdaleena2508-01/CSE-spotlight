@@ -165,27 +165,35 @@ export function Hero() {
           {/* On laptops this area takes whatever height is left in the card, and the sticker
               box inside shrinks to fit it, so the stickers are never cut off. */}
           <div className="relative mt-12 w-full sm:max-[899px]:mt-16 min-[900px]:mt-[clamp(0.5rem,3vh,2rem)] min-[900px]:min-h-0 min-[900px]:flex-1 min-[900px]:[container-type:size]">
-            {/* The box's left and right edges are the invisible walls: anything past them is
-                clipped, while the top and bottom stay open for the hover lift. It is also the
-                container the stickers measure their moves against (cqw). */}
-            <div className="relative mx-auto aspect-[800/300] w-full max-w-[800px] [container-type:inline-size] [clip-path:inset(-60%_0_-30%_0)] min-[900px]:absolute min-[900px]:bottom-0 min-[900px]:left-1/2 min-[900px]:w-[min(100cqw,800px,calc(100cqh*8/3))] min-[900px]:-translate-x-1/2">
-              <svg
-                viewBox="0 0 100 100"
-                preserveAspectRatio="none"
-                className="intro-rise pointer-events-none absolute inset-0 size-full overflow-visible"
-                style={{ "--d": "1.1s" } as CSSProperties}
-                aria-hidden
-              >
-                <path
-                  d="M 2 81 Q 55 80 98 30"
-                  fill="none"
-                  stroke="rgb(0 0 0 / 0.18)"
-                  strokeWidth="1.5"
-                  strokeDasharray="6 7"
-                  vectorEffect="non-scaling-stroke"
-                />
-              </svg>
-              <StickerOrbit stickers={STICKERS} />
+            {/* The sticker box. Stickers move against its width (cqw). */}
+            <div className="relative mx-auto aspect-[800/300] w-full max-w-[800px] min-[900px]:absolute min-[900px]:bottom-0 min-[900px]:left-1/2 min-[900px]:w-[min(100cqw,800px,calc(100cqh*8/3))] min-[900px]:-translate-x-1/2">
+              {/* Soft walls, the way logo loops do it: a mask that is see-through at the left
+                  and right edges and solid 13% in, so a sticker dissolves part by part as it
+                  slides out (and back in) instead of being sliced by a line. Only the stickers
+                  and the dashed curve are masked; the grid behind stays sharp. The masked layer
+                  reaches above and below the box so lifted and high stickers are not cut. */}
+              <div className="pointer-events-none absolute inset-x-0 -top-[60%] -bottom-[30%] [mask-image:linear-gradient(to_right,transparent,black_13%,black_87%,transparent)]">
+                {/* Back to the box's exact size inside the taller layer (0.6 / 1.9 and 0.3 / 1.9). */}
+                <div className="absolute inset-x-0 top-[31.579%] bottom-[15.789%] [container-type:inline-size]">
+                  <svg
+                    viewBox="0 0 100 100"
+                    preserveAspectRatio="none"
+                    className="intro-rise pointer-events-none absolute inset-0 size-full overflow-visible"
+                    style={{ "--d": "1.1s" } as CSSProperties}
+                    aria-hidden
+                  >
+                    <path
+                      d="M 2 81 Q 55 80 98 30"
+                      fill="none"
+                      stroke="rgb(0 0 0 / 0.18)"
+                      strokeWidth="1.5"
+                      strokeDasharray="6 7"
+                      vectorEffect="non-scaling-stroke"
+                    />
+                  </svg>
+                  <StickerOrbit stickers={STICKERS} />
+                </div>
+              </div>
             </div>
           </div>
         </div>

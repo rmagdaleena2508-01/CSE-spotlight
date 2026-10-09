@@ -149,7 +149,7 @@ export function HeroSticker({
     <motion.div
       className={cn(
         "absolute bottom-0 left-0 will-change-transform",
-        !interactive && "pointer-events-none",
+        interactive ? "pointer-events-auto" : "pointer-events-none",
       )}
       style={{ width: `${size}%`, transform }}
     >

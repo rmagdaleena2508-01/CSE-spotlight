@@ -5,9 +5,9 @@ import { useAnimationFrame, useMotionValue, useReducedMotion } from "motion/reac
 import { HeroSticker } from "@/components/hero-sticker";
 
 // The hero stickers travel along the orbit in an endless loop, left to right.
-// - Invisible walls: the sticker box clips them at its left and right edges (see Hero).
-//   A sticker slides fully behind the right wall, then comes back out of the left wall
-//   and climbs again. No fading: the wall simply hides it.
+// - Soft walls: the sticker layer is masked see-through at its left and right edges
+//   (see Hero), so a sticker dissolves part by part as it slides out on the right, then
+//   comes back out of the left edge the same way and climbs again.
 // - They hold still for 1 second once the page has finished opening, then glide off,
 //   easing up to speed instead of jerking.
 // - Hovering any sticker (laptops) eases the whole loop to a stop; moving the mouse away
