@@ -2,23 +2,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-// Sticker pile laid out like the HackerRank Campus Crew hero: a round sticker hugging
-// the bottom-left corner, one big tilted centrepiece, smaller ones overlapping it, and
-// a tall one and a wide one on the right that run off the edge. Left/width are
-// percentages of the card; the card's rounded corners crop whatever hangs off.
+// Five stickers sitting on one curved path, like planets along an orbit: low on the
+// left and rising to the right. Order: scroll, cap, trophy, palette, football.
+// Left/bottom/width are percentages of the card, so the curve scales with the screen.
+// Everything stays fully inside the card and nothing moves.
 const STICKERS = [
-  // Round sticker in the bottom-left corner (the vinyl record's spot).
-  { src: "/stickers/football.webp", w: 640, h: 556, className: "left-[-3%] bottom-[-7%] w-[34%] sm:left-[-1%] sm:bottom-[-8%] sm:w-[25%] -rotate-6" },
-  // Big tilted centrepiece (the retro console's spot).
-  { src: "/stickers/cap.webp", w: 640, h: 604, className: "left-[24%] bottom-[2%] w-[46%] sm:left-[19%] sm:bottom-[-2%] sm:w-[35%] rotate-[16deg]" },
-  // Small square tile overlapping the centrepiece (the logo tile's spot).
-  { src: "/stickers/medal.webp", w: 615, h: 640, className: "hidden sm:block left-[38%] bottom-[-14%] w-[21%] -rotate-[27deg]" },
-  // Round badge (the globe badge's spot).
-  { src: "/stickers/scroll.webp", w: 640, h: 593, className: "hidden sm:block left-[54%] bottom-[-9%] w-[21%] -rotate-[30deg]" },
-  // Tall sticker on the right (the Game Boy's spot).
-  { src: "/stickers/trophy.webp", w: 624, h: 640, className: "right-[16%] bottom-[-2%] w-[30%] sm:right-auto sm:left-[65%] sm:bottom-[-2%] sm:w-[22%] -rotate-12" },
-  // Wide sticker running off the right edge (the Host/Coach/Build tags' spot).
-  { src: "/stickers/palette.webp", w: 640, h: 610, className: "right-[-10%] bottom-[-8%] w-[32%] sm:right-[-3%] sm:bottom-[-10%] sm:w-[24%] -rotate-[15deg]" },
+  { src: "/stickers/scroll.webp", w: 640, h: 593, className: "left-[3%] bottom-[4%] w-[19%] sm:left-[4%] sm:bottom-[4%] sm:w-[17%] -rotate-[10deg]" },
+  { src: "/stickers/cap.webp", w: 640, h: 604, className: "left-[20%] bottom-[5%] w-[21%] sm:left-[22%] sm:bottom-[8%] sm:w-[18%] -rotate-[4deg]" },
+  { src: "/stickers/trophy.webp", w: 624, h: 640, className: "left-[40%] bottom-[8%] w-[18%] sm:left-[42%] sm:bottom-[12%] sm:w-[14%] rotate-[4deg]" },
+  { src: "/stickers/palette.webp", w: 640, h: 610, className: "left-[59%] bottom-[12%] w-[19%] sm:left-[60%] sm:bottom-[18%] sm:w-[16%] rotate-[10deg]" },
+  { src: "/stickers/football.webp", w: 640, h: 556, className: "left-[79%] bottom-[18%] w-[19%] sm:left-[79%] sm:bottom-[27%] sm:w-[16%] rotate-[16deg]" },
 ];
 
 // Tailwind needs these as whole class names, so they are written out in full.
@@ -78,6 +71,21 @@ export function Hero({ semesterLabel }: { semesterLabel: string }) {
         </div>
 
         <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
+          {/* Faint dashed orbit the stickers sit on. */}
+          <svg
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            className="absolute inset-x-0 bottom-0 h-[40%] w-full sm:h-[45%]"
+          >
+            <path
+              d="M -2 92 Q 55 88 102 22"
+              fill="none"
+              stroke="rgb(0 0 0 / 0.18)"
+              strokeWidth="1.5"
+              strokeDasharray="6 7"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
           {STICKERS.map((s) => (
             <Image
               key={s.src}
@@ -85,7 +93,7 @@ export function Hero({ semesterLabel }: { semesterLabel: string }) {
               alt=""
               width={s.w}
               height={s.h}
-              sizes="(min-width: 640px) 30vw, 46vw"
+              sizes="(min-width: 640px) 18vw, 21vw"
               className={cn("absolute h-auto drop-shadow-[0_10px_18px_rgb(0_0_0/0.18)] select-none", s.className)}
             />
           ))}
