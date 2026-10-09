@@ -9,7 +9,8 @@ A website to show what our students win and do.
 
 ## Students
 
-- Log in with your roll number and name.
+- Sign up once with your roll number and name, then make a password.
+- After that, log in with your roll number and password.
 - Add your event, date, prize, and photos.
 - Pick a group: Technical, Non-Technical, Arts, or Sports.
 
@@ -23,6 +24,7 @@ A website to show what our students win and do.
 - Check each post and mark it as true.
 - Take down posts that are wrong.
 - Make a newsletter PDF in one click.
+- Get an email with the class list each time a student signs up.
 
 ## Built With
 
@@ -241,7 +243,27 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - The site stays clear of the iPhone notch and home bar.
   - Pages show grey loading blocks while they load, so a slow phone never looks frozen.
   - The phone menu shows Home, Achievements and one "Log in" button that opens the login page.
+  - If the menu is longer than the screen, it scrolls on its own.
+  - Tested on a phone-sized screen: home, achievements, login, sign up, My posts and Add a win.
+  - Fixed during testing: the Add a win page slid sideways on phones because of a hidden upload box.
 - **Still to do:** students editing a post while it waits, going online on Vercel, the faculty guide, and the final test.
+
+</details>
+
+## Sign-up emails
+
+<details>
+<summary>How to turn them on</summary>
+
+1. Turn on 2-Step Verification for the Gmail account that sends the emails.
+2. In Google Account, go to Security, then App passwords, and make one called "CSE Spotlight".
+3. Put these in `.env.local` (and later in Vercel):
+   - `GMAIL_USER`: the sending Gmail address.
+   - `GMAIL_APP_PASSWORD`: the 16-letter app password.
+   - `SIGNUP_NOTIFY_TO`: the developer's and the faculty's emails, split by a comma.
+4. Restart the site.
+
+If these are empty, sign-up still works and no email is sent. The email holds the whole class list, so only send it to people you trust.
 
 </details>
 
