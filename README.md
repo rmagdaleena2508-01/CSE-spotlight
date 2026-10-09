@@ -217,7 +217,7 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - On laptops each one is a link. On hover it tilts toward the mouse, lifts off the page, and casts a soft shadow, following Motion's tilt card.
   - The links go to Non-Technical, Technical, wins and awards, Arts, and Sports.
   - On phones and tablets they are only decoration.
-  - The stickers on the left sit 0.5 cm higher, so the curve rises gently.
+  - The stickers on the left sit 1 cm higher than at first, so the curve rises gently.
 - **Top bar (done):**
   - The same liquid glass as the CSI site: three floating glass pills that get thicker once you scroll.
   - On phones the menu unfolds like folded paper.
