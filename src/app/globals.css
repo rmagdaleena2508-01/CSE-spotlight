@@ -325,3 +325,61 @@ html {
     touch-action: manipulation;
   }
 }
+
+/* ------------------------------------------------------------------ page transitions
+   Moving between pages (home to achievements and back) cross-fades instead of cutting.
+   The old page leaves fast (180ms) so it never competes; the new one arrives gently,
+   rising 12px out of a soft blur on the same editorial curve as the hero buttons.
+   The white home hero and the black inner pages meet through a fade, never a flash. */
+::view-transition-old(.page-out) {
+  animation: 180ms cubic-bezier(0.4, 0, 1, 1) both page-leave;
+}
+::view-transition-new(.page-in) {
+  animation: 420ms cubic-bezier(0.22, 0.61, 0.36, 1) 120ms both page-arrive;
+}
+/* The loading blocks melt away as the real page lands. */
+::view-transition-old(.skeleton-out) {
+  animation: 220ms ease-out both page-leave;
+}
+@keyframes page-leave {
+  to {
+    opacity: 0;
+    filter: blur(2px);
+  }
+}
+@keyframes page-arrive {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+    filter: blur(4px);
+  }
+}
+
+/* The header and the top blur stay put while the page under them changes,
+   so there is one steady thing to look at. */
+::view-transition-group(site-header),
+::view-transition-group(scroll-blur) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header),
+::view-transition-old(scroll-blur) {
+  display: none;
+}
+::view-transition-new(site-header),
+::view-transition-new(scroll-blur) {
+  animation: none;
+}
+/* Taps during the short fade still reach the page. */
+::view-transition {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}

@@ -31,7 +31,7 @@ export function ScrollBlur() {
     <div
       aria-hidden
       className={cn(
-        "pointer-events-none fixed inset-x-0 top-0 z-40 h-24 transition-opacity duration-200 sm:h-28",
+        "pointer-events-none fixed inset-x-0 top-0 z-40 h-24 [view-transition-name:scroll-blur] transition-opacity duration-200 sm:h-28",
         scrolled ? "opacity-100" : "opacity-0",
       )}
     >

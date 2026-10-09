@@ -159,7 +159,7 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
         : { href: "/login", label: "Log in" };
 
   return (
-    <header className="fixed top-[env(safe-area-inset-top)] right-[env(safe-area-inset-right)] left-[env(safe-area-inset-left)] z-50">
+    <header className="fixed top-[env(safe-area-inset-top)] right-[env(safe-area-inset-right)] left-[env(safe-area-inset-left)] z-50 [view-transition-name:site-header]">
       <div className="intro-drop mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-3 py-4 sm:px-6 sm:py-5">
         {/* Wordmark. The whole pill (seal and name) is one button that opens the college
             card, which grows out of the pill like a macOS window. Home stays in the nav. */}

@@ -246,6 +246,11 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - If the menu is longer than the screen, it scrolls on its own.
   - Tested on a phone-sized screen: home, achievements, login, sign up, My posts and Add a win.
   - Fixed during testing: the Add a win page slid sideways on phones because of a hidden upload box.
+- **Page changes (done):**
+  - Going from home to Achievements (and back) no longer jumps. The old page fades out fast and the new one rises in softly.
+  - The top bar stays still while the page under it changes.
+  - Loading blocks fade away when the real page arrives.
+  - Changing filters or typing in search does not fade the page.
 - **Still to do:** students editing a post while it waits, going online on Vercel, the faculty guide, and the final test.
 
 </details>
@@ -270,3 +275,4 @@ If these are empty, sign-up still works and no email is sent. The email holds th
 ## Docs
 
 - [Product plan (PRD)](docs/PRD.pdf)
+- [Design decisions, and why](docs/DESIGN_DECISIONS.md)
