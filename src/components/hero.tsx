@@ -78,17 +78,19 @@ const LIFT =
   "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100";
 
 // Headline words rise in one after another (CSI's word-rise); --i staggers them.
-const LINE_ONE = ["What", "CSE", "students", "did"];
+const LINE_ONE = ["What", "our", "students", "did"];
+/** The one word set in the soft italic display face, so it stands out in the line. */
+const ACCENT = "our";
 const LINE_TWO = ["this", "semester."];
 
 function Word({ text, i }: { text: string; i: number }) {
-  const cse = text === "CSE";
+  const accent = text === ACCENT;
   return (
     <>
       <span
         className={cn(
           "word-rise",
-          cse &&
+          accent &&
             "font-[family-name:var(--font-cse)] font-semibold italic [font-variation-settings:'SOFT'_100,'WONK'_1]",
         )}
         style={{ "--i": i } as CSSProperties}
