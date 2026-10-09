@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Inter, Pixelify_Sans } from "next/font/google";
+import { Fraunces, Geist_Mono, Pixelify_Sans, Young_Serif } from "next/font/google";
 import localFont from "next/font/local";
 import { SiteHeader } from "@/components/site-header";
 import { Toaster } from "@/components/ui/sonner";
@@ -16,11 +16,17 @@ const satoshi = localFont({
   ],
 });
 
-// Inter, used for the word "CSE" in the hero headline.
-const inter = Inter({
-  variable: "--font-inter",
+// Hero headline. Stand-ins until the licensed files arrive (see src/fonts/README.md):
+// Young Serif for RL Madena (headline), Fraunces for Buche (the word "CSE").
+const headline = Young_Serif({
+  variable: "--font-headline",
   subsets: ["latin"],
-  weight: ["600", "700"],
+  weight: "400",
+});
+const cse = Fraunces({
+  variable: "--font-cse",
+  subsets: ["latin"],
+  axes: ["SOFT", "WONK"],
 });
 
 // Headings: free pixel stand-in for PP Mondwest (see src/fonts/README.md).
@@ -42,7 +48,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${satoshi.variable} ${pixel.variable} ${inter.variable} ${geistMono.variable} h-full antialiased`}>
+    <html lang="en" className={`${satoshi.variable} ${pixel.variable} ${headline.variable} ${cse.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <SiteHeader />
         <div className="flex-1">{children}</div>
