@@ -171,7 +171,7 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
           aria-label="About SRMIST Vadapalani"
           className={cn(
             GLASS,
-            "group flex items-center gap-2.5 rounded-full p-1.5 text-left transition-transform duration-300 ease-[var(--ease-editorial)] hover:scale-[1.03] active:scale-[0.98] sm:pr-4",
+            "group flex items-center gap-2.5 rounded-full p-1.5 text-left transition-[scale,background-color,border-color,box-shadow] duration-500 ease-[var(--ease-editorial)] hover:scale-[1.02] active:scale-[0.985] active:duration-200 sm:pr-4 motion-reduce:hover:scale-100",
             scrolled && "glass-solid",
           )}
         >
@@ -244,7 +244,7 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
             aria-label={open ? "Close menu" : "Open menu"}
             className={cn(
               GLASS,
-              "glass-orb grid size-11 place-items-center rounded-full text-[#0b0a0a] transition-transform duration-300 ease-[var(--ease-editorial)] active:scale-95 lg:hidden",
+              "glass-orb grid size-11 place-items-center rounded-full text-[#0b0a0a] transition-[scale,background-color,border-color,box-shadow] duration-500 ease-[var(--ease-editorial)] active:scale-95 active:duration-200 lg:hidden",
               scrolled && "glass-solid",
             )}
           >
