@@ -216,7 +216,7 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - There is no date label: students add wins as they happen, so the top section is not tied to a term.
   - The headline font is Young Serif and the word "CSE" is Fraunces. These stand in for RL Madena and Buche until those font files are added.
 - **Stickers (done):**
-  - Five stickers sit on a curved path, like planets on an orbit, in this order: certificate, cap, trophy, palette, football.
+  - Stickers sit on a curved path, like planets on an orbit, in this order: certificate, cap, trophy, palette, football, medal.
   - On laptops each one is a link. On hover it tilts toward the mouse, lifts off the page, and casts a soft shadow, following Motion's tilt card.
   - The links go to Non-Technical, Technical, wins and awards, Arts, and Sports.
   - On phones and tablets they are only decoration.
@@ -224,6 +224,7 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - The stickers now drift along the curve in an endless loop, left to right. When the page opens they stay still for 1 second after the opening animation, then glide off smoothly.
   - Invisible walls on the left and right: a sticker slides behind the right wall and comes back out of the left wall, with no fading.
   - The stickers glide on the GPU at sub-pixel steps, so they move smoothly instead of shaking.
+  - A sixth sticker, a medal, follows the football. All six are spaced evenly round the loop, so there is no big gap.
   - On laptops, putting the mouse on any sticker stops the loop. Moving the mouse away starts it again in the same direction.
   - People who turn on "reduce motion" see the stickers standing still.
 - **Top bar (done):**

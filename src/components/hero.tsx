@@ -4,7 +4,7 @@ import { StickerOrbit, type OrbitSticker } from "@/components/sticker-orbit";
 import { cn } from "@/lib/utils";
 
 // Five stickers on one curved path, like planets along an orbit: low on the left,
-// rising to the right. Order: scroll, cap, trophy, palette, football.
+// rising to the right. Order: scroll, cap, trophy, palette, football, medal.
 // They live in a small centred box (max 800px wide), so the group stays tight and
 // centred on every screen. Widths are percentages of that box.
 // They drift along the orbit in a loop between two invisible walls (see StickerOrbit).
@@ -49,6 +49,15 @@ const STICKERS: OrbitSticker[] = [
     size: 19,
     href: "/achievements?category=sports",
     label: "Sports achievements",
+  },
+  {
+    // Follows the football round the loop, filling what was a wide empty gap.
+    src: "/stickers/medal.webp",
+    w: 615,
+    h: 640,
+    size: 17,
+    href: "/achievements",
+    label: "All achievements",
   },
 ];
 

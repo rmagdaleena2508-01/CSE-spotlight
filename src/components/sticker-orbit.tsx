@@ -31,9 +31,11 @@ const LOOP_SECONDS = 45;
  *  always happens out of sight. */
 const START = -10.5;
 const SPAN = 121;
-/** Opening layout: centres at 10, 30, 50, 70 and 90, all five whole. The train then
- *  keeps those gaps, with one wider gap where it wraps round. */
-const OPENING_GAP = 20;
+/** Centre of the first sticker when the page opens. The stickers are spread evenly
+ *  round the whole loop, so there is no wide gap anywhere. With six of them the opening
+ *  shows five whole on the curve (the scroll touching the left wall, the football the
+ *  right one) and the medal waits just behind the left wall, first to come out. */
+const FIRST = 9.7;
 /** Seconds of stillness after the page has opened, before the loop starts. */
 const HOLD = 1;
 /** How long the opening animation takes (the last sticker lands at about 2.4s). */
@@ -81,7 +83,7 @@ export function StickerOrbit({ stickers }: { stickers: OrbitSticker[] }) {
       label={s.label}
       size={s.size}
       progress={progress}
-      phase={(OPENING_GAP / 2 + OPENING_GAP * i - START) / SPAN}
+      phase={(FIRST - START) / SPAN + i / stickers.length}
       start={START}
       span={SPAN}
       delay={1.15 + i * 0.08}
