@@ -209,12 +209,14 @@ export function CollegeCard({
                 </button>
 
                 <div className="relative flex flex-col items-center gap-7 text-center">
+                  {/* The full SRM Vadapalani logo, with its white background removed so it
+                      sits straight on the cream card. */}
                   <Image
-                    src="/brand/srmist-seal.png"
-                    alt="SRM Institute of Science and Technology"
-                    width={480}
-                    height={480}
-                    className="size-28 object-contain drop-shadow-[0_10px_24px_rgba(10,10,12,0.22)]"
+                    src="/brand/srm-vadapalani-logo-clear.png"
+                    alt="SRM Institute of Science and Technology, Vadapalani"
+                    width={720}
+                    height={300}
+                    className="h-auto w-64 max-w-full"
                   />
                   <a
                     href={COLLEGE_URL}
