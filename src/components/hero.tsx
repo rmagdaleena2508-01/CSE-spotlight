@@ -143,8 +143,8 @@ export function Hero({ semesterLabel }: { semesterLabel: string }) {
             className="intro-rise mt-5 max-w-[460px] text-base leading-7 text-black/70 sm:text-lg sm:leading-[1.6] min-[900px]:mt-[clamp(0.5rem,2vh,1.25rem)]"
             style={{ "--d": "0.8s" } as CSSProperties}
           >
-            Wins and events from our department, posted by students and checked
-            by faculty.
+            Wins and events from the School of Computing, SRMIST VDP, posted by
+            students and checked by faculty.
           </p>
           <div className="mt-7 flex flex-wrap justify-center gap-3 min-[900px]:mt-[clamp(0.75rem,3vh,1.75rem)]">
             {/* The entrance runs on the wrapper, the hover lift on the button: a CSS animation's

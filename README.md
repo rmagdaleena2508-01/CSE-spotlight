@@ -210,7 +210,7 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - The card is wider than it is tall: up to 1392 px wide on laptops.
   - On laptops the whole top section fits on one screen. The stickers shrink to fit the space under the buttons, so nobody has to scroll to see them.
   - Black text, always centred, like the CSI site: a two-line headline, a short subtitle, and two small round buttons.
-  - It says "Wins and events from our department".
+  - It says "Wins and events from the School of Computing, SRMIST VDP".
   - The headline font is Young Serif and the word "CSE" is Fraunces. These stand in for RL Madena and Buche until those font files are added.
 - **Stickers (done):**
   - Five stickers sit on a curved path, like planets on an orbit, in this order: certificate, cap, trophy, palette, football.
