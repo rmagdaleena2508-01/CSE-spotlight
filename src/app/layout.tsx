@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Geist_Mono, Pixelify_Sans, Young_Serif } from "next/font/google";
 import localFont from "next/font/local";
+import { ScrollBlur } from "@/components/scroll-blur";
 import { SiteHeader } from "@/components/site-header";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${satoshi.variable} ${pixel.variable} ${headline.variable} ${cse.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <SiteHeader />
+        <ScrollBlur />
         <div className="flex-1">{children}</div>
         <Toaster />
       </body>
