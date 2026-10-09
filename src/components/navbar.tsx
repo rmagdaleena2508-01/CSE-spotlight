@@ -3,10 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react";
 import { ArrowRight, LogOut, Menu, X } from "lucide-react";
 import { logout } from "@/app/login/actions";
+import { CollegeCard } from "@/components/college-card";
 import { cn } from "@/lib/utils";
 
 // Navigation built the same way as the CSI Student Chapter site
@@ -117,6 +118,8 @@ const GLASS = "glass backdrop-blur-2xl backdrop-saturate-150";
 export function Navbar({ viewer }: { viewer: NavViewer }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [collegeOpen, setCollegeOpen] = useState(false);
+  const sealRef = useRef<HTMLButtonElement>(null);
   const reduced = useReducedMotion();
   const pathname = usePathname();
   const items = itemsFor(viewer);
@@ -158,22 +161,32 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
   return (
     <header className="fixed inset-x-0 top-0 z-50">
       <div className="intro-drop mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-3 py-4 sm:px-6 sm:py-5">
-        {/* Wordmark pill */}
-        <Link
-          href="/"
-          className={cn(GLASS, "flex items-center gap-2.5 rounded-full p-1.5 sm:pr-4", scrolled && "glass-solid")}
-          aria-label="CSE Spotlight, home"
-        >
-          <span className="grid size-9 place-items-center rounded-full bg-white/90 ring-1 ring-black/8">
-            <Image src="/stickers/cap.webp" alt="" width={640} height={604} sizes="28px" className="h-auto w-7" priority />
-          </span>
-          <span className="hidden text-[0.9375rem] leading-tight font-medium tracking-[-0.02em] text-[#0b0a0a] sm:block">
+        {/* Wordmark. As on the CSI site, the seal is its own control (it opens the college
+            card), so it sits beside the home link rather than inside it: a button nested in
+            an anchor is invalid and swallows one of the two actions. */}
+        <div className={cn(GLASS, "flex items-center gap-2.5 rounded-full p-1.5 sm:pr-4", scrolled && "glass-solid")}>
+          <button
+            ref={sealRef}
+            type="button"
+            onClick={() => setCollegeOpen(true)}
+            aria-haspopup="dialog"
+            aria-expanded={collegeOpen}
+            aria-label="About SRMIST Vadapalani"
+            className="grid size-9 place-items-center rounded-full bg-white/90 ring-1 ring-black/8 transition-transform duration-300 ease-[var(--ease-editorial)] hover:scale-105"
+          >
+            <Image src="/brand/srmist-seal.png" alt="" width={244} height={238} priority className="size-7 object-contain" />
+          </button>
+          <Link
+            href="/"
+            className="hidden text-[0.9375rem] leading-tight font-medium tracking-[-0.02em] text-[#0b0a0a] sm:block"
+            aria-label="CSE Spotlight, SRMIST Vadapalani — home"
+          >
             CSE Spotlight
             <span className="block text-[0.6875rem] font-normal tracking-[0.08em] text-black/55 uppercase">
               SRMIST Vadapalani
             </span>
-          </span>
-        </Link>
+          </Link>
+        </div>
 
         {/* Desktop pill navigation */}
         <nav
@@ -307,6 +320,7 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
           </div>
         ) : null}
       </AnimatePresence>
+      <CollegeCard open={collegeOpen} onClose={() => setCollegeOpen(false)} origin={sealRef} />
     </header>
   );
 }

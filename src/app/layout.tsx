@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Geist_Mono, Pixelify_Sans, Young_Serif } from "next/font/google";
 import localFont from "next/font/local";
+import { ArrivalMarker } from "@/components/arrival-marker";
 import { ScrollBlur } from "@/components/scroll-blur";
 import { SiteHeader } from "@/components/site-header";
 import { Toaster } from "@/components/ui/sonner";
@@ -56,6 +57,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* The header floats over the page, so content starts below it. */}
         <div className="flex-1 pt-[76px] sm:pt-[84px]">{children}</div>
         <Toaster />
+        <ArrivalMarker />
       </body>
     </html>
   );

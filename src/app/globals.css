@@ -197,9 +197,40 @@
     0 24px 60px -28px rgba(10, 10, 12, 0.65);
 }
 
-/* The header drops in once when the page loads. */
+/* ------------------------------------------------------------------ opening sequence
+   Ported from the CSI site. On arrival the page is assembled in one ~1.4s timeline
+   instead of appearing all at once: the hero card fades up from a slight zoom, the top
+   bar drops in, the headline's words rise out of a blur one after another, then the
+   line under it, the buttons and the stickers follow. --d is each piece's start time.
+   It is plain CSS, so nothing waits on JavaScript and nothing stays hidden if scripts
+   are slow. Once the visitor has arrived (data-arrived, set by ArrivalMarker), coming
+   back to the home page skips the sequence. */
+.intro-sky {
+  animation: intro-sky 0.9s var(--ease-editorial) both;
+}
 .intro-drop {
   animation: intro-drop 0.7s var(--ease-editorial) 0.15s both;
+}
+.intro-rise {
+  animation: intro-rise 0.7s var(--ease-editorial) var(--d, 0s) both;
+}
+.intro-float {
+  animation: intro-float 0.9s var(--ease-editorial) var(--d, 0s) both;
+}
+.word-rise {
+  display: inline-block;
+  animation: word-rise 0.8s var(--ease-editorial) both;
+  animation-delay: calc(0.2s + var(--i) * 0.08s);
+}
+@keyframes intro-sky {
+  from {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 @keyframes intro-drop {
   from {
@@ -211,8 +242,43 @@
     transform: none;
   }
 }
+@keyframes intro-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.875rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes intro-float {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes word-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.45em);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+html[data-arrived] :is(.intro-sky, .intro-drop, .intro-rise, .intro-float, .word-rise) {
+  animation: none;
+}
 @media (prefers-reduced-motion: reduce) {
-  .intro-drop {
+  :is(.intro-sky, .intro-drop, .intro-rise, .intro-float, .word-rise) {
     animation: none;
   }
 }
