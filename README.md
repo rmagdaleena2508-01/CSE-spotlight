@@ -229,6 +229,11 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
 - **Opening animation (done):**
   - The page fades in piece by piece, the same way as the CSI site: the card, the top bar, the headline words, the text, the buttons, then the stickers.
   - It plays once per visit, and every visit opens at the top of the home page.
+- **Sign-up (done):**
+  - The login page has two tabs: Student and Faculty. Under the student log in there is a "Sign up" button that lifts smoothly on hover.
+  - Only students on the class list can sign up: roll number and name, then a password.
+  - Faculty accounts are made only by the developer, from the terminal.
+  - Each sign-up emails the developer and faculty the full class list as an Excel file, with the new student's row highlighted in yellow, so they can check the student is in the CSE department. Emails go through Gmail with an app password.
 - **Still to do:** students editing a post while it waits, going online on Vercel, the faculty guide, and the final test.
 
 </details>

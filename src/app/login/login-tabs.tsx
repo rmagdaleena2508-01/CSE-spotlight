@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,6 +8,15 @@ import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { firstLogin, facultyLogin, studentLogin, type FormState } from "./actions";
+
+// Secondary action with the same smooth lift as the hero buttons: it rises and a soft
+// shadow spreads beneath on hover, eased over half a second; it sinks a touch when pressed.
+const LIFT_LINK =
+  "mt-1 inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full text-sm font-medium text-foreground " +
+  "shadow-[inset_0_0_0_1px_rgb(255_255_255/0.2)] transition-[translate,scale,box-shadow,background-color] duration-500 " +
+  "ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-white/5 " +
+  "hover:shadow-[inset_0_0_0_1px_rgb(255_255_255/0.35),0_14px_28px_-14px_rgb(0_0_0/0.8)] active:translate-y-0 " +
+  "active:scale-[0.98] active:duration-150 motion-reduce:transition-none";
 
 function FormError({ state }: { state: FormState }) {
   if (!state?.error) return null;
@@ -63,7 +72,7 @@ function FirstTime() {
             <Input id="confirm-password" name="confirm" type="password" autoComplete="new-password" minLength={8} required />
           </Field>
           <Button type="submit" disabled={pending}>
-            {pending ? "Saving…" : "Save password and log in"}
+            {pending ? "Signing up…" : "Sign up and log in"}
           </Button>
         </FieldGroup>
       </form>
@@ -113,21 +122,49 @@ function FacultyLogin() {
   );
 }
 
+/** Student tab: log in, with a sign-up option for students who have not registered yet. */
+function StudentPanel() {
+  const [mode, setMode] = useState<"login" | "signup">("login");
+  if (mode === "signup") {
+    return (
+      <div className="space-y-4">
+        <div>
+          <h2 className="text-xl">Sign up</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Only students on the CSE class list can sign up. Enter your roll number and name, then make a password.
+          </p>
+        </div>
+        <FirstTime />
+        <button type="button" onClick={() => setMode("login")} className={LIFT_LINK}>
+          Already signed up? Log in
+        </button>
+      </div>
+    );
+  }
+  return (
+    <div className="space-y-4">
+      <StudentLogin />
+      <div className="flex items-center gap-3 text-xs text-muted-foreground" aria-hidden>
+        <span className="h-px flex-1 bg-border" /> New here? <span className="h-px flex-1 bg-border" />
+      </div>
+      <button type="button" onClick={() => setMode("signup")} className={LIFT_LINK}>
+        Sign up
+      </button>
+    </div>
+  );
+}
+
 export function LoginTabs({ initialTab }: { initialTab: "student" | "faculty" }) {
   return (
-    <Tabs defaultValue={initialTab === "faculty" ? "faculty" : "login"} className="mt-6">
+    <Tabs defaultValue={initialTab === "faculty" ? "faculty" : "student"} className="mt-6">
       <TabsList className="w-full">
-        <TabsTrigger value="login">Student</TabsTrigger>
-        <TabsTrigger value="first">First time</TabsTrigger>
+        <TabsTrigger value="student">Student</TabsTrigger>
         <TabsTrigger value="faculty">Faculty</TabsTrigger>
       </TabsList>
       <Card className="mt-4">
         <CardContent>
-          <TabsContent value="login">
-            <StudentLogin />
-          </TabsContent>
-          <TabsContent value="first">
-            <FirstTime />
+          <TabsContent value="student">
+            <StudentPanel />
           </TabsContent>
           <TabsContent value="faculty">
             <FacultyLogin />

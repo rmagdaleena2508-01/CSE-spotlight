@@ -1,11 +1,13 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { after } from "next/server";
 import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { namesMatch, studentEmail, facultyEmail } from "@/lib/roster";
 import { password, rollNo } from "@/lib/schemas";
+import { sendSignupEmail } from "@/lib/notify/signup-email";
 
 export type FormState =
   | { error?: string; step?: "password"; rollNo?: string; name?: string; username?: string }
@@ -59,7 +61,7 @@ async function checkRoster(rawRoll: string, rawName: string): Promise<RosterChec
   if (student.auth_user_id) {
     return {
       ok: false,
-      error: "This roll number already has a password. Log in instead, or ask your faculty to reset it.",
+      error: "This roll number is already signed up. Log in instead, or ask your faculty to reset it.",
     };
   }
   return { ok: true, roll, rosterName: student.name };
@@ -115,6 +117,14 @@ async function claimAccount(_: FormState, form: FormData): Promise<FormState> {
     return { error: "This roll number was just claimed. Ask your faculty to reset it if this was not you." };
   }
 
+  // Email the developer and faculty the class list with this student highlighted.
+  // Runs after the response, so the student is not kept waiting, and a mail
+  // problem never undoes a sign-up.
+  const roll = result.roll;
+  after(() =>
+    sendSignupEmail(roll).catch((e) => console.error("[signup-email] Failed:", e instanceof Error ? e.message : e)),
+  );
+
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email: studentEmail(result.roll), password: pw.data });
   if (error) return { error: "Account created. Please log in with your new password." };
@@ -134,7 +144,7 @@ export async function studentLogin(_: FormState, form: FormData): Promise<FormSt
   const { error } = await supabase.auth.signInWithPassword({ email: studentEmail(roll.data), password: pw });
   if (error) {
     await recordFailure(roll.data);
-    return { error: "Wrong roll number or password. First time here? Use the First time tab.", rollNo: rawRoll };
+    return { error: "Wrong roll number or password. New here? Press Sign up below.", rollNo: rawRoll };
   }
   redirect("/dashboard");
 }
