@@ -161,32 +161,31 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
   return (
     <header className="fixed inset-x-0 top-0 z-50">
       <div className="intro-drop mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-3 py-4 sm:px-6 sm:py-5">
-        {/* Wordmark. As on the CSI site, the seal is its own control (it opens the college
-            card), so it sits beside the home link rather than inside it: a button nested in
-            an anchor is invalid and swallows one of the two actions. */}
-        <div className={cn(GLASS, "flex items-center gap-2.5 rounded-full p-1.5 sm:pr-4", scrolled && "glass-solid")}>
-          <button
-            ref={sealRef}
-            type="button"
-            onClick={() => setCollegeOpen(true)}
-            aria-haspopup="dialog"
-            aria-expanded={collegeOpen}
-            aria-label="About SRMIST Vadapalani"
-            className="grid size-9 place-items-center rounded-full bg-white/90 ring-1 ring-black/8 transition-transform duration-300 ease-[var(--ease-editorial)] hover:scale-105"
-          >
+        {/* Wordmark. The whole pill (seal and name) is one button that opens the college
+            card, which grows out of the pill like a macOS window. Home stays in the nav. */}
+        <button
+          ref={sealRef}
+          type="button"
+          onClick={() => setCollegeOpen(true)}
+          aria-haspopup="dialog"
+          aria-expanded={collegeOpen}
+          aria-label="About SRMIST Vadapalani"
+          className={cn(
+            GLASS,
+            "group flex items-center gap-2.5 rounded-full p-1.5 text-left transition-transform duration-300 ease-[var(--ease-editorial)] hover:scale-[1.03] active:scale-[0.98] sm:pr-4",
+            scrolled && "glass-solid",
+          )}
+        >
+          <span className="grid size-9 place-items-center rounded-full bg-white/90 ring-1 ring-black/8">
             <Image src="/brand/srmist-seal.png" alt="" width={244} height={238} priority className="size-7 object-contain" />
-          </button>
-          <Link
-            href="/"
-            className="hidden text-[0.9375rem] leading-tight font-medium tracking-[-0.02em] text-[#0b0a0a] sm:block"
-            aria-label="CSE Spotlight, SRMIST Vadapalani — home"
-          >
+          </span>
+          <span className="hidden text-[0.9375rem] leading-tight font-medium tracking-[-0.02em] text-[#0b0a0a] sm:block">
             CSE Spotlight
             <span className="block text-[0.6875rem] font-normal tracking-[0.08em] text-black/55 uppercase">
               SRMIST Vadapalani
             </span>
-          </Link>
-        </div>
+          </span>
+        </button>
 
         {/* Desktop pill navigation */}
         <nav

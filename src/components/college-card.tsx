@@ -7,14 +7,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 // Ported from the CSI Student Chapter site (csi-vdp/components/layout/CollegeCard.tsx).
 // The college seal in the navigation opens this card. It grows out of the seal with a
-// macOS-style zoom, and closing it breaks the card into pixels that sweep away from
-// top to bottom (after React Bits' Pixel Transition).
+// macOS-style zoom, and closing it breaks the card into pixels that sweep away
+// diagonally, starting at the top-left corner (after React Bits' Pixel Transition).
 
 const COLLEGE_URL = "https://srmistvdp.edu.in/";
 
 /** Columns in the dissolve grid; rows follow from the card's shape. */
 const COLS = 12;
-/** Seconds for the pixel front to sweep from the top edge to the bottom. */
+/** Seconds for the pixel front to sweep from the top-left corner to the bottom-right. */
 const SWEEP = 0.42;
 /** Longest random delay added to a single pixel, so rows break up unevenly. */
 const JITTER = 0.09;
@@ -176,11 +176,15 @@ export function CollegeCard({
 
             <motion.div
               className="relative rounded-[2rem] p-[5px]"
-              initial={false}
-              animate={{ clipPath: dissolving ? "inset(100% 0% 0% 0%)" : "inset(0% 0% 0% 0%)" }}
-              // Trails the arriving rows by the jitter, so content is only cut once squares cover it.
+              initial={{ "--wipe": "-15%" } as Record<string, string>}
+              // A diagonal mask wipes the card away from the top-left corner, trailing the
+              // arriving pixels by the jitter so content is only cut once squares cover it.
+              // Motion tweens one CSS variable (a single percentage) smoothly.
+              animate={{ "--wipe": dissolving ? "115%" : "-15%" } as Record<string, string>}
               transition={dissolving ? { duration: SWEEP, delay: JITTER, ease: "linear" } : { duration: 0 }}
               style={{
+                maskImage: "linear-gradient(135deg, transparent var(--wipe), black calc(var(--wipe) + 12%))",
+                WebkitMaskImage: "linear-gradient(135deg, transparent var(--wipe), black calc(var(--wipe) + 12%))",
                 // Brushed-metal rim: a conic sweep so light appears to travel around the edge.
                 background:
                   "conic-gradient(from 210deg at 50% 50%, #f8fbff 0deg, #2b52a8 38deg, #d8e9fa 76deg, #12265c 128deg, #9fd0f5 172deg, #1b3a86 218deg, #eaf4ff 262deg, #2b52a8 308deg, #f8fbff 360deg)",
@@ -234,7 +238,10 @@ export function CollegeCard({
             {grid ? (
               <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-[2rem]">
                 {grid.pixels.map((p) => {
-                  const arrive = (p.row / grid.rows) * SWEEP + p.jitterIn;
+                  // Distance from the top-left corner (0 at that corner, 1 at the bottom-right),
+                  // so the pixels arrive in a diagonal front.
+                  const corner = (p.row / Math.max(1, grid.rows - 1) + p.col / (COLS - 1)) / 2;
+                  const arrive = corner * SWEEP + p.jitterIn;
                   return (
                     <motion.span
                       key={`${p.row}-${p.col}`}

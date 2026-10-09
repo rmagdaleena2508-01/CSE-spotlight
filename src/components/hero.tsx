@@ -14,7 +14,7 @@ const STICKERS = [
     w: 640,
     h: 593,
     rotate: -10,
-    className: "left-[0%] bottom-[0%] w-[19%]",
+    className: "left-[0%] bottom-[8%] w-[19%]",
     href: "/achievements?category=non_technical",
     label: "Non-technical achievements",
   },
@@ -23,7 +23,7 @@ const STICKERS = [
     w: 640,
     h: 604,
     rotate: -4,
-    className: "left-[19%] bottom-[9%] w-[20%]",
+    className: "left-[19%] bottom-[14%] w-[20%]",
     href: "/achievements?category=technical",
     label: "Technical achievements",
   },
@@ -32,7 +32,7 @@ const STICKERS = [
     w: 624,
     h: 640,
     rotate: 4,
-    className: "left-[41%] bottom-[20%] w-[16%]",
+    className: "left-[41%] bottom-[23%] w-[16%]",
     href: "/achievements?result=award",
     label: "Wins and awards",
   },
@@ -166,7 +166,7 @@ export function Hero({ semesterLabel }: { semesterLabel: string }) {
                 aria-hidden
               >
                 <path
-                  d="M 2 96 Q 55 92 98 30"
+                  d="M 2 89 Q 55 87 98 30"
                   fill="none"
                   stroke="rgb(0 0 0 / 0.18)"
                   strokeWidth="1.5"
