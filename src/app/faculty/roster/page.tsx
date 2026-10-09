@@ -25,7 +25,7 @@ export default async function RosterPage() {
 
       <RosterUpload />
 
-      <div className="mt-10 flex items-baseline justify-between">
+      <div className="mt-10 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <h2 className="text-2xl">Students</h2>
         <p className="text-sm text-muted-foreground">
           {students?.length ?? 0} on the list · {claimed} have logged in

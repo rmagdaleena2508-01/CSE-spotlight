@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Fraunces, Geist_Mono, Pixelify_Sans, Young_Serif } from "next/font/google";
 import localFont from "next/font/local";
 import { ArrivalMarker } from "@/components/arrival-marker";
@@ -48,10 +48,19 @@ export const metadata: Metadata = {
   description: "Student achievements from the Dept. Of Computer Science & Engineering, SRMIST VDP, checked by faculty.",
 };
 
+// Phones: draw edge to edge on iPhones with a notch or Dynamic Island (the header and page
+// pad themselves with the safe-area insets), and tint the browser bar to match the site.
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#0b0a0a",
+};
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${satoshi.variable} ${pixel.variable} ${headline.variable} ${cse.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col pt-[env(safe-area-inset-top)] pr-[env(safe-area-inset-right)] pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)]">
         <SiteHeader />
         <ScrollBlur />
         {/* The header floats over the page, so content starts below it. */}

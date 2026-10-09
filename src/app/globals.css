@@ -284,3 +284,44 @@ html[data-arrived] :is(.intro-sky, .intro-drop, .intro-rise, .intro-float, .word
     animation: none;
   }
 }
+
+/* ------------------------------------------------------------------ phones (iPhone and Android)
+   Kept outside the layers on purpose, so these win over the utility sizes in the UI kit. */
+
+/* iOS Safari keeps our font sizes when the phone turns sideways, and taps do not flash grey. */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* iOS Safari zooms the page into any form field under 16px. At 16px it stays put. */
+@media (max-width: 767px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* Touch screens: fields, buttons and tabs are at least 44px tall (Apple and Google's
+   finger-size guidance), and a quick tap is never held back waiting for a double-tap zoom. */
+@media (pointer: coarse) {
+  [data-slot="input"],
+  [data-slot="select-trigger"],
+  [data-slot="tabs-list"],
+  input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]),
+  select {
+    min-height: 44px;
+  }
+  [data-slot="button"]:not([data-size^="icon"]) {
+    min-height: 40px;
+  }
+  a,
+  button,
+  [role="button"],
+  label,
+  select {
+    touch-action: manipulation;
+  }
+}

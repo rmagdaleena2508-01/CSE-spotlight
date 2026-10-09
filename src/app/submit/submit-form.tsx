@@ -107,7 +107,9 @@ function FilePicker({
         type="file"
         multiple={!single}
         accept={rule.types.join(",")}
-        className="sr-only"
+        // The field gives every child full width; keep this hidden input 1px so it cannot
+        // stretch past the screen and make phones scroll sideways.
+        className="sr-only !w-px"
         onChange={(e) => {
           add(e.target.files);
           e.target.value = "";
@@ -119,7 +121,7 @@ function FilePicker({
         <ul className="space-y-1 text-sm">
           {files.map((f, i) => (
             <li key={`${f.name}-${i}`} className="flex items-center justify-between gap-2 rounded-md border bg-card px-3 py-1.5">
-              <span className="truncate">
+              <span className="min-w-0 truncate">
                 {f.name} <span className="text-muted-foreground">({(f.size / 1024 / 1024).toFixed(1)} MB)</span>
               </span>
               <span className="flex shrink-0 items-center gap-1">

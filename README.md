@@ -234,6 +234,13 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - Only students on the class list can sign up: roll number and name, then a password.
   - Faculty accounts are made only by the developer, from the terminal.
   - Each sign-up emails the developer and faculty the full class list as an Excel file, with the new student's row highlighted in yellow, so they can check the student is in the CSE department. Emails go through Gmail with an app password.
+- **Phones (done):**
+  - Every page fits iPhone and Android screens with no sideways scrolling.
+  - Form boxes use 16px text, so iPhones do not zoom in when you tap them.
+  - Boxes, buttons and tabs are at least 44px tall, easy to tap with a finger.
+  - The site stays clear of the iPhone notch and home bar.
+  - Pages show grey loading blocks while they load, so a slow phone never looks frozen.
+  - The phone menu shows Home, Achievements and one "Log in" button that opens the login page.
 - **Still to do:** students editing a post while it waits, going online on Vercel, the faculty guide, and the final test.
 
 </details>

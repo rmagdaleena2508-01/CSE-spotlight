@@ -159,7 +159,7 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
         : { href: "/login", label: "Log in" };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <header className="fixed top-[env(safe-area-inset-top)] right-[env(safe-area-inset-right)] left-[env(safe-area-inset-left)] z-50">
       <div className="intro-drop mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-3 py-4 sm:px-6 sm:py-5">
         {/* Wordmark. The whole pill (seal and name) is one button that opens the college
             card, which grows out of the pill like a macOS window. Home stays in the nav. */}
@@ -259,7 +259,7 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
           <div id="mobile-nav" className="mx-auto w-full max-w-7xl px-3 sm:px-6 lg:hidden">
             <motion.nav
               aria-label="Primary mobile"
-              className="glass-panel mt-1 flex flex-col rounded-[2rem] p-3 backdrop-blur-3xl backdrop-saturate-[180%]"
+              className="glass-panel mt-1 flex max-h-[calc(100svh-6rem)] flex-col overflow-y-auto overscroll-contain rounded-[2rem] p-3 backdrop-blur-3xl backdrop-saturate-[180%]"
               style={
                 reduced
                   ? undefined
@@ -307,11 +307,11 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
                     </form>
                   ) : (
                     <Link
-                      href="/login?as=faculty"
+                      href="/login"
                       onClick={() => requestAnimationFrame(() => setOpen(false))}
                       className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-[14px] bg-white/45 px-4 text-[0.9375rem] text-[#0b0a0a] ring-1 ring-white/60 transition-colors hover:bg-white/70"
                     >
-                      Faculty log in
+                      Log in
                     </Link>
                   )}
                 </div>
