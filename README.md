@@ -222,7 +222,8 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - On phones and tablets they are only decoration.
   - The stickers on the left sit 1 cm higher than at first, so the curve rises gently.
   - The stickers now drift along the curve in an endless loop, left to right. When the page opens they stay still for 1 second after the opening animation, then glide off smoothly.
-  - Invisible walls on the left and right: a sticker fades as it slides behind the right wall, then comes back out of the left wall.
+  - Invisible walls on the left and right: a sticker slides behind the right wall and comes back out of the left wall, with no fading.
+  - The stickers glide on the GPU at sub-pixel steps, so they move smoothly instead of shaking.
   - On laptops, putting the mouse on any sticker stops the loop. Moving the mouse away starts it again in the same direction.
   - People who turn on "reduce motion" see the stickers standing still.
 - **Top bar (done):**

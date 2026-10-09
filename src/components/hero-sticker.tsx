@@ -2,12 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useSyncExternalStore, type CSSProperties, type PointerEvent } from "react";
+import {
+  useSyncExternalStore,
+  type CSSProperties,
+  type PointerEvent,
+} from "react";
 import {
   motion,
   useMotionValue,
   useReducedMotion,
   useSpring,
+  useMotionTemplate,
   useTransform,
   type MotionValue,
 } from "motion/react";
@@ -24,8 +29,9 @@ import { cn } from "@/lib/utils";
 // Stickers are links only on laptops (wide screen with a real hover pointer); on phones
 // and tablets they stay plain decoration.
 // Where the sticker sits comes from the shared loop progress (see StickerOrbit): its
-// centre rides the dashed orbit, it tilts more as the curve climbs, and it fades as it
-// reaches either wall.
+// centre rides the dashed orbit and it tilts more as the curve climbs. It moves with a
+// GPU transform (not left/bottom), so it glides on sub-pixels instead of snapping from
+// pixel to pixel, which is what made it judder.
 
 const LAPTOP = "(min-width: 900px) and (hover: hover) and (pointer: fine)";
 
@@ -45,8 +51,8 @@ function useIsLaptop() {
 const SPRING = { stiffness: 120, damping: 20, mass: 0.8 };
 /** Largest tilt toward the pointer, in degrees. Small angles look polished. */
 const MAX_TILT = 12;
-/** Share of its own width a sticker slides into a wall before it has fully faded. */
-const FADE = 0.35;
+/** The sticker box is 800x300, so its height is this share of its width. */
+const BOX_RATIO = 300 / 800;
 
 // The dashed orbit in the hero is the curve M 2 81 Q 55 80 98 30 in a 100x100 box.
 // For a centre x, solve x(s) = 2 + 106s - 10s² for s, then y(s) = 81 - 2s - 49s².
@@ -97,8 +103,14 @@ export function HeroSticker({
   // Pointer position over the sticker, -0.5..0.5 on each axis.
   const px = useMotionValue(0);
   const py = useMotionValue(0);
-  const rotateX = useSpring(useTransform(py, [-0.5, 0.5], [MAX_TILT, -MAX_TILT]), SPRING);
-  const rotateY = useSpring(useTransform(px, [-0.5, 0.5], [-MAX_TILT, MAX_TILT]), SPRING);
+  const rotateX = useSpring(
+    useTransform(py, [-0.5, 0.5], [MAX_TILT, -MAX_TILT]),
+    SPRING,
+  );
+  const rotateY = useSpring(
+    useTransform(px, [-0.5, 0.5], [-MAX_TILT, MAX_TILT]),
+    SPRING,
+  );
 
   const onPointerMove = (e: PointerEvent<HTMLElement>) => {
     const r = e.currentTarget.getBoundingClientRect();
@@ -112,16 +124,12 @@ export function HeroSticker({
 
   // Centre x along the loop, then everything else from it.
   const x = useTransform(progress, (p) => start + span * ((p + phase) % 1));
-  const left = useTransform(x, (c) => `${c - size / 2}%`);
-  const bottom = useTransform(x, (c) => `${orbitAt(c).bottom}%`);
+  // Offsets in cqw (1% of the sticker box's width), measured from its bottom-left corner.
+  const tx = useTransform(x, (c) => c - size / 2);
+  const ty = useTransform(x, (c) => -orbitAt(c).bottom * BOX_RATIO);
+  const transform = useMotionTemplate`translate3d(${tx}cqw, ${ty}cqw, 0)`;
   // Leans back on the flat start of the curve and forward as it climbs (-10° to 16°).
   const rotate = useTransform(x, (c) => -10 + ((c - 9.5) * 26) / 80);
-  // Fades as it slides behind a wall: whole while it is clear of both walls, gone once
-  // a third of it has passed one, so the wall's clean edge is never seen slicing it.
-  const opacity = useTransform(x, (c) => {
-    const past = Math.max(start - (c - size / 2), c + size / 2 - (start + span), 0);
-    return Math.max(0, 1 - past / (size * FADE));
-  });
 
   const art = (
     <Image
@@ -136,47 +144,60 @@ export function HeroSticker({
   );
 
   return (
-    // The entrance animation owns this element's transform and opacity, so only its
-    // position moves here; tilt and fade live on the layer inside.
+    // Outer layer: travels along the orbit. The entrance animation sits one layer in,
+    // because it owns its own element's transform.
     <motion.div
-      className={cn("intro-float absolute", !interactive && "pointer-events-none")}
-      style={{ "--d": `${delay}s`, width: `${size}%`, left, bottom } as unknown as CSSProperties}
-    >
-      {interactive ? (
-        <motion.div style={{ rotate, opacity }} className="[perspective:900px]">
-          <Link
-            href={href}
-            aria-label={label}
-            className="group block rounded-[24px] outline-none focus-visible:ring-3 focus-visible:ring-black/40 focus-visible:ring-offset-4"
-            onPointerMove={onPointerMove}
-            onPointerEnter={() => onHoverChange(true)}
-            onPointerLeave={() => {
-              onPointerLeave();
-              onHoverChange(false);
-            }}
-          >
-            <motion.div
-              className="relative [transform-style:preserve-3d]"
-              style={{ rotateX, rotateY }}
-              initial={false}
-              whileHover={{ scale: 1.14, y: -14, z: 40 }}
-              whileTap={{ scale: 1.06, y: -6 }}
-              transition={{ type: "spring", stiffness: 140, damping: 22, mass: 0.9 }}
-            >
-              {/* Shadow on its own layer: it spreads and darkens as the sticker lifts. */}
-              <span
-                aria-hidden
-                className="absolute inset-x-[12%] -bottom-[10%] h-[22%] rounded-[50%] bg-black/0 blur-md transition-all duration-500 ease-[var(--ease-editorial)] group-hover:-bottom-[18%] group-hover:bg-black/30 group-hover:blur-xl"
-              />
-              {art}
-            </motion.div>
-          </Link>
-        </motion.div>
-      ) : (
-        <motion.div style={{ rotate, opacity }} aria-hidden>
-          {art}
-        </motion.div>
+      className={cn(
+        "absolute bottom-0 left-0 will-change-transform",
+        !interactive && "pointer-events-none",
       )}
+      style={{ width: `${size}%`, transform }}
+    >
+      <div
+        className="intro-float"
+        style={{ "--d": `${delay}s` } as CSSProperties}
+      >
+        {interactive ? (
+          <motion.div style={{ rotate }} className="[perspective:900px]">
+            <Link
+              href={href}
+              aria-label={label}
+              className="group block rounded-[24px] outline-none focus-visible:ring-3 focus-visible:ring-black/40 focus-visible:ring-offset-4"
+              onPointerMove={onPointerMove}
+              onPointerEnter={() => onHoverChange(true)}
+              onPointerLeave={() => {
+                onPointerLeave();
+                onHoverChange(false);
+              }}
+            >
+              <motion.div
+                className="relative [transform-style:preserve-3d]"
+                style={{ rotateX, rotateY }}
+                initial={false}
+                whileHover={{ scale: 1.14, y: -14, z: 40 }}
+                whileTap={{ scale: 1.06, y: -6 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 140,
+                  damping: 22,
+                  mass: 0.9,
+                }}
+              >
+                {/* Shadow on its own layer: it spreads and darkens as the sticker lifts. */}
+                <span
+                  aria-hidden
+                  className="absolute inset-x-[12%] -bottom-[10%] h-[22%] rounded-[50%] bg-black/0 blur-md transition-all duration-500 ease-[var(--ease-editorial)] group-hover:-bottom-[18%] group-hover:bg-black/30 group-hover:blur-xl"
+                />
+                {art}
+              </motion.div>
+            </Link>
+          </motion.div>
+        ) : (
+          <motion.div style={{ rotate }} aria-hidden>
+            {art}
+          </motion.div>
+        )}
+      </div>
     </motion.div>
   );
 }

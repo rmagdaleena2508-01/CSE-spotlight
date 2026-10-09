@@ -157,8 +157,9 @@ export function Hero() {
               box inside shrinks to fit it, so the stickers are never cut off. */}
           <div className="relative mt-12 w-full sm:max-[899px]:mt-16 min-[900px]:mt-[clamp(0.5rem,3vh,2rem)] min-[900px]:min-h-0 min-[900px]:flex-1 min-[900px]:[container-type:size]">
             {/* The box's left and right edges are the invisible walls: anything past them is
-                clipped, while the top and bottom stay open for the hover lift. */}
-            <div className="relative mx-auto aspect-[800/300] w-full max-w-[800px] [clip-path:inset(-60%_0_-30%_0)] min-[900px]:absolute min-[900px]:bottom-0 min-[900px]:left-1/2 min-[900px]:w-[min(100cqw,800px,calc(100cqh*8/3))] min-[900px]:-translate-x-1/2">
+                clipped, while the top and bottom stay open for the hover lift. It is also the
+                container the stickers measure their moves against (cqw). */}
+            <div className="relative mx-auto aspect-[800/300] w-full max-w-[800px] [container-type:inline-size] [clip-path:inset(-60%_0_-30%_0)] min-[900px]:absolute min-[900px]:bottom-0 min-[900px]:left-1/2 min-[900px]:w-[min(100cqw,800px,calc(100cqh*8/3))] min-[900px]:-translate-x-1/2">
               <svg
                 viewBox="0 0 100 100"
                 preserveAspectRatio="none"
