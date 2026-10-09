@@ -1,20 +1,20 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { HeroSticker } from "@/components/hero-sticker";
+import { StickerOrbit, type OrbitSticker } from "@/components/sticker-orbit";
 import { cn } from "@/lib/utils";
 
 // Five stickers on one curved path, like planets along an orbit: low on the left,
 // rising to the right. Order: scroll, cap, trophy, palette, football.
 // They live in a small centred box (max 800px wide), so the group stays tight and
-// centred on every screen. Left/bottom/width are percentages of that box.
+// centred on every screen. Widths are percentages of that box.
+// They drift along the orbit in a loop between two invisible walls (see StickerOrbit).
 // On laptops each one is a link that lifts off the page on hover (see HeroSticker).
-const STICKERS = [
+const STICKERS: OrbitSticker[] = [
   {
     src: "/stickers/scroll.webp",
     w: 640,
     h: 593,
-    rotate: -10,
-    className: "left-[0%] bottom-[16%] w-[19%]",
+    size: 19,
     href: "/achievements?category=non_technical",
     label: "Non-technical achievements",
   },
@@ -22,8 +22,7 @@ const STICKERS = [
     src: "/stickers/cap.webp",
     w: 640,
     h: 604,
-    rotate: -4,
-    className: "left-[19%] bottom-[21%] w-[20%]",
+    size: 20,
     href: "/achievements?category=technical",
     label: "Technical achievements",
   },
@@ -31,8 +30,7 @@ const STICKERS = [
     src: "/stickers/trophy.webp",
     w: 624,
     h: 640,
-    rotate: 4,
-    className: "left-[41%] bottom-[27%] w-[16%]",
+    size: 16,
     href: "/achievements?result=award",
     label: "Wins and awards",
   },
@@ -40,8 +38,7 @@ const STICKERS = [
     src: "/stickers/palette.webp",
     w: 640,
     h: 610,
-    rotate: 10,
-    className: "left-[59%] bottom-[35%] w-[18%]",
+    size: 18,
     href: "/achievements?category=arts",
     label: "Arts achievements",
   },
@@ -49,8 +46,7 @@ const STICKERS = [
     src: "/stickers/football.webp",
     w: 640,
     h: 556,
-    rotate: 16,
-    className: "left-[80%] bottom-[48%] w-[19%]",
+    size: 19,
     href: "/achievements?category=sports",
     label: "Sports achievements",
   },
@@ -160,7 +156,9 @@ export function Hero() {
           {/* On laptops this area takes whatever height is left in the card, and the sticker
               box inside shrinks to fit it, so the stickers are never cut off. */}
           <div className="relative mt-12 w-full sm:max-[899px]:mt-16 min-[900px]:mt-[clamp(0.5rem,3vh,2rem)] min-[900px]:min-h-0 min-[900px]:flex-1 min-[900px]:[container-type:size]">
-            <div className="relative mx-auto aspect-[800/300] w-full max-w-[800px] min-[900px]:absolute min-[900px]:bottom-0 min-[900px]:left-1/2 min-[900px]:w-[min(100cqw,800px,calc(100cqh*8/3))] min-[900px]:-translate-x-1/2">
+            {/* The box's left and right edges are the invisible walls: anything past them is
+                clipped, while the top and bottom stay open for the hover lift. */}
+            <div className="relative mx-auto aspect-[800/300] w-full max-w-[800px] [clip-path:inset(-60%_0_-30%_0)] min-[900px]:absolute min-[900px]:bottom-0 min-[900px]:left-1/2 min-[900px]:w-[min(100cqw,800px,calc(100cqh*8/3))] min-[900px]:-translate-x-1/2">
               <svg
                 viewBox="0 0 100 100"
                 preserveAspectRatio="none"
@@ -177,19 +175,7 @@ export function Hero() {
                   vectorEffect="non-scaling-stroke"
                 />
               </svg>
-              {STICKERS.map((s, i) => (
-                <HeroSticker
-                  key={s.src}
-                  src={s.src}
-                  width={s.w}
-                  height={s.h}
-                  href={s.href}
-                  label={s.label}
-                  rotate={s.rotate}
-                  className={s.className}
-                  delay={1.15 + i * 0.08}
-                />
-              ))}
+              <StickerOrbit stickers={STICKERS} />
             </div>
           </div>
         </div>

@@ -221,6 +221,10 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - The links go to Non-Technical, Technical, wins and awards, Arts, and Sports.
   - On phones and tablets they are only decoration.
   - The stickers on the left sit 1 cm higher than at first, so the curve rises gently.
+  - The stickers now drift along the curve in an endless loop, left to right. When the page opens they stay still for 1 second after the opening animation, then glide off smoothly.
+  - Invisible walls on the left and right: a sticker fades as it slides behind the right wall, then comes back out of the left wall.
+  - On laptops, putting the mouse on any sticker stops the loop. Moving the mouse away starts it again in the same direction.
+  - People who turn on "reduce motion" see the stickers standing still.
 - **Top bar (done):**
   - The same liquid glass as the CSI site: three floating glass pills that get thicker once you scroll.
   - On phones the menu unfolds like folded paper.
