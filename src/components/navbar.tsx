@@ -119,7 +119,7 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [collegeOpen, setCollegeOpen] = useState(false);
-  const sealRef = useRef<HTMLButtonElement>(null);
+  const sealRef = useRef<HTMLSpanElement>(null);
   const reduced = useReducedMotion();
   const pathname = usePathname();
   const items = itemsFor(viewer);
@@ -164,7 +164,6 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
         {/* Wordmark. The whole pill (seal and name) is one button that opens the college
             card, which grows out of the pill like a macOS window. Home stays in the nav. */}
         <button
-          ref={sealRef}
           type="button"
           onClick={() => setCollegeOpen(true)}
           aria-haspopup="dialog"
@@ -176,7 +175,9 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
             scrolled && "glass-solid",
           )}
         >
-          <span className="grid size-9 place-items-center rounded-full bg-white/90 ring-1 ring-black/8">
+          {/* The card zooms out of this seal (not the whole pill), as on the CSI site: starting
+              from a small target gives the macOS window its full, unhurried travel. */}
+          <span ref={sealRef} className="grid size-9 place-items-center rounded-full bg-white/90 ring-1 ring-black/8">
             <Image src="/brand/srmist-seal.png" alt="" width={244} height={238} priority className="size-7 object-contain" />
           </span>
           <span className="hidden text-[0.9375rem] leading-tight font-medium tracking-[-0.02em] text-[#0b0a0a] sm:block">
