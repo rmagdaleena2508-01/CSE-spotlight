@@ -45,7 +45,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "CSE Spotlight",
-  description: "Student achievements from the School of Computing, SRMIST VDP, checked by faculty.",
+  description: "Student achievements from the Dept. Of Computer Science & Engineering, SRMIST VDP, checked by faculty.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
