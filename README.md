@@ -231,9 +231,10 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
 - **Top bar (done):**
   - The same liquid glass as the CSI site: three floating glass pills that get thicker once you scroll.
   - On phones the menu unfolds like folded paper.
-  - The top left shows the full SRM Vadapalani logo (seal, "SRM" and "Vadapalani") on a small white chip, on laptops and phones. The college card shows the same full logo, with its white background removed so it sits on the cream card.
+  - The top left shows the full SRM Vadapalani logo (seal, "SRM" and "Vadapalani") on a small white chip, on laptops and phones.
+  - The college card shows the same full logo. Its white background is removed, so it sits cleanly on the cream card.
   - The whole "CSE Spotlight" pill at the top left is one button. It opens the same college card as the CSI site, linking to srmistvdp.edu.in.
-  - The card grows out of the small seal like a Mac window, at the same pace as the CSI site.
+  - The card grows out of the small logo chip like a Mac window, at the same pace as the CSI site.
   - Closing it breaks the card into pixels, starting from the top-left corner.
   - A soft blur fades in at the top of the page while you scroll, and is off at the very top.
 - **Opening animation (done):**
