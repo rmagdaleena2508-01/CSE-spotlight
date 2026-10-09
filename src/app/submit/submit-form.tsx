@@ -127,7 +127,7 @@ function FilePicker({
               <span className="flex shrink-0 items-center gap-1">
                 {pickMain &&
                   (i === 0 ? (
-                    <span className="inline-flex items-center gap-1 text-xs font-medium text-primary">
+                    <span className="inline-flex items-center gap-1 text-xs font-medium text-foreground">
                       <Star className="size-3.5 fill-current" aria-hidden /> Main photo
                     </span>
                   ) : (

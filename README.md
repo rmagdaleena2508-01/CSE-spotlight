@@ -203,9 +203,11 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - Exactly one certificate is required. Photos are optional, up to 5, and students pick a main photo.
   - Every box shows light example text that disappears when you type.
 - **Look and feel (done):**
-  - The site follows HackerRank Campus Crew (notes in `docs/DESIGN_NOTES.md`): a black page, one lime colour for buttons, Satoshi for text, and pixel-style headings.
-  - The header is a dark bar with a white pill button.
-  - Achievement cards look like stickers, with a thick white frame.
+  - Every page now uses the home page's look: white with a faint grid, like graph paper, and black text. (It started out black, like HackerRank Campus Crew; notes in `docs/DESIGN_NOTES.md`.)
+  - One lime colour for the main buttons, Satoshi for text, and pixel-style headings.
+  - The top bar is liquid glass pills (see Top bar below).
+  - Achievement cards look like stickers, with a white frame and a soft shadow so they stand out on the white page.
+  - Every button and tab lifts toward you with a soft shadow when the mouse is on it, and settles back when the mouse leaves. On phones there is no hover, so buttons just press.
   - Each category row shows its own sticker.
 - **Hero (done):**
   - A white grid background, a separate white card on top, and a warm sunshine glow around it.

@@ -61,7 +61,7 @@ export default async function AchievementPage({ params }: PageProps<"/achievemen
           {a.cash_prize ? ` · ${rupees(a.cash_prize)}` : ""}
         </span>
         {a.is_verified ? (
-          <span className="inline-flex items-center gap-1 font-medium text-primary">
+          <span className="inline-flex items-center gap-1 font-medium text-foreground">
             <BadgeCheck className="size-4" aria-hidden /> Faculty verified
           </span>
         ) : (

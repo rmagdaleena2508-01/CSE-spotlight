@@ -16,11 +16,11 @@ export function AchievementCard({ a, className }: { a: PublicCard; className?: s
     <Link
       href={`/achievements/${a.id}`}
       className={cn(
-        "group flex flex-col rounded-[22px] bg-white p-2.5 text-[#080809] transition-transform duration-200 hover:-translate-y-1 hover:-rotate-1 focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-none motion-reduce:transition-none motion-reduce:hover:transform-none",
+        "group flex flex-col rounded-[22px] bg-white p-2.5 text-[#080809] shadow-[0_0_0_1px_rgb(0_0_0/0.08),0_10px_28px_-14px_rgb(0_0_0/0.3)] transition-transform duration-200 hover:-translate-y-1 hover:-rotate-1 focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-none motion-reduce:transition-none motion-reduce:hover:transform-none",
         className,
       )}
     >
-      <div className="relative aspect-[4/3] overflow-hidden rounded-[14px] bg-neutral-900">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-[14px] bg-neutral-100">
         {photo ? (
           <Image
             src={photoUrl(photo)}

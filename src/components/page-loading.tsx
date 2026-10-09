@@ -14,18 +14,18 @@ export function PageLoading({ label = "Loading" }: { label?: string }) {
       >
         <span className="sr-only">{label}…</span>
         <div aria-hidden className="motion-safe:animate-pulse">
-          <div className="h-8 w-2/3 max-w-xs rounded-lg bg-white/10" />
-          <div className="mt-3 h-4 w-5/6 max-w-md rounded bg-white/[0.07]" />
+          <div className="h-8 w-2/3 max-w-xs rounded-lg bg-black/[0.07]" />
+          <div className="mt-3 h-4 w-5/6 max-w-md rounded bg-black/[0.05]" />
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[0, 1, 2].map((i) => (
               <div
                 key={i}
-                className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04]"
+                className="overflow-hidden rounded-2xl border border-black/[0.08] bg-white"
               >
-                <div className="aspect-[4/3] bg-white/[0.06]" />
+                <div className="aspect-[4/3] bg-black/[0.05]" />
                 <div className="space-y-2 p-4">
-                  <div className="h-4 w-3/4 rounded bg-white/10" />
-                  <div className="h-3 w-1/2 rounded bg-white/[0.07]" />
+                  <div className="h-4 w-3/4 rounded bg-black/[0.07]" />
+                  <div className="h-3 w-1/2 rounded bg-black/[0.05]" />
                 </div>
               </div>
             ))}

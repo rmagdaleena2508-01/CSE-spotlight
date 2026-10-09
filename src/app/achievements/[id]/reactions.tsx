@@ -11,7 +11,7 @@ type Kind = "like" | "heart" | "fire";
 type State = { mine: Kind | null; counts: Record<Kind, number> };
 
 const BUTTONS: { kind: Kind; label: string; icon: typeof Heart; on: string }[] = [
-  { kind: "like", label: "Like", icon: ThumbsUp, on: "border-primary bg-primary/10 text-primary" },
+  { kind: "like", label: "Like", icon: ThumbsUp, on: "border-primary bg-primary text-primary-foreground" },
   { kind: "heart", label: "Heart", icon: Heart, on: "border-rose-500 bg-rose-50 text-rose-600 dark:bg-rose-950 dark:text-rose-300" },
   { kind: "fire", label: "Fire", icon: Flame, on: "border-orange-500 bg-orange-50 text-orange-600 dark:bg-orange-950 dark:text-orange-300" },
 ];
@@ -47,8 +47,8 @@ export function Reactions({ id, initial, canReact }: { id: string; initial: Stat
               })
             }
             className={cn(
-              "inline-flex h-11 min-w-20 items-center justify-center gap-1.5 rounded-full border bg-card px-4 text-sm font-medium transition-colors disabled:cursor-default",
-              canReact && "hover:bg-muted",
+              "inline-flex h-11 min-w-20 items-center justify-center gap-1.5 rounded-full border bg-card px-4 text-sm font-medium disabled:cursor-default",
+              canReact && "lift hover:bg-muted",
               active && on,
             )}
           >
@@ -58,7 +58,7 @@ export function Reactions({ id, initial, canReact }: { id: string; initial: Stat
         );
       })}
       {!canReact && (
-        <Link href="/login" className="text-sm text-primary underline-offset-4 hover:underline">
+        <Link href="/login" className="text-sm text-foreground underline decoration-black/25 underline-offset-4 hover:underline">
           Log in as a student to react
         </Link>
       )}

@@ -12,11 +12,8 @@ import { firstLogin, facultyLogin, studentLogin, type FormState } from "./action
 // Secondary action with the same smooth lift as the hero buttons: it rises and a soft
 // shadow spreads beneath on hover, eased over half a second; it sinks a touch when pressed.
 const LIFT_LINK =
-  "mt-1 inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full text-sm font-medium text-foreground " +
-  "shadow-[inset_0_0_0_1px_rgb(255_255_255/0.2)] transition-[translate,scale,box-shadow,background-color] duration-500 " +
-  "ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-white/5 " +
-  "hover:shadow-[inset_0_0_0_1px_rgb(255_255_255/0.35),0_14px_28px_-14px_rgb(0_0_0/0.8)] active:translate-y-0 " +
-  "active:scale-[0.98] active:duration-150 motion-reduce:transition-none";
+  "lift mt-1 inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full bg-white text-sm font-medium text-foreground " +
+  "shadow-[inset_0_0_0_1px_rgb(0_0_0/0.18)]";
 
 function FormError({ state }: { state: FormState }) {
   if (!state?.error) return null;

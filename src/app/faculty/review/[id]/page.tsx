@@ -99,7 +99,7 @@ export default async function ReviewPostPage({ params }: PageProps<"/faculty/rev
           {a.proof_url && (
             <p className="mt-4 text-sm">
               Proof link:{" "}
-              <a href={a.proof_url} target="_blank" rel="noopener noreferrer nofollow" className="break-all text-primary underline-offset-4 hover:underline">
+              <a href={a.proof_url} target="_blank" rel="noopener noreferrer nofollow" className="break-all text-foreground underline decoration-black/25 underline-offset-4 hover:underline">
                 {a.proof_url}
               </a>
             </p>
@@ -126,7 +126,7 @@ export default async function ReviewPostPage({ params }: PageProps<"/faculty/rev
                     href={c.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1 border-t px-3 py-2 text-sm text-primary hover:bg-muted"
+                    className="flex items-center gap-1 border-t px-3 py-2 text-sm text-foreground underline decoration-black/25 hover:bg-muted"
                   >
                     <FileText className="size-4" aria-hidden /> Open certificate {i + 1} in a new tab
                   </a>

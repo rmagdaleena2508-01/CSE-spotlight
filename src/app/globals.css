@@ -2,8 +2,9 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-/* The site is always dark (Campus Crew style), so every dark: style always applies. */
-@custom-variant dark (&);
+/* The site is light everywhere (white with a faint grid, like the home hero). Nothing
+   carries a .dark class, so the UI kit's dark: styles never apply. */
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
   --color-background: var(--background);
@@ -51,43 +52,44 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* Always black, like HackerRank Campus Crew: near-black page, one lime accent. */
+/* Light, like the home hero: white page with a faint grid, black text, and the one
+   lime accent for the main actions. */
 :root {
-  color-scheme: dark;
-  --background: #0b0a0a;
-  --foreground: #ffffff;
-  --card: #141419;
-  --card-foreground: #ffffff;
-  --popover: #141419;
-  --popover-foreground: #ffffff;
+  color-scheme: light;
+  --background: #ffffff;
+  --foreground: #0b0a0a;
+  --card: #ffffff;
+  --card-foreground: #0b0a0a;
+  --popover: #ffffff;
+  --popover-foreground: #0b0a0a;
   --primary: #aef96c;
   --primary-foreground: #080809;
-  --secondary: #1c1c22;
-  --secondary-foreground: #ffffff;
-  --muted: #1c1c22;
-  --muted-foreground: #a1a1aa;
-  --accent: #1c1c22;
-  --accent-foreground: #ffffff;
-  --destructive: #f87171;
-  --border: #2a2a31;
-  --input: #34343c;
-  --ring: #aef96c;
+  --secondary: #f4f3f0;
+  --secondary-foreground: #0b0a0a;
+  --muted: #f4f3f0;
+  --muted-foreground: #5f5d5a;
+  --accent: #f4f3f0;
+  --accent-foreground: #0b0a0a;
+  --destructive: #dc2626;
+  --border: #e4e2dd;
+  --input: #d6d3cd;
+  --ring: #0b0a0a;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
   --radius: 0.5rem;
-  --gold: #fbbf24;
-  --gold-soft: #3a2a08;
-  --sidebar: #141419;
-  --sidebar-foreground: #ffffff;
+  --gold: #a16207;
+  --gold-soft: #fef3c7;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0b0a0a;
   --sidebar-primary: #aef96c;
   --sidebar-primary-foreground: #080809;
-  --sidebar-accent: #1c1c22;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #2a2a31;
-  --sidebar-ring: #aef96c;
+  --sidebar-accent: #f4f3f0;
+  --sidebar-accent-foreground: #0b0a0a;
+  --sidebar-border: #e4e2dd;
+  --sidebar-ring: #0b0a0a;
 }
 
 
@@ -97,6 +99,12 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* The same faint 48px grid as the home hero, on every page, like graph paper. */
+    background-image:
+      linear-gradient(rgb(0 0 0 / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(0 0 0 / 0.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-position: center top;
   }
   html {
     @apply font-sans;
@@ -113,6 +121,36 @@
 @utility font-display {
   font-family: var(--font-pixel), ui-monospace, monospace;
   font-weight: 400;
+}
+
+/* Lift: every button rises toward you and casts a soft shadow on hover, then settles
+   back when the pointer leaves, eased over half a second like the hero buttons. Pressing
+   sinks it a touch. Only on devices with a real hover, and off for reduced motion.
+   The shadow is a drop-shadow filter, so it never replaces a button's own border or ring. */
+@utility lift {
+  transition-property: translate, scale, filter, background-color, color, border-color, opacity;
+  transition-duration: 500ms;
+  transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+  @media (hover: hover) {
+    &:hover {
+      translate: 0 -3px;
+      scale: 1.04;
+      filter: drop-shadow(0 12px 14px rgb(0 0 0 / 0.2));
+    }
+  }
+  &:active {
+    translate: 0 0;
+    scale: 0.98;
+    transition-duration: 150ms;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition-property: background-color, color, border-color, opacity;
+    &:hover,
+    &:active {
+      translate: none;
+      scale: none;
+    }
+  }
 }
 
 /* Slow spin for the round badge, off for people who reduce motion. */
@@ -156,6 +194,8 @@
   /* scale is listed so pills that grow on hover or press do it smoothly, not in a jump. */
   transition:
     scale 0.5s var(--ease-editorial),
+    translate 0.5s var(--ease-editorial),
+    filter 0.5s var(--ease-editorial),
     background-color 0.5s var(--ease-editorial),
     border-color 0.5s var(--ease-editorial),
     box-shadow 0.5s var(--ease-editorial);

@@ -61,7 +61,7 @@ export default async function ReviewPage({ searchParams }: PageProps<"/faculty/r
             href={link({ status: t.value })}
             aria-current={status === t.value ? "page" : undefined}
             className={cn(
-              "rounded-full border px-4 py-1.5 text-sm font-medium",
+              "lift rounded-full border px-4 py-1.5 text-sm font-medium",
               status === t.value ? "border-primary bg-primary text-primary-foreground" : "bg-card hover:bg-muted",
             )}
           >
@@ -71,14 +71,14 @@ export default async function ReviewPage({ searchParams }: PageProps<"/faculty/r
       </nav>
 
       <div className="mt-3 flex flex-wrap gap-2 text-sm">
-        <Link href={link({ category: "" })} className={cn("rounded-md px-2 py-1", !category ? "bg-muted font-medium" : "text-muted-foreground hover:text-foreground")}>
+        <Link href={link({ category: "" })} className={cn("lift rounded-md px-2 py-1", !category ? "bg-muted font-medium" : "text-muted-foreground hover:text-foreground")}>
           All categories
         </Link>
         {CATEGORIES.map((c) => (
           <Link
             key={c.value}
             href={link({ category: c.value })}
-            className={cn("rounded-md px-2 py-1", category === c.value ? "bg-muted font-medium" : "text-muted-foreground hover:text-foreground")}
+            className={cn("lift rounded-md px-2 py-1", category === c.value ? "bg-muted font-medium" : "text-muted-foreground hover:text-foreground")}
           >
             {c.label}
           </Link>

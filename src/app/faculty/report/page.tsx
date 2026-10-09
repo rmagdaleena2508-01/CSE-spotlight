@@ -76,7 +76,7 @@ export default async function ReportPage({ searchParams }: PageProps<"/faculty/r
       {rows.length === 0 ? (
         <p className="mt-4 rounded-xl border border-dashed bg-card p-8 text-center text-muted-foreground">
           No verified achievements in this period yet. Verify posts on the{" "}
-          <Link href="/faculty/review" className="text-primary underline-offset-4 hover:underline">
+          <Link href="/faculty/review" className="text-foreground underline decoration-black/25 underline-offset-4 hover:underline">
             review page
           </Link>{" "}
           first.

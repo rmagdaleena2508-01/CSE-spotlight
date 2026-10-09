@@ -203,7 +203,7 @@ export function CollegeCard({
                   type="button"
                   onClick={requestClose}
                   aria-label="Close"
-                  className="absolute top-4 right-4 z-10 grid size-8 place-items-center rounded-full bg-black/6 text-black/70 transition-colors duration-300 hover:bg-black/12 hover:text-black"
+                  className="absolute top-4 right-4 z-10 lift grid size-8 place-items-center rounded-full bg-black/6 text-black/70 hover:bg-black/12 hover:text-black"
                 >
                   <X size={16} strokeWidth={1.8} aria-hidden />
                 </button>

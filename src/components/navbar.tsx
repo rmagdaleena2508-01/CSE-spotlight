@@ -171,7 +171,7 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
           aria-label="About SRMIST Vadapalani"
           className={cn(
             GLASS,
-            "group flex items-center gap-2.5 rounded-full p-1.5 text-left transition-[scale,background-color,border-color,box-shadow] duration-500 ease-[var(--ease-editorial)] hover:scale-[1.02] active:scale-[0.985] active:duration-200 sm:pr-4 motion-reduce:hover:scale-100",
+            "lift group flex items-center gap-2.5 rounded-full p-1.5 text-left sm:pr-4",
             scrolled && "glass-solid",
           )}
         >
@@ -210,7 +210,7 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "rounded-full px-4 py-2 text-[0.875rem] tracking-[-0.01em] transition-colors duration-300",
+                  "lift rounded-full px-4 py-2 text-[0.875rem] tracking-[-0.01em]",
                   active ? "bg-[#0b0a0a] text-[#fcf9f4]" : "text-black/75 hover:bg-black/6 hover:text-black",
                 )}
               >
@@ -228,7 +228,7 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
                 type="submit"
                 className={cn(
                   GLASS,
-                  "inline-flex h-11 items-center gap-2 rounded-full px-4 text-[0.875rem] tracking-[-0.01em] text-[#0b0a0a]",
+                  "lift inline-flex h-11 items-center gap-2 rounded-full px-4 text-[0.875rem] tracking-[-0.01em] text-[#0b0a0a]",
                   scrolled && "glass-solid",
                 )}
               >
@@ -239,7 +239,7 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
           {cta && (
             <Link
               href={cta.href}
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-[14px] bg-[#0b0a0a] px-4 text-[0.875rem] font-medium tracking-[-0.01em] whitespace-nowrap text-[#fcf9f4] ring-1 ring-white/25 shadow-[0_1px_2px_rgb(10_10_12/0.06),0_8px_24px_-12px_rgb(10_10_12/0.5)] transition-colors duration-300 hover:bg-black/80 sm:px-5"
+              className="lift inline-flex h-11 items-center justify-center gap-2 rounded-[14px] bg-[#0b0a0a] px-4 text-[0.875rem] font-medium tracking-[-0.01em] whitespace-nowrap text-[#fcf9f4] ring-1 ring-white/25 shadow-[0_1px_2px_rgb(10_10_12/0.06),0_8px_24px_-12px_rgb(10_10_12/0.5)] hover:bg-black/80 sm:px-5"
             >
               {cta.label}
               <ArrowRight className="hidden size-4 sm:block" strokeWidth={1.7} aria-hidden />
@@ -253,7 +253,7 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
             aria-label={open ? "Close menu" : "Open menu"}
             className={cn(
               GLASS,
-              "glass-orb grid size-11 place-items-center rounded-full text-[#0b0a0a] transition-[scale,background-color,border-color,box-shadow] duration-500 ease-[var(--ease-editorial)] active:scale-95 active:duration-200 lg:hidden",
+              "glass-orb lift grid size-11 place-items-center rounded-full text-[#0b0a0a] lg:hidden",
               scrolled && "glass-solid",
             )}
           >
@@ -295,7 +295,7 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
                     onClick={() => requestAnimationFrame(() => setOpen(false))}
                     aria-current={isActive(item.href) ? "page" : undefined}
                     className={cn(
-                      "block rounded-[14px] px-4 py-3.5 text-xl tracking-[-0.02em] transition-colors",
+                      "lift block rounded-[14px] px-4 py-3.5 text-xl tracking-[-0.02em]",
                       isActive(item.href) ? "bg-[#0b0a0a] text-[#fcf9f4]" : "text-[#0b0a0a] hover:bg-white/45",
                     )}
                   >
@@ -309,7 +309,7 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
                     <form action={logout} className="flex-1">
                       <button
                         type="submit"
-                        className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-[14px] bg-white/45 px-4 text-[0.9375rem] text-[#0b0a0a] ring-1 ring-white/60 transition-colors hover:bg-white/70"
+                        className="lift inline-flex h-12 w-full items-center justify-center gap-2 rounded-[14px] bg-white/45 px-4 text-[0.9375rem] text-[#0b0a0a] ring-1 ring-white/60 hover:bg-white/70"
                       >
                         <LogOut size={16} strokeWidth={1.6} aria-hidden /> Log out
                       </button>
@@ -318,7 +318,7 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
                     <Link
                       href="/login"
                       onClick={() => requestAnimationFrame(() => setOpen(false))}
-                      className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-[14px] bg-white/45 px-4 text-[0.9375rem] text-[#0b0a0a] ring-1 ring-white/60 transition-colors hover:bg-white/70"
+                      className="lift inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-[14px] bg-white/45 px-4 text-[0.9375rem] text-[#0b0a0a] ring-1 ring-white/60 hover:bg-white/70"
                     >
                       Log in
                     </Link>
