@@ -23,7 +23,7 @@ const CARD_GRID =
 export function Hero({ semesterLabel }: { semesterLabel: string }) {
   return (
     // Outer layer: white with a faint grid.
-    <div className={cn("relative isolate overflow-hidden bg-white px-3 pt-6 pb-10 sm:px-8 sm:pt-12 sm:pb-16", OUTER_GRID)}>
+    <div className={cn("relative isolate overflow-hidden -mt-[76px] bg-white px-3 pt-[100px] pb-10 sm:-mt-[84px] sm:px-8 sm:pt-[124px] sm:pb-16", OUTER_GRID)}>
       {/* Sunshine around the card: warm, blurred light pooling at the corners and edges. */}
       <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
         <div className="absolute top-[-12%] left-[-6%] h-[70%] w-[55%] rounded-full bg-[radial-gradient(closest-side,rgb(255_214_102/0.75),rgb(255_183_77/0.35)_45%,transparent)] blur-3xl" />

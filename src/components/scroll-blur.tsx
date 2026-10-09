@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
-// Progressive blur under the header: content softens more the closer it gets to the top.
+// Progressive blur at the top, behind the floating glass header: content softens more
+// the closer it gets to the top edge.
 // Built from stacked backdrop-blur layers, each masked to its own band, so the blur
 // grows in steps (strongest at the top, none at the bottom edge).
 // It only shows once the page has been scrolled; at the very top there is no blur.
@@ -30,7 +31,7 @@ export function ScrollBlur() {
     <div
       aria-hidden
       className={cn(
-        "pointer-events-none fixed inset-x-0 top-[72px] z-40 h-16 transition-opacity duration-200 sm:h-20",
+        "pointer-events-none fixed inset-x-0 top-0 z-40 h-24 transition-opacity duration-200 sm:h-28",
         scrolled ? "opacity-100" : "opacity-0",
       )}
     >

@@ -53,7 +53,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col">
         <SiteHeader />
         <ScrollBlur />
-        <div className="flex-1">{children}</div>
+        {/* The header floats over the page, so content starts below it. */}
+        <div className="flex-1 pt-[76px] sm:pt-[84px]">{children}</div>
         <Toaster />
       </body>
     </html>
