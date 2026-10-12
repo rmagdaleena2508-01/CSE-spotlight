@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react";
-import { ArrowRight, LogOut, Menu, X } from "lucide-react";
+import { ArrowRight, Bell, LogOut, Menu, X } from "lucide-react";
 import { logout } from "@/app/login/actions";
 import { CollegeCard } from "@/components/college-card";
 import { cn } from "@/lib/utils";
@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 // over a transparent header, glass that thickens once the page scrolls, and a
 // mobile menu that unfolds like a strip of folded paper.
 
-export type NavViewer = { kind: "student" | "faculty"; name: string } | null;
+export type NavViewer = { kind: "student" | "faculty"; name: string; unread?: number } | null;
 
 type Item = { href: string; label: string };
 
@@ -223,6 +223,28 @@ export function Navbar({ viewer }: { viewer: NavViewer }) {
 
         {/* Action + mobile trigger */}
         <div className="flex items-center gap-1.5">
+          {/* The bell: a student's notifications, with a green count of the unread ones. */}
+          {viewer?.kind === "student" && (
+            <Link
+              href="/notifications"
+              aria-label={viewer.unread ? `Notifications, ${viewer.unread} unread` : "Notifications"}
+              className={cn(
+                GLASS,
+                "glass-orb lift relative grid size-11 place-items-center rounded-full text-[#0b0a0a]",
+                scrolled && "glass-solid",
+              )}
+            >
+              <Bell className="size-[1.15rem]" strokeWidth={1.7} aria-hidden />
+              {!!viewer.unread && (
+                <span
+                  aria-hidden
+                  className="absolute -top-1 -right-1 grid h-5 min-w-5 place-items-center rounded-full bg-emerald-600 px-1 text-[0.6875rem] font-semibold text-white ring-2 ring-white"
+                >
+                  {viewer.unread > 9 ? "9+" : viewer.unread}
+                </span>
+              )}
+            </Link>
+          )}
           {viewer && (
             <form action={logout} className="hidden lg:block">
               <button

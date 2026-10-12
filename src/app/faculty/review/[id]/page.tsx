@@ -13,9 +13,10 @@ export const metadata: Metadata = { title: "Check post · CSE Spotlight" };
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-export default async function ReviewPostPage({ params }: PageProps<"/faculty/review/[id]">) {
+export default async function ReviewPostPage({ params, searchParams }: PageProps<"/faculty/review/[id]">) {
   await requireFaculty();
   const { id } = await params;
+  const { edited } = await searchParams;
   if (!UUID.test(id)) notFound();
 
   const supabase = await createClient();
@@ -49,6 +50,11 @@ export default async function ReviewPostPage({ params }: PageProps<"/faculty/rev
         <ReviewActions id={a.id} status={a.status} studentName={a.student_name} />
       </div>
 
+      {edited && (
+        <p role="status" className="mt-4 rounded-lg border border-emerald-500/40 bg-emerald-50 p-3 text-sm">
+          Saved. The student has a notification listing what you changed.
+        </p>
+      )}
       {a.status === "removed" && (
         <p className="mt-4 rounded-lg border border-destructive/30 bg-destructive/5 p-3 text-sm">
           Removed on {new Date(a.removed_at).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}. Reason: {a.remove_reason}

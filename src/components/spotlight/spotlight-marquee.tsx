@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { BadgeCheck, Heart, PartyPopper } from "lucide-react";
+import { BadgeCheck } from "lucide-react";
 import { CATEGORY_STICKER } from "@/lib/category-stickers";
 import { categoryLabel, resultLabel } from "@/lib/labels";
 import { photoUrl } from "@/lib/photos";
@@ -69,51 +69,51 @@ function Card({ post, signedIn, tabbable }: { post: SpotlightPost; signedIn: boo
   // The full post is for people who are logged in; everyone else is asked to log in first.
   const href = signedIn ? detail : `/login?reason=more&next=${encodeURIComponent(detail)}`;
 
+  // Layout follows the calm "story card" pattern of big product sites: the same
+  // padding on every side, a square picture as tall as the text, and the text in
+  // three bands (group on top, title and name in the middle, result at the bottom)
+  // spread evenly so nothing bunches up in the center.
   return (
     <Link
       href={href}
       tabIndex={tabbable ? undefined : -1}
       aria-label={`${post.event_name}, ${displayName(post.student_name)}${signedIn ? "" : ". Log in to read the full post"}`}
-      className="lift flex w-[17.5rem] items-center gap-3 rounded-2xl bg-white p-2.5 pr-4 shadow-[0_0_0_1px_rgb(0_0_0/0.07),0_10px_26px_-16px_rgb(0_0_0/0.35)] sm:w-[20rem]"
+      className="lift flex w-[18.5rem] items-stretch gap-3.5 rounded-2xl bg-white p-4 shadow-[0_0_0_1px_rgb(0_0_0/0.07),0_10px_26px_-16px_rgb(0_0_0/0.35)] sm:w-[22rem] sm:gap-4 sm:p-5"
     >
       <span
         className={cn(
-          "relative grid size-16 shrink-0 place-items-center overflow-hidden rounded-xl sm:size-[4.5rem]",
+          "relative grid size-24 shrink-0 place-items-center overflow-hidden rounded-xl sm:size-[6.5rem]",
           post.category === "technical" ? "bg-sky-100" : "bg-violet-100",
         )}
       >
         {photo ? (
-          <Image src={photoUrl(photo)} alt="" fill sizes="72px" className="object-cover" />
+          <Image src={photoUrl(photo)} alt="" fill sizes="104px" className="object-cover" />
         ) : (
           sticker && <Image src={sticker.src} alt="" width={sticker.w} height={sticker.h} className="w-3/4 -rotate-6" />
         )}
       </span>
-      <span className="min-w-0 flex-1">
-        <span className="block text-[0.6875rem] font-semibold tracking-[0.1em] text-muted-foreground uppercase">
+      <span className="flex min-w-0 flex-1 flex-col justify-between py-0.5">
+        <span className="block text-[0.6875rem] leading-none font-semibold tracking-[0.1em] text-muted-foreground uppercase">
           {categoryLabel(post.category)}
         </span>
-        <span className="mt-0.5 block truncate font-[family-name:var(--font-headline)] text-[1.05rem] leading-snug">
-          {post.event_name}
+        <span className="block">
+          <span className="block truncate font-[family-name:var(--font-headline)] text-[1.1rem] leading-tight">
+            {post.event_name}
+          </span>
+          <span className="mt-1 block truncate text-sm leading-tight text-muted-foreground">
+            {displayName(post.student_name)}
+          </span>
         </span>
-        <span className="block truncate text-sm text-muted-foreground">{displayName(post.student_name)}</span>
-        <span className="mt-1.5 flex items-center gap-2 text-xs">
+        <span className="flex items-center gap-2 text-xs">
           <span
             className={cn(
-              "rounded-full px-2 py-0.5 font-semibold",
+              "rounded-full px-2.5 py-0.5 font-semibold",
               isAward ? "bg-[#fbbf24] text-[#080809]" : "bg-muted text-foreground",
             )}
           >
             {resultLabel(post)}
           </span>
           {post.is_verified && <BadgeCheck className="size-4 text-emerald-600" aria-label="Faculty verified" />}
-          {post.celebrate_count + post.heart_count > 0 && (
-            <span className="ml-auto inline-flex items-center gap-1.5 text-muted-foreground">
-              <PartyPopper className="size-3.5" aria-hidden />
-              {post.celebrate_count}
-              <Heart className="size-3.5" aria-hidden />
-              {post.heart_count}
-            </span>
-          )}
         </span>
       </span>
     </Link>

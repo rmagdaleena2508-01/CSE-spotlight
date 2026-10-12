@@ -15,6 +15,7 @@ A website to show what our students win and do.
 - Pick a group: Technical or Non-Technical.
 - Delete your own post from My posts if you want to. It asks first.
 - Change your password any time. You type your current one first.
+- Tap the bell at the top to see your notifications. The green number shows how many you have not read yet.
 
 ## Everyone
 
@@ -26,6 +27,7 @@ A website to show what our students win and do.
 
 - Check each post and mark it as true.
 - Take down posts that are wrong.
+- Fix mistakes in a post with the Edit button. The student gets a notification saying what changed.
 - Make a newsletter PDF in one click.
 - Get an email with the class list each time a student signs up.
 
@@ -306,6 +308,13 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - The current password is checked on a separate connection, so your login is not touched.
   - Passwords are only sent inside the form, never in the web address, never written to logs, and never sent back to the page. Supabase keeps only a scrambled copy (a hash).
   - After a change, every other device that was logged in gets logged out.
+- **Spotlight cards (done):** each card is about 1 cm taller and no longer shows cheers. The picture is bigger and as tall as the text. The text sits in three rows spread evenly from top to bottom: the group, then the title and name, then the result. Every side has the same padding, so nothing is crowded in the middle.
+- **Faculty can fix posts (done):** on a post's review page, faculty tap Edit, fix any field, and can add a short note. The server checks the person is faculty, checks the new details with the same rules as the submit form, and saves only if something really changed.
+- **Notifications (done):**
+  - When faculty edit a post, the student who posted it gets a notification. It names the faculty member, lists the fields that changed, and shows the note.
+  - A bell sits at the top for students, with a green number for unread ones.
+  - On the notifications page, unread ones are bright green and bold. Read ones are soft green. Tapping one marks it read and opens the post. There is a "Mark all as read" button too.
+  - Only the server can make a notification. A student can see and mark only their own.
 - **Still to do:** students editing a post while it waits, going online on Vercel, the faculty guide, and the final test.
 
 </details>

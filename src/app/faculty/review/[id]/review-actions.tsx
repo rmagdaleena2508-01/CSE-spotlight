@@ -2,9 +2,10 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { BadgeCheck, Trash2 } from "lucide-react";
+import Link from "next/link";
+import { BadgeCheck, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -30,6 +31,9 @@ export function ReviewActions({ id, status, studentName }: { id: string; status:
 
   return (
     <div className="flex flex-wrap gap-2">
+      <Link href={`/faculty/review/${id}/edit`} className={buttonVariants({ size: "lg", variant: "outline" })}>
+        <Pencil aria-hidden /> Edit
+      </Link>
       {status === "live" && (
         <Button
           size="lg"
