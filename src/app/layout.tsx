@@ -3,6 +3,7 @@ import { Fraunces, Geist_Mono, Pixelify_Sans, Young_Serif } from "next/font/goog
 import localFont from "next/font/local";
 import { ArrivalMarker } from "@/components/arrival-marker";
 import { ScrollBlur } from "@/components/scroll-blur";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
@@ -65,6 +66,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <ScrollBlur />
         {/* The header floats over the page, so content starts below it. */}
         <div className="flex-1 pt-[76px] sm:pt-[84px]">{children}</div>
+        <SiteFooter />
         <Toaster />
         <ArrivalMarker />
       </body>
