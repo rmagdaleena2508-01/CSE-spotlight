@@ -221,7 +221,7 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
 - **Stickers (done):**
   - Stickers sit on a curved path, like planets on an orbit, in this order: certificate, cap, trophy, palette, football, medal.
   - On laptops each one is a link. On hover it tilts toward the mouse, lifts off the page, and casts a soft shadow, following Motion's tilt card.
-  - The links go to Non-Technical, Technical, wins and awards, Arts, and Sports.
+  - The links go to Non-Technical, Technical, wins and awards, Student Spotlight (palette), and all achievements (football and medal).
   - On phones and tablets they are only decoration.
   - The stickers on the left sit 1 cm higher than at first, so the curve rises gently.
   - The stickers now drift along the curve in an endless loop, left to right. When the page opens they stay still for 1 second after the opening animation, then glide off smoothly.
