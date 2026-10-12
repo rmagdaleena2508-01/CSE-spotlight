@@ -17,7 +17,8 @@ A website to show what our students win and do.
 ## Everyone
 
 - See all the wins, sorted by group.
-- Tap Like, Heart, or Fire.
+- Swipe through the Student Spotlight cards.
+- Tap Celebrate or Heart, and see who else cheered.
 
 ## Teachers
 
@@ -140,10 +141,10 @@ Day 2 builds what everyone sees, plus the faculty review page. By the end, the s
 
 When someone picks filters, the page address in the browser changes to match them. Copying that address copies the filtered view.
 
-Example: your professor wants to show the HOD all the national-level Sports wins from September.
+Example: your professor wants to show the HOD all the national-level Technical wins from September.
 
-1. She opens the achievements page and picks Sports, Won, National and September.
-2. The address bar changes to something like: `cse-spotlight.app/achievements?category=sports&result=award&level=national&month=2026-09`
+1. She opens the achievements page and picks Technical, Won, National and September.
+2. The address bar changes to something like: `cse-spotlight.app/achievements?category=technical&result=award&level=national&month=2026-09`
 3. She copies that link and sends it on WhatsApp.
 4. The HOD opens it and sees the same filtered list straight away, without picking anything.
 
