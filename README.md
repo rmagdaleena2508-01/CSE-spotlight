@@ -29,6 +29,7 @@ A website to show what our students win and do.
 - Check each post and mark it as true.
 - Take down posts that are wrong.
 - Fix mistakes in a post with the Edit button. The student gets a notification saying what changed.
+- Delete any post for good, at any time, even after the student's 2 months are over. The student gets a notification with the reason.
 - Make a newsletter PDF in one click.
 - Get an email with the class list each time a student signs up.
 
@@ -322,6 +323,11 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - **Why this rule:** I chose the 2 month limit so nobody can change their data later on. Once a post is old, or faculty have checked it, it stays the way it is. If something is still wrong, a faculty member can fix it, and the student is told.
   - The edit page uses the same form and the same checks as the faculty Edit page. Photos and the certificate are not changed there.
   - The database checks the same rules again, so a student cannot get around them by skipping the page. A student can only ever edit their own posts.
+- **Faculty can delete any post for good (done):** the 2 month limit is only for students. Faculty can still delete a post at any time, however old it is and whether it is live, verified or removed.
+  - On a post's review page, faculty tap **Delete for good** and write a short reason. It asks first, because a deleted post cannot be brought back.
+  - The post, its certificate, its photos and its cheers are all deleted.
+  - The student gets a notification under the bell that says which post was deleted, who deleted it, and why.
+  - **Remove** is still there too. It hides a post but keeps it, so the student can see the reason on their page. **Delete for good** wipes it completely.
 - **Still to do:** going online on Vercel, the faculty guide, and the final test.
 
 </details>
