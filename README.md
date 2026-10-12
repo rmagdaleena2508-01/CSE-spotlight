@@ -13,6 +13,7 @@ A website to show what our students win and do.
 - After that, log in with your roll number and password.
 - Add your event, date, prize, and photos.
 - Pick a group: Technical or Non-Technical.
+- Edit your own post from My posts while faculty have not checked it yet, for up to 2 months after posting.
 - Delete your own post from My posts if you want to. It asks first.
 - Change your password any time. You type your current one first.
 - Tap the bell at the top to see your notifications. The green number shows how many you have not read yet.
@@ -190,7 +191,7 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
 2. **Polish:**
    - Loading placeholders while pages load, and a check of empty states.
    - Keyboard and screen-reader checks.
-   - Students can edit their own post while it's still waiting for verification. That isn't built yet; it's a small addition.
+   - Students can edit their own post while it's still waiting for verification. (Done, see the build log.)
    - The app icon and page titles.
 3. **Going online:**
    - Deploy to Vercel and add the keys there (the secret key stays server-only).
@@ -315,7 +316,13 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - A bell sits at the top for students, with a green number for unread ones.
   - On the notifications page, unread ones are bright green and bold. Read ones are soft green. Tapping one marks it read and opens the post. There is a "Mark all as read" button too.
   - Only the server can make a notification. A student can see and mark only their own.
-- **Still to do:** students editing a post while it waits, going online on Vercel, the faculty guide, and the final test.
+- **Students can edit their own post (done):** in My posts, a post has an Edit button between its status and Delete. It shows only while both of these are true:
+  - Faculty have not checked the post yet (it says "Live, waiting for faculty").
+  - The post is less than 2 months old.
+  - **Why this rule:** I chose the 2 month limit so nobody can change their data later on. Once a post is old, or faculty have checked it, it stays the way it is. If something is still wrong, a faculty member can fix it, and the student is told.
+  - The edit page uses the same form and the same checks as the faculty Edit page. Photos and the certificate are not changed there.
+  - The database checks the same rules again, so a student cannot get around them by skipping the page. A student can only ever edit their own posts.
+- **Still to do:** going online on Vercel, the faculty guide, and the final test.
 
 </details>
 

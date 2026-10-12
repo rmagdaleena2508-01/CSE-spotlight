@@ -8,13 +8,25 @@ import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ACHIEVEMENT_TYPES, CATEGORIES, LEVELS, YEARS } from "@/lib/schemas";
-import { editPost } from "./actions";
+import type { EditState } from "@/lib/post-edit";
 
 const selectClass =
   "h-8 w-full rounded-lg border border-input bg-background px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50";
 
-export function EditForm({ id, initial }: { id: string; initial: Record<string, string> }) {
-  const [state, action, pending] = useActionState(editPost, undefined);
+type Props = {
+  id: string;
+  initial: Record<string, string>;
+  action: (prev: EditState, form: FormData) => Promise<EditState>;
+  cancelHref: string;
+  submitLabel: string;
+  /** Faculty can leave a note for the student. */
+  withNote?: boolean;
+};
+
+// The edit form for a post, used by faculty (to fix mistakes) and by students
+// (to change their own post while it waits).
+export function PostEditForm({ id, initial, action: save, cancelHref, submitLabel, withNote }: Props) {
+  const [state, action, pending] = useActionState(save, undefined);
   // After a failed save, show what was typed, not the old values.
   const val = (k: string) => state?.values?.[k] ?? initial[k] ?? "";
 
@@ -29,7 +41,9 @@ export function EditForm({ id, initial }: { id: string; initial: Record<string, 
       <FieldLabel htmlFor={k}>{label}</FieldLabel>
       <select id={k} name={k} defaultValue={val(k)} className={selectClass}>
         {options.map((o) => (
-          <option key={o.value} value={o.value}>{o.label}</option>
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
         ))}
       </select>
     </Field>
@@ -45,7 +59,11 @@ export function EditForm({ id, initial }: { id: string; initial: Record<string, 
           </Alert>
         )}
         <div className="grid gap-4 sm:grid-cols-2">
-          {select("year_of_study", "Year", YEARS.map((y) => ({ value: y, label: `${y} year` })))}
+          {select(
+            "year_of_study",
+            "Year",
+            YEARS.map((y) => ({ value: y, label: `${y} year` })),
+          )}
           {text("section", "Section", { required: true })}
         </div>
         {select("achievement_type", "Kind of achievement", ACHIEVEMENT_TYPES)}
@@ -54,7 +72,9 @@ export function EditForm({ id, initial }: { id: string; initial: Record<string, 
         {text("venue", "Venue", { required: true })}
         <div className="grid gap-4 sm:grid-cols-2">
           {text("event_date", "Event date", { type: "date", required: true })}
-          {text("end_date", "End date (if more than one day)", { type: "date" })}
+          {text("end_date", "End date (if more than one day)", {
+            type: "date",
+          })}
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           {select("category", "Category", CATEGORIES)}
@@ -75,15 +95,33 @@ export function EditForm({ id, initial }: { id: string; initial: Record<string, 
           <FieldLabel htmlFor="description">Description</FieldLabel>
           <Textarea id="description" name="description" rows={6} defaultValue={val("description")} required />
         </Field>
-        {text("proof_url", "Proof link", { type: "url", placeholder: "https://" })}
-        <Field>
-          <FieldLabel htmlFor="note">Note for the student (optional)</FieldLabel>
-          <Textarea id="note" name="note" rows={2} maxLength={500} defaultValue={val("note")} placeholder="e.g. Fixed the event date from the certificate." />
-          <FieldDescription>The student gets a notification listing what you changed, with this note.</FieldDescription>
-        </Field>
+        {text("proof_url", "Proof link", {
+          type: "url",
+          placeholder: "https://",
+        })}
+        {withNote && (
+          <Field>
+            <FieldLabel htmlFor="note">Note for the student (optional)</FieldLabel>
+            <Textarea
+              id="note"
+              name="note"
+              rows={2}
+              maxLength={500}
+              defaultValue={val("note")}
+              placeholder="e.g. Fixed the event date from the certificate."
+            />
+            <FieldDescription>
+              The student gets a notification listing what you changed, with this note.
+            </FieldDescription>
+          </Field>
+        )}
         <div className="flex flex-wrap gap-2">
-          <Button type="submit" disabled={pending}>{pending ? "Saving…" : "Save and tell the student"}</Button>
-          <Link href={`/faculty/review/${id}`} className={buttonVariants({ variant: "outline" })}>Cancel</Link>
+          <Button type="submit" disabled={pending}>
+            {pending ? "Saving…" : submitLabel}
+          </Button>
+          <Link href={cancelHref} className={buttonVariants({ variant: "outline" })}>
+            Cancel
+          </Link>
         </div>
       </FieldGroup>
     </form>

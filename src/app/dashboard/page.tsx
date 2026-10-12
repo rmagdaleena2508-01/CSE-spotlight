@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
+import { Pencil } from "lucide-react";
 import { categoryLabel, formatDate, resultLabel } from "@/lib/labels";
+import { studentCanEdit } from "@/lib/post-edit";
 import { requireStudent } from "@/lib/session";
 import { createClient } from "@/lib/supabase/server";
 import { DeletePostButton } from "./delete-post-button";
@@ -17,11 +19,11 @@ const STATUS = {
 
 export default async function Dashboard({ searchParams }: PageProps<"/dashboard">) {
   const student = await requireStudent();
-  const { posted } = await searchParams;
+  const { posted, edited } = await searchParams;
   const supabase = await createClient();
   const { data: posts } = await supabase
     .from("achievements")
-    .select("id, event_name, event_date, category, result_type, rank, award_title, status, remove_reason")
+    .select("id, event_name, event_date, category, result_type, rank, award_title, status, remove_reason, created_at")
     .eq("roll_no", student.rollNo)
     .order("created_at", { ascending: false });
 
@@ -33,6 +35,12 @@ export default async function Dashboard({ searchParams }: PageProps<"/dashboard"
       {posted && (
         <p role="status" className="mt-6 rounded-lg border border-primary/30 bg-primary/5 p-3 text-sm">
           Posted. It is live now. Faculty will check it soon.
+        </p>
+      )}
+
+      {edited && (
+        <p role="status" className="mt-6 rounded-lg border border-primary/30 bg-primary/5 p-3 text-sm">
+          Saved. Your post is updated.
         </p>
       )}
 
@@ -63,6 +71,15 @@ export default async function Dashboard({ searchParams }: PageProps<"/dashboard"
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
                   <Badge variant={s.variant}>{s.label}</Badge>
+                  {studentCanEdit(p) && (
+                    <Link
+                      href={`/dashboard/edit/${p.id}`}
+                      aria-label={`Edit ${p.event_name}`}
+                      className={buttonVariants({ size: "sm", variant: "ghost" })}
+                    >
+                      <Pencil aria-hidden /> Edit
+                    </Link>
+                  )}
                   <DeletePostButton id={p.id} eventName={p.event_name} />
                 </div>
               </li>
