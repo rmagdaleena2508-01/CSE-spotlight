@@ -423,3 +423,49 @@ html {
     animation-delay: 0s !important;
   }
 }
+
+/* ------------------------------------------------------------------ spotlight marquee
+   Two endless rows of cards on the home page (see SpotlightMarquee). Each strip holds
+   its cards twice and slides by exactly half its width, so the loop is seamless.
+   Hovering a row (or tabbing into it) pauses it so a card can be read and clicked. */
+@keyframes marquee-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+@keyframes marquee-right {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+.marquee-track {
+  animation-duration: var(--marquee-duration, 40s);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+.marquee-left {
+  animation-name: marquee-left;
+}
+.marquee-right {
+  animation-name: marquee-right;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+/* Reduce motion: no sliding; the row can be scrolled sideways by hand instead. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    overflow-x: auto;
+  }
+  .marquee-track {
+    animation: none;
+  }
+}

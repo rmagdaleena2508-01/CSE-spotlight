@@ -19,15 +19,17 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
   if (viewer) redirect(next || (viewer.kind === "student" ? "/dashboard" : "/faculty/review"));
 
   // Came from pressing Celebrate or Heart while logged out.
-  const cheering = reason === "react";
+  // Or from a Student Spotlight card / "Log in to see every post" on the home page.
+  const intro =
+    reason === "react"
+      ? { title: "Log in to cheer", text: "Your cheer is saved. Log in and we'll send it the moment you're back on the post." }
+      : reason === "more"
+        ? { title: "Log in to read more", text: "Log in to see every win in full: the story, the photos and who cheered." }
+        : { title: "Log in", text: "Students use their roll number. Faculty use their username." };
   return (
     <main className="mx-auto w-full max-w-md px-4 py-10 sm:py-16">
-      <h1 className="text-4xl sm:text-5xl">{cheering ? "Log in to cheer" : "Log in"}</h1>
-      <p className="mt-2 text-muted-foreground">
-        {cheering
-          ? "Your cheer is saved. Log in and we'll send it the moment you're back on the post."
-          : "Students use their roll number. Faculty use their username."}
-      </p>
+      <h1 className="text-4xl sm:text-5xl">{intro.title}</h1>
+      <p className="mt-2 text-muted-foreground">{intro.text}</p>
       <LoginTabs initialTab={as === "faculty" ? "faculty" : "student"} next={next} signup={signup === "1"} />
     </main>
   );

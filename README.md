@@ -276,6 +276,13 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - Only names are shown, never roll numbers.
   - Not logged in? Pressing Celebrate or Heart opens a friendly prompt: "Join the celebration for R Priya" (or "Send R Priya some love"), with "Log in and celebrate", "New here? Sign up with your roll number" and "Maybe later".
   - The site remembers which cheer they wanted. After logging in or signing up, they land back on the same card and the cheer is added for them, with a "You celebrated R Priya's win!" message.
+- **Spotlight rows on the home page (done):**
+  - Right after the top section, Student Spotlight now runs as two endless rows of small cards, like the "Trusted by" logo strips on big tech websites: the top row moves left to right, the bottom row right to left.
+  - Pointing at a row pauses it, so a card can be read and clicked. The edges fade softly. People who turn on "reduce motion" get rows they can scroll by hand instead.
+  - Each card shows the photo (or category sticker), category, event, student, result, a verified tick and the cheer counts.
+  - Not logged in? Under the rows: "Log in to see every post" and "New here? Sign up". Tapping a card also asks them to log in first ("Log in to read more"), then opens that post.
+  - Logged in: the button becomes "Open Student Spotlight", and cards open the full post straight away.
+  - The swipeable photo cards with Celebrate and Heart now live on the Spotlight page.
 - **Two categories (done):**
   - Arts and Sports are gone everywhere: the Add a win form, filters, Spotlight, faculty review and the newsletter report. Only Technical and Non-Technical are left.
   - A sports event can still be posted as Non-Technical (the "Sports" kind of win stays).
