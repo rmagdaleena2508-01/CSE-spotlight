@@ -105,10 +105,14 @@ export function Hero() {
   return (
     // Outer layer: white with a faint grid.
     <div
+      data-hero
       className={cn(
-        "relative isolate overflow-x-clip -mt-[calc(76px+env(safe-area-inset-top))] bg-white px-3 pt-[calc(100px+env(safe-area-inset-top))] pb-10 sm:-mt-[calc(84px+env(safe-area-inset-top))] sm:px-6 sm:max-[899px]:pt-[calc(116px+env(safe-area-inset-top))] sm:max-[899px]:pb-14",
-        // Laptops: the whole hero is exactly one screen tall, so nothing needs scrolling.
-        "min-[900px]:flex min-[900px]:h-[100svh] min-[900px]:flex-col min-[900px]:pt-[calc(96px+env(safe-area-inset-top))] min-[900px]:pb-5",
+        "relative isolate overflow-x-clip -mt-[calc(76px+env(safe-area-inset-top))] bg-white px-3 pt-[calc(88px+env(safe-area-inset-top))] pb-[clamp(1rem,3svh,2.5rem)] sm:-mt-[calc(84px+env(safe-area-inset-top))] sm:px-6 sm:max-[899px]:pt-[calc(116px+env(safe-area-inset-top))] sm:max-[899px]:pb-14",
+        // Every screen: the hero fills exactly the first screen, so the next section
+        // starts only once you scroll. Laptops fix it at one screen; phones let it grow
+        // if the text ever needs more room.
+        "flex min-h-[100svh] flex-col",
+        "min-[900px]:h-[100svh] min-[900px]:pt-[calc(96px+env(safe-area-inset-top))] min-[900px]:pb-5",
         OUTER_GRID,
       )}
     >
@@ -130,12 +134,12 @@ export function Hero() {
           slight zoom when the page opens (CSI's intro-sky). Wider than tall on laptops. */}
       <section
         className={cn(
-          "intro-sky relative mx-auto w-full max-w-[1392px] overflow-hidden rounded-[28px] bg-white min-[900px]:min-h-0 min-[900px]:flex-1",
+          "intro-sky relative mx-auto flex w-full max-w-[1392px] flex-1 flex-col overflow-hidden rounded-[28px] bg-white min-[900px]:min-h-0",
           "shadow-[0_0_0_1px_rgb(0_0_0/0.06),0_0_60px_8px_rgb(255_200_87/0.45),0_0_140px_40px_rgb(255_221_128/0.35)]",
           CARD_GRID,
         )}
       >
-        <div className="relative z-10 mx-auto flex max-w-[1100px] flex-col items-center px-5 pt-14 pb-12 text-center sm:max-[899px]:pt-28 sm:max-[899px]:pb-20 min-[900px]:h-full min-[900px]:pt-[clamp(1.25rem,6vh,4.5rem)] min-[900px]:pb-[clamp(0.75rem,3vh,2rem)]">
+        <div className="relative z-10 mx-auto flex w-full max-w-[1100px] flex-1 flex-col items-center justify-center px-5 pt-[clamp(1.5rem,5svh,3.5rem)] pb-[clamp(1rem,4svh,3rem)] text-center min-[900px]:justify-start sm:max-[899px]:pt-28 sm:max-[899px]:pb-20 min-[900px]:h-full min-[900px]:pt-[clamp(1.25rem,6vh,4.5rem)] min-[900px]:pb-[clamp(0.75rem,3vh,2rem)]">
           {/* No date label: students add wins as they happen, so the hero is not tied to a term. */}
           <h1 className="font-[family-name:var(--font-headline)] text-[clamp(2.25rem,5.2vw,4.5rem)] leading-[1.04] min-[900px]:text-[clamp(2rem,min(5.2vw,8.5vh),4.5rem)] tracking-[-0.02em] text-balance text-black">
             {LINE_ONE.map((w, i) => (
@@ -171,7 +175,7 @@ export function Hero() {
           {/* Sticker orbit: a tight centred group under the buttons. */}
           {/* On laptops this area takes whatever height is left in the card, and the sticker
               box inside shrinks to fit it, so the stickers are never cut off. */}
-          <div className="relative mt-12 w-full sm:max-[899px]:mt-16 min-[900px]:mt-[clamp(0.5rem,3vh,2rem)] min-[900px]:min-h-0 min-[900px]:flex-1 min-[900px]:[container-type:size]">
+          <div className="relative mt-[clamp(1rem,4svh,3rem)] w-full sm:max-[899px]:mt-16 min-[900px]:mt-[clamp(0.5rem,3vh,2rem)] min-[900px]:min-h-0 min-[900px]:flex-1 min-[900px]:[container-type:size]">
             {/* The sticker box. Stickers move against its width (cqw). */}
             <div className="relative mx-auto aspect-[800/300] w-full max-w-[800px] min-[900px]:absolute min-[900px]:bottom-0 min-[900px]:left-1/2 min-[900px]:w-[min(100cqw,800px,calc(100cqh*8/3))] min-[900px]:-translate-x-1/2">
               {/* Soft walls, the way logo loops do it: a mask that is see-through at the left

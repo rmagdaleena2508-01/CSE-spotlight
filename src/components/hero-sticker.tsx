@@ -139,6 +139,8 @@ export function HeroSticker({
       height={height}
       sizes="(min-width: 768px) 160px, 20vw"
       draggable={false}
+      // In view the moment the page opens, so fetched straight away, not on scroll.
+      loading="eager"
       className="relative h-auto w-full drop-shadow-[0_6px_10px_rgb(0_0_0/0.14)] select-none"
     />
   );

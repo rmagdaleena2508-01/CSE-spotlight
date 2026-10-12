@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "create-faculty": "node --env-file=.env.local scripts/create-faculty.mjs",
-    "typecheck": "next typegen && tsc --noEmit"
+    "typecheck": "next typegen && tsc --noEmit",
+    "test:mobile": "next build && playwright test",
+    "test:live": "BASE_URL=https://cse-spotlight.vercel.app playwright test"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
@@ -37,6 +39,7 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@playwright/test": "^1.56.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/nodemailer": "^8.0.2",

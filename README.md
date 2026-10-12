@@ -337,6 +337,21 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - iPhones zoom in when you tap a text box with small writing. All text boxes and dropdowns now use 16 pixel writing on phones, so the page no longer jumps or zooms, and they are 40 pixels tall so they are easy to tap.
   - Every page was checked at phone width (375 pixels). Nothing is wider than the screen, so there is no sideways scrolling.
   - Moving from one page to another still uses the soft fade from before.
+- **Faster loading on phones (done):**
+  - **The main reason it was slow:** Vercel ran the site's server in the USA, but the database is in Mumbai. Every page asks the database a few questions, and each one travelled to India and back, so pages took 1.5 to 3 seconds before anything showed. `vercel.json` now puts the server in Mumbai (`bom1`), right next to the database.
+  - The moving cards showed up empty and filled in late, because their pictures only started loading once they slid into view. They now load straight away. The hero stickers do too.
+  - The footer showed up blank while its big picture loaded. It now starts loading early, and sky and grass colours sit underneath so it is never empty.
+  - On phones the first section now fills exactly the whole first screen, and the Student Spotlight section fills the next one. So one part never ends early and the next never starts early. The spacing in the hero shrinks a little on short phones, so everything still fits.
+- **Phone tests (done):** `npm run test:mobile` builds the site and checks it at iPhone 13 and Pixel 7 sizes, using the Chrome already on the computer. It checks that:
+  - the hero fills exactly the first screen, and the Student Spotlight fills a screen;
+  - the hero light is not cut off in a hard line;
+  - card and sticker pictures load straight away, and all of them are ready within a few seconds;
+  - the moving cards and stickers keep moving while the page is scrolled with a finger;
+  - the footer has its colours before the picture arrives;
+  - no page is wider than the phone;
+  - the server is set to Mumbai.
+  - `npm run test:live` runs the same checks on the live site, and also checks that it answers from Mumbai in under 1.5 seconds.
+  - These tests already caught one mistake while I was making the changes: the Student Spotlight section had become 1392 pixels wide on phones.
 - **Still to do:** going online on Vercel, the faculty guide, and the final test.
 
 </details>

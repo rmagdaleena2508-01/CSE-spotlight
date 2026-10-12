@@ -37,12 +37,20 @@ export function SiteFooter() {
   return (
     <footer className="relative isolate mt-16 overflow-hidden text-white">
       {/* The picture. Its top fades out so the grid above shows through into the sky. */}
-      <div className="absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,transparent,black_22%)]" aria-hidden>
+      {/* Sky and grass colours sit under the picture, so the footer never shows up blank
+          while the picture is still on its way. The picture is fetched early, at low
+          priority, instead of only when the footer scrolls into view. */}
+      <div
+        className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,#6fb3e8,#a9d6f2_45%,#8db86a_80%,#5f8f45)] [mask-image:linear-gradient(to_bottom,transparent,black_22%)]"
+        aria-hidden
+      >
         <Image
           src="/footer/park.webp"
           alt=""
           fill
           sizes="100vw"
+          loading="eager"
+          fetchPriority="low"
           className="object-cover object-[50%_78%]"
         />
         {/* A little extra blue behind the text keeps it easy to read. */}

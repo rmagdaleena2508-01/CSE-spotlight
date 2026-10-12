@@ -61,6 +61,8 @@ function Row({ posts, direction, signedIn }: { posts: SpotlightPost[]; direction
   );
 }
 
+// Card pictures load straight away ("eager"), not when they slide into view: the rows
+// move sideways, so lazy loading made cards show up empty and fill in late on phones.
 function Card({ post, signedIn, tabbable }: { post: SpotlightPost; signedIn: boolean; tabbable: boolean }) {
   const photo = post.photo_paths[0];
   const sticker = CATEGORY_STICKER[post.category];
@@ -87,9 +89,19 @@ function Card({ post, signedIn, tabbable }: { post: SpotlightPost; signedIn: boo
         )}
       >
         {photo ? (
-          <Image src={photoUrl(photo)} alt="" fill sizes="104px" className="object-cover" />
+          <Image src={photoUrl(photo)} alt="" fill sizes="104px" loading="eager" className="object-cover" />
         ) : (
-          sticker && <Image src={sticker.src} alt="" width={sticker.w} height={sticker.h} className="w-3/4 -rotate-6" />
+          sticker && (
+            <Image
+              src={sticker.src}
+              alt=""
+              width={sticker.w}
+              height={sticker.h}
+              sizes="80px"
+              loading="eager"
+              className="w-3/4 -rotate-6"
+            />
+          )
         )}
       </span>
       <span className="flex min-w-0 flex-1 flex-col justify-between py-0.5">

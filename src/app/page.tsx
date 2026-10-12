@@ -11,9 +11,15 @@ export default async function Home() {
   return (
     <>
       <Hero />
-      <main className="pb-24">
-        <section id="spotlight" aria-labelledby="spotlight-title" className="scroll-mt-28 pt-16 sm:pt-20">
-          <div className="mx-auto max-w-6xl px-4 text-center">
+      <main className="pb-24 max-[899px]:pb-0">
+        {/* On phones this section also fills a whole screen, centred, so it never starts
+            half-way up the first screen or ends early into the footer. */}
+        <section
+          id="spotlight"
+          aria-labelledby="spotlight-title"
+          className="scroll-mt-28 pt-16 sm:pt-20 max-[899px]:flex max-[899px]:min-h-[100svh] max-[899px]:flex-col max-[899px]:justify-center max-[899px]:py-12"
+        >
+          <div className="mx-auto w-full max-w-6xl px-4 text-center">
             <h2 id="spotlight-title" className="text-4xl sm:text-5xl">
               Student Spotlight
             </h2>
@@ -25,7 +31,7 @@ export default async function Home() {
           </div>
 
           {posts.length > 0 ? (
-            <div className="mx-auto mt-8 max-w-[1392px] px-4">
+            <div className="mx-auto mt-8 w-full max-w-[1392px] px-4">
               <SpotlightMarquee posts={posts} signedIn={signedIn} />
             </div>
           ) : (
@@ -34,7 +40,7 @@ export default async function Home() {
             </p>
           )}
 
-          <div className="mx-auto mt-8 flex max-w-6xl flex-col items-center gap-3 px-4 text-center">
+          <div className="mx-auto mt-8 flex w-full max-w-6xl flex-col items-center gap-3 px-4 text-center">
             {signedIn ? (
               <Link
                 href="/spotlight"
