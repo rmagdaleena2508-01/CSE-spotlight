@@ -11,6 +11,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/password-input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   firstLogin,
@@ -62,10 +63,9 @@ function StudentLogin() {
         </Field>
         <Field>
           <FieldLabel htmlFor="login-password">Password</FieldLabel>
-          <Input
+          <PasswordInput
             id="login-password"
             name="password"
-            type="password"
             autoComplete="current-password"
             required
           />
@@ -95,10 +95,9 @@ function FirstTime() {
           <input type="hidden" name="name" value={state.name} />
           <Field>
             <FieldLabel htmlFor="new-password">New password</FieldLabel>
-            <Input
+            <PasswordInput
               id="new-password"
               name="password"
-              type="password"
               autoComplete="new-password"
               minLength={8}
               required
@@ -109,10 +108,9 @@ function FirstTime() {
           </Field>
           <Field>
             <FieldLabel htmlFor="confirm-password">Type it again</FieldLabel>
-            <Input
+            <PasswordInput
               id="confirm-password"
               name="confirm"
-              type="password"
               autoComplete="new-password"
               minLength={8}
               required
@@ -183,10 +181,9 @@ function FacultyLogin() {
         </Field>
         <Field>
           <FieldLabel htmlFor="faculty-password">Password</FieldLabel>
-          <Input
+          <PasswordInput
             id="faculty-password"
             name="password"
-            type="password"
             autoComplete="current-password"
             required
           />
