@@ -1,4 +1,4 @@
-import { ACHIEVEMENT_TYPES, CATEGORIES, LEVELS } from "@/lib/schemas";
+import { ACHIEVEMENT_TYPES, CATEGORIES, LEVELS } from "@/lib/options";
 
 export const categoryLabel = (v: string) => CATEGORIES.find((c) => c.value === v)?.label ?? v;
 export const levelLabel = (v: string) => LEVELS.find((l) => l.value === v)?.label ?? v;

@@ -35,7 +35,7 @@ export default async function SpotlightPage({ searchParams }: PageProps<"/spotli
         aria-label="Spotlight categories"
         className="sticky top-[calc(76px+env(safe-area-inset-top))] z-30 -mx-4 mt-6 overflow-x-auto px-4 py-3 [scrollbar-width:none] sm:top-[calc(84px+env(safe-area-inset-top))]"
       >
-        <ul className="flex w-max gap-2 rounded-full bg-white/80 p-1.5 shadow-[0_0_0_1px_rgb(0_0_0/0.08),0_10px_30px_-18px_rgb(0_0_0/0.4)] backdrop-blur-xl">
+        <ul className="flex w-max gap-2 rounded-full bg-white/80 p-1.5 shadow-[0_0_0_1px_rgb(0_0_0/0.08),0_10px_30px_-18px_rgb(0_0_0/0.4)] backdrop-blur-md min-[900px]:backdrop-blur-xl">
           {[{ value: "", label: "All" }, ...CATEGORIES].map((c) => {
             const active = (category ?? "") === c.value;
             return (

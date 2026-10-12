@@ -342,6 +342,19 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - The moving cards showed up empty and filled in late, because their pictures only started loading once they slid into view. They now load straight away. The hero stickers do too.
   - The footer showed up blank while its big picture loaded. It now starts loading early, and sky and grass colours sit underneath so it is never empty.
   - On phones the first section now fills exactly the whole first screen, and the Student Spotlight section fills the next one. So one part never ends early and the next never starts early. The spacing in the hero shrinks a little on short phones, so everything still fits.
+- **Smoother on phones, round 2 (done):** after the server move the pages arrived fast, but phones still felt slow and jumpy. A speed check (Lighthouse, phone mode) showed why: downloading was quick, but drawing the page was slow.
+  - **Blur effects:** the site used live blur in many places: six blur layers behind the header, three big blurred glows in the hero, and blur in the headline animation and page changes. Phones redraw blur on every scroll frame, which caused the stutter and glitches. On phones these are now soft colour fades that look almost the same and cost nothing to draw. Laptops keep the full blur look.
+  - **The opening animation:** the hero's words, text and buttons came in one after another over about 1.5 seconds, so the page looked like it was still loading. On phones the opening is now about twice as fast and has no blur, so everything is up within a second. The stickers start moving after about 1.3 seconds instead of 3.4.
+  - **Page changes:** on phones they are now a quick fade with no blur.
+  - **The footer picture:** it used to go through the image resizer, which is slow on a first visit, and on phones it picked a picture too small for the tall footer. Now there are two ready-made copies (23 KB and 59 KB) that come straight from Vercel's CDN.
+  - **Fonts:** the pixel heading font and the code font are no longer downloaded before the first screen, because they are not used there.
+  - The speed check's "speed index" (how fast the screen fills in) went from 3.3 seconds to 1.8 seconds.
+- **Smoother on phones, round 3 (done):** a fresh speed check of the live site showed everything had finished downloading by 1.5 seconds, but the headline only appeared at 3.3 seconds.
+  - **The real cause:** the opening animation started the hero text fully invisible, and a phone does not count a page as shown until its main text is painted. On phones the text now starts faint and brightens, so it shows at once. The home page's main text now appears at about 0.5 seconds instead of 3.3.
+  - **Post photos:** on the Achievements and Spotlight pages the first photos waited their turn like the ones far down the page. The first two now load first.
+  - **Grey loading blocks:** they flashed for a split second on quick page changes, which looked like a glitch. They now wait a third of a second, so only slow loads show them.
+  - **Less to download:** the home page and filters no longer download the form-checking code, which only the Add a win form needs.
+  - A new phone test checks that the hero text is never fully invisible.
 - **Phone tests (done):** `npm run test:mobile` builds the site and checks it at iPhone 13 and Pixel 7 sizes, using the Chrome already on the computer. It checks that:
   - the hero fills exactly the first screen, and the Student Spotlight fills a screen;
   - the hero light is not cut off in a hard line;
@@ -350,6 +363,9 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - the footer has its colours before the picture arrives;
   - no page is wider than the phone;
   - the server is set to Mumbai.
+  - no element on a phone uses a blur stronger than 12 pixels;
+  - the headline, text and buttons are fully shown within 1 second;
+  - the footer picture is one of the small ready-made copies.
   - `npm run test:live` runs the same checks on the live site, and also checks that it answers from Mumbai in under 1.5 seconds.
   - These tests already caught one mistake while I was making the changes: the Student Spotlight section had become 1392 pixels wide on phones.
 - **Still to do:** going online on Vercel, the faculty guide, and the final test.

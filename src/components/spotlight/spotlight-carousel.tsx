@@ -11,7 +11,7 @@ import { categoryLabel, formatDate, levelLabel, resultLabel } from "@/lib/labels
 import { photoUrl } from "@/lib/photos";
 import { displayName } from "@/lib/reactions/kinds";
 import type { ReactionInfo } from "@/lib/reactions/load";
-import { CATEGORIES } from "@/lib/schemas";
+import { CATEGORIES } from "@/lib/options";
 import type { SpotlightPost } from "@/lib/spotlight";
 import { cn } from "@/lib/utils";
 
@@ -147,7 +147,7 @@ function Row({
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6, ease: EASE, delay: Math.min(i, 5) * 0.06 }}
           >
-            <Tile post={p} onOpen={() => onOpen(p)} />
+            <Tile post={p} onOpen={() => onOpen(p)} priority={i < 2} />
             <ReactionBar
               key={`${cheers.mine[p.id] ?? ""}-${p.celebrate_count}-${p.heart_count}`}
               id={p.id}
@@ -202,7 +202,7 @@ function Cover({ post, sizes, priority }: { post: SpotlightPost; sizes: string; 
   );
 }
 
-function Tile({ post, onOpen }: { post: SpotlightPost; onOpen: () => void }) {
+function Tile({ post, onOpen, priority }: { post: SpotlightPost; onOpen: () => void; priority?: boolean }) {
   const isAward = post.result_type === "award";
   return (
     <motion.button
@@ -213,7 +213,7 @@ function Tile({ post, onOpen }: { post: SpotlightPost; onOpen: () => void }) {
       className="group relative isolate aspect-[3/4] w-full overflow-hidden rounded-[28px] bg-neutral-100 text-left shadow-[0_0_0_1px_rgb(0_0_0/0.06),0_18px_40px_-22px_rgb(0_0_0/0.45)] transition-[translate,scale] duration-500 ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:-translate-y-1 hover:scale-[1.015] focus-visible:ring-3 focus-visible:ring-black/40 focus-visible:outline-none motion-reduce:transition-none motion-reduce:hover:transform-none"
     >
       <div className="absolute inset-0 transition-transform duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.04] motion-reduce:transition-none">
-        <Cover post={post} sizes="(min-width: 768px) 336px, 248px" />
+        <Cover post={post} sizes="(min-width: 768px) 336px, 248px" priority={priority} />
       </div>
       {/* Shade at the top so white text stays readable on any photo. */}
       <div className="absolute inset-x-0 top-0 h-2/3 bg-gradient-to-b from-black/70 via-black/25 to-transparent" aria-hidden />

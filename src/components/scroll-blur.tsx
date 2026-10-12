@@ -35,8 +35,10 @@ export function ScrollBlur() {
         scrolled ? "opacity-100" : "opacity-0",
       )}
     >
+      {/* Phones: a soft white fade instead of live blur, so scrolling stays smooth. */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/60 to-transparent min-[900px]:hidden" />
       {LAYERS.map((l) => (
-        <div key={l.blur} className={cn("absolute inset-0", l.blur, l.mask)} />
+        <div key={l.blur} className={cn("absolute inset-0 max-[899px]:hidden", l.blur, l.mask)} />
       ))}
     </div>
   );

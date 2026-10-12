@@ -11,29 +11,8 @@ export const password = z
   .min(8, "Use at least 8 characters")
   .max(72, "Use at most 72 characters");
 
-export const CATEGORIES = [
-  { value: "technical", label: "Technical" },
-  { value: "non_technical", label: "Non-Technical" },
-] as const;
-
-export const LEVELS = [
-  { value: "intra_college", label: "Intra-college" },
-  { value: "inter_college", label: "Inter-college" },
-  { value: "state", label: "State" },
-  { value: "national", label: "National" },
-  { value: "international", label: "International" },
-] as const;
-
-export const ACHIEVEMENT_TYPES = [
-  { value: "competition", label: "Competition" },
-  { value: "hackathon", label: "Hackathon" },
-  { value: "paper", label: "Paper presentation / publication" },
-  { value: "certification", label: "Certification / course" },
-  { value: "talk", label: "Talk or workshop given" },
-  { value: "sports", label: "Sports" },
-  { value: "project", label: "Project" },
-  { value: "other", label: "Other" },
-] as const;
+export { ACHIEVEMENT_TYPES, CATEGORIES, LEVELS } from "@/lib/options";
+import { ACHIEVEMENT_TYPES, CATEGORIES, LEVELS } from "@/lib/options";
 
 export const YEARS = ["I", "II", "III", "IV"] as const;
 

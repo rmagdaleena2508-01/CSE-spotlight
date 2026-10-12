@@ -316,6 +316,65 @@
     filter: none;
   }
 }
+/* Phones: the same opening, but about twice as fast and without blur filters, which
+   phones redraw slowly. Everything is up in well under a second, so the page never
+   looks like it is still loading. */
+@media (max-width: 899px) {
+  /* The card and its words never start fully invisible on phones: a phone only counts
+     the page as shown once the main text is painted, and invisible text kept that waiting
+     for seconds (Lighthouse "largest contentful paint" 5.5s). They start faint instead. */
+  .intro-sky {
+    animation-name: intro-sky-light;
+    animation-duration: 0.5s;
+  }
+  .intro-drop {
+    animation-duration: 0.45s;
+    animation-delay: 0s;
+  }
+  .intro-rise,
+  .intro-float {
+    animation-duration: 0.5s;
+    animation-delay: calc(var(--d, 0s) * 0.4);
+  }
+  .intro-rise {
+    animation-name: intro-rise-light;
+  }
+  .word-rise {
+    animation-name: word-rise-light;
+    animation-duration: 0.5s;
+    animation-delay: calc(0.05s + var(--i) * 0.04s);
+  }
+}
+@keyframes intro-sky-light {
+  from {
+    opacity: 0.35;
+    transform: scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes intro-rise-light {
+  from {
+    opacity: 0.35;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes word-rise-light {
+  from {
+    opacity: 0.35;
+    transform: translateY(0.35em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
 html[data-arrived] :is(.intro-sky, .intro-drop, .intro-rise, .intro-float, .word-rise) {
   animation: none;
 }
@@ -376,6 +435,26 @@ html {
 }
 ::view-transition-new(.page-in) {
   animation: 420ms cubic-bezier(0.22, 0.61, 0.36, 1) 120ms both page-arrive;
+}
+/* Phones: shorter page changes with no blur, so they never feel laggy. */
+@media (max-width: 899px) {
+  ::view-transition-old(.page-out) {
+    animation: 120ms ease-in both page-leave-light;
+  }
+  ::view-transition-new(.page-in) {
+    animation: 240ms cubic-bezier(0.22, 0.61, 0.36, 1) 60ms both page-arrive-light;
+  }
+}
+@keyframes page-leave-light {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes page-arrive-light {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
 }
 /* The loading blocks melt away as the real page lands. */
 ::view-transition-old(.skeleton-out) {
@@ -496,5 +575,19 @@ html {
   }
   @media (prefers-reduced-motion: reduce) {
     transition: none;
+  }
+}
+
+/* Loading blocks wait a moment before showing. Most page changes finish sooner, and a
+   grey flash that vanishes straight away looks like a glitch; only slow loads show them. */
+.skeleton-late {
+  animation: skeleton-late 200ms ease-out 350ms both;
+}
+@keyframes skeleton-late {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

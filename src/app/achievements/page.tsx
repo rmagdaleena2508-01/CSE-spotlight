@@ -84,9 +84,10 @@ export default async function AchievementsPage({ searchParams }: PageProps<"/ach
         </div>
       ) : (
         <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.map((a) => (
+          {posts.map((a, i) => (
             <li key={a.id}>
-              <AchievementCard a={a} className="h-full" />
+              {/* The first cards are on screen straight away, so their photos load first. */}
+              <AchievementCard a={a} className="h-full" priority={i < 2} />
             </li>
           ))}
         </ul>

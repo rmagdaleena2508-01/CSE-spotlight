@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
@@ -44,14 +43,19 @@ export function SiteFooter() {
         className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,#6fb3e8,#a9d6f2_45%,#8db86a_80%,#5f8f45)] [mask-image:linear-gradient(to_bottom,transparent,black_22%)]"
         aria-hidden
       >
-        <Image
-          src="/footer/park.webp"
+        {/* Ready-made small copies (23 KB and 59 KB), served straight from Vercel's CDN, so
+            the footer does not wait for the image resizer on a first visit. On phones the
+            footer is tall and narrow, so the picture is cropped from a wider copy. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/footer/park-1600.webp"
+          srcSet="/footer/park-828.webp 828w, /footer/park-1600.webp 1600w"
+          sizes="(max-width: 899px) 1060px, 100vw"
           alt=""
-          fill
-          sizes="100vw"
           loading="eager"
+          decoding="async"
           fetchPriority="low"
-          className="object-cover object-[50%_78%]"
+          className="absolute inset-0 size-full object-cover object-[50%_78%]"
         />
         {/* A little extra blue behind the text keeps it easy to read. */}
         <div className="absolute inset-x-0 top-0 h-2/3 bg-gradient-to-b from-sky-700/10 via-sky-700/25 to-transparent" />

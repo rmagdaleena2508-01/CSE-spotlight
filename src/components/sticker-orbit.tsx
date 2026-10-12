@@ -40,6 +40,9 @@ const FIRST = 9.7;
 const HOLD = 1;
 /** How long the opening animation takes (the last sticker lands at about 2.4s). */
 const ENTRANCE = 2.4;
+/** The same on phones, where the opening runs faster. */
+const PHONE_ENTRANCE = 1;
+const PHONE_HOLD = 0.3;
 
 export function StickerOrbit({ stickers }: { stickers: OrbitSticker[] }) {
   const reduced = useReducedMotion();
@@ -53,7 +56,10 @@ export function StickerOrbit({ stickers }: { stickers: OrbitSticker[] }) {
     if (reduced) return;
     // A return visit skips the opening animation, so only the 1 second hold is left.
     const arrived = document.documentElement.dataset.arrived !== undefined;
-    const t = window.setTimeout(() => (running.current = true), ((arrived ? 0 : ENTRANCE) + HOLD) * 1000);
+    // Phones play a quicker opening (see globals.css), so the stickers start moving sooner.
+    const phone = window.matchMedia("(max-width: 899px)").matches;
+    const wait = (arrived ? 0 : phone ? PHONE_ENTRANCE : ENTRANCE) + (phone ? PHONE_HOLD : HOLD);
+    const t = window.setTimeout(() => (running.current = true), wait * 1000);
     return () => window.clearTimeout(t);
   }, [reduced]);
 

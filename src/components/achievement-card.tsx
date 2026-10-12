@@ -7,7 +7,7 @@ import { photoUrl } from "@/lib/photos";
 import type { PublicCard } from "@/lib/published";
 import { cn } from "@/lib/utils";
 
-export function AchievementCard({ a, className }: { a: PublicCard; className?: string }) {
+export function AchievementCard({ a, className, priority }: { a: PublicCard; className?: string; priority?: boolean }) {
   const photo = a.photo_paths[0];
   const isAward = a.result_type === "award";
   const reactions = a.celebrate_count + a.heart_count;
@@ -27,6 +27,7 @@ export function AchievementCard({ a, className }: { a: PublicCard; className?: s
             alt={`${a.event_name}, posted by ${a.student_name}`}
             fill
             sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"
+            priority={priority}
             className="object-cover transition-transform duration-200 group-hover:scale-[1.02] motion-reduce:transition-none"
           />
         ) : (

@@ -114,7 +114,8 @@ function Fold({ index, reduced, children }: { index: number; reduced: boolean | 
   );
 }
 
-const GLASS = "glass backdrop-blur-2xl backdrop-saturate-150";
+// A lighter blur on phones: it is redrawn on every scroll frame there.
+const GLASS = "glass backdrop-blur-md backdrop-saturate-150 min-[900px]:backdrop-blur-2xl";
 
 export function Navbar({ viewer }: { viewer: NavViewer }) {
   const [scrolled, setScrolled] = useState(false);

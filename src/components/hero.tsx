@@ -117,15 +117,17 @@ export function Hero() {
       )}
     >
       {/* Sunshine around the card: warm, blurred light pooling at the corners and edges.
+          The extra blur filter is for laptops only: the soft gradients look the same on a
+          phone, and blurring big areas made phones stutter while scrolling.
           The hero only clips sideways, so this light and the card's halo spill a little
           below it and fade into the next section, with no hard line between them. */}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 -bottom-24 -z-10 [mask-image:linear-gradient(to_bottom,black_70%,transparent)]"
         aria-hidden
       >
-        <div className="absolute top-[-12%] left-[-6%] h-[70%] w-[55%] rounded-full bg-[radial-gradient(closest-side,rgb(255_214_102/0.75),rgb(255_183_77/0.35)_45%,transparent)] blur-3xl" />
-        <div className="absolute top-[-6%] right-[-8%] h-[60%] w-[50%] rounded-full bg-[radial-gradient(closest-side,rgb(255_236_153/0.8),rgb(255_200_87/0.3)_50%,transparent)] blur-3xl" />
-        <div className="absolute bottom-[-10%] left-[20%] h-[45%] w-[60%] rounded-full bg-[radial-gradient(closest-side,rgb(255_221_128/0.55),transparent)] blur-3xl" />
+        <div className="absolute top-[-12%] left-[-6%] h-[70%] w-[55%] rounded-full bg-[radial-gradient(closest-side,rgb(255_214_102/0.75),rgb(255_183_77/0.35)_45%,transparent)] min-[900px]:blur-3xl" />
+        <div className="absolute top-[-6%] right-[-8%] h-[60%] w-[50%] rounded-full bg-[radial-gradient(closest-side,rgb(255_236_153/0.8),rgb(255_200_87/0.3)_50%,transparent)] min-[900px]:blur-3xl" />
+        <div className="absolute bottom-[-10%] left-[20%] h-[45%] w-[60%] rounded-full bg-[radial-gradient(closest-side,rgb(255_221_128/0.55),transparent)] min-[900px]:blur-3xl" />
         {/* Soft rays fanning down from the top-left, like light through a window. */}
         <div className="absolute inset-0 bg-[repeating-conic-gradient(from_200deg_at_0%_0%,rgb(255_230_150/0.18)_0deg,transparent_6deg,transparent_14deg)] [mask-image:radial-gradient(80%_80%_at_0%_0%,black,transparent_75%)]" />
       </div>

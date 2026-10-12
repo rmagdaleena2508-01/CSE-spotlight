@@ -10,7 +10,7 @@ export function PageLoading({ label = "Loading" }: { label?: string }) {
       <div
         role="status"
         aria-live="polite"
-        className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10"
+        className="skeleton-late mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10"
       >
         <span className="sr-only">{label}…</span>
         <div aria-hidden className="motion-safe:animate-pulse">

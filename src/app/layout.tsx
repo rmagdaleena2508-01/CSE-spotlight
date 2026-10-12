@@ -37,11 +37,15 @@ const pixel = Pixelify_Sans({
   variable: "--font-pixel",
   subsets: ["latin"],
   weight: "400",
+  // Only used further down the page, so it does not compete with the first screen.
+  preload: false,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  // Only used on faculty pages (roll numbers).
+  preload: false,
 });
 
 export const metadata: Metadata = {

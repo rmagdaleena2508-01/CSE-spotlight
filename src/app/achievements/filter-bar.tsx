@@ -6,7 +6,7 @@ import { Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { filtersToSearch, type Filters } from "@/lib/filters";
-import { CATEGORIES, LEVELS } from "@/lib/schemas";
+import { CATEGORIES, LEVELS } from "@/lib/options";
 
 const selectClass =
   "h-10 w-full rounded-lg border border-input bg-background px-2.5 text-base md:h-9 md:text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50";

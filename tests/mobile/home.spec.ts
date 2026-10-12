@@ -6,7 +6,9 @@ import { expect, test, type Page } from "@playwright/test";
 // - spotlight cards showing up empty and filling in late (lazy pictures);
 // - the moving cards and stickers stopping while the page was scrolled by touch;
 // - the footer picture showing up blank before it loaded;
-// - pages wider than the phone, which lets them wobble sideways.
+// - pages wider than the phone, which lets them wobble sideways;
+// - heavy blur effects that made phones stutter while scrolling;
+// - a long opening animation that made the page look like it was still loading.
 
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -122,3 +124,58 @@ for (const path of ["/", "/achievements", "/spotlight", "/login"]) {
     expect(await page.evaluate(() => window.innerWidth)).toBe(page.viewportSize()!.width);
   });
 }
+
+test("phones draw no heavy blur while scrolling", async ({ page }) => {
+  await openHome(page);
+  const heavy = await page.evaluate(() => {
+    const px = (v: string) => Math.max(0, ...[...v.matchAll(/blur\(([\d.]+)px\)/g)].map((m) => Number(m[1])));
+    return [...document.querySelectorAll<HTMLElement>("body *")]
+      .filter((e) => e.offsetWidth > 0 || e.offsetHeight > 0)
+      .map((e) => {
+        const cs = getComputedStyle(e);
+        return { el: e.tagName + "." + String(e.className).slice(0, 60), blur: Math.max(px(cs.filter), px(cs.backdropFilter)) };
+      })
+      .filter((x) => x.blur > 12);
+  });
+  expect(heavy).toEqual([]);
+});
+
+test("the opening is quick: headline, text and buttons are up within a second", async ({ page }) => {
+  await page.goto("/");
+  await wait(1_000);
+  const faded = await page.evaluate(() =>
+    [...document.querySelectorAll("[data-hero] h1, [data-hero] p, [data-hero] a")]
+      .filter((e) => (e as HTMLElement).offsetWidth > 0)
+      .filter((e) => {
+        let n: Element | null = e;
+        while (n) {
+          if (Number(getComputedStyle(n).opacity) < 0.95) return true;
+          n = n.parentElement;
+        }
+        return false;
+      }).length,
+  );
+  expect(faded).toBe(0);
+});
+
+test("the footer picture is a small file straight from the CDN", async ({ page }) => {
+  await openHome(page);
+  const src = await page.evaluate(() => (document.querySelector("footer img") as HTMLImageElement).currentSrc);
+  expect(src).toMatch(/\/footer\/park-(828|1600)\.webp$/);
+});
+
+test("the hero text is never fully invisible, so phones count the page as shown at once", async ({ page }) => {
+  await page.goto("/", { waitUntil: "commit" });
+  await page.waitForSelector("[data-hero] p");
+  const hidden = await page.evaluate(() =>
+    [...document.querySelectorAll("[data-hero] h1 span, [data-hero] p")].filter((e) => {
+      let n: Element | null = e;
+      while (n) {
+        if (Number(getComputedStyle(n).opacity) === 0) return true;
+        n = n.parentElement;
+      }
+      return false;
+    }).length,
+  );
+  expect(hidden).toBe(0);
+});
