@@ -469,3 +469,26 @@ html {
     animation: none;
   }
 }
+
+/* A line that draws itself under a link from left to right, and slides back when the
+   pointer leaves. Shows on hover, on keyboard focus, and on a tap on phones (:active). */
+@utility underline-grow {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1.5px;
+  padding-bottom: 2px;
+  transition: background-size 450ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  &:focus-visible,
+  &:active {
+    background-size: 100% 1.5px;
+  }
+  @media (hover: hover) {
+    &:hover {
+      background-size: 100% 1.5px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}

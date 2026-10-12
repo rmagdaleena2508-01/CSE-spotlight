@@ -14,10 +14,17 @@ export function ArrivalMarker() {
   useEffect(() => {
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
     if (!location.hash) window.scrollTo(0, 0);
+    // iPhones only show :active styles (like the footer's tap underline) once the page
+    // listens for touches at all; an empty listener is enough.
+    const noop = () => {};
+    document.addEventListener("touchstart", noop, { passive: true });
     const timer = window.setTimeout(() => {
       document.documentElement.dataset.arrived = "";
     }, 2000);
-    return () => window.clearTimeout(timer);
+    return () => {
+      window.clearTimeout(timer);
+      document.removeEventListener("touchstart", noop);
+    };
   }, []);
   return null;
 }

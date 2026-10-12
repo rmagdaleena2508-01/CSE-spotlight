@@ -4,7 +4,8 @@ import { ArrowUpRight } from "lucide-react";
 
 // Footer: an illustrated park and city skyline under an open blue sky, laid over the
 // page's grid. The top of the picture melts into the grid, so the page flows into the
-// sky; links sit on a liquid-glass panel in the sky, and the park fills the bottom.
+// sky; the links are written straight onto the sky, and the park fills the bottom.
+// Each link draws a line under itself on hover, on keyboard focus and on a tap on phones.
 
 const COLUMNS = [
   {
@@ -49,7 +50,7 @@ export function SiteFooter() {
       </div>
 
       <div className="mx-auto flex min-h-[46rem] max-w-6xl flex-col px-4 pt-40 pb-6 sm:min-h-[52rem] sm:pt-48 lg:min-h-[58rem]">
-        <div className="rounded-[28px] border border-white/35 bg-white/12 p-6 shadow-[0_30px_80px_-40px_rgb(0_40_90/0.6),inset_0_1px_0_rgb(255_255_255/0.5)] backdrop-blur-xl backdrop-saturate-150 sm:p-8">
+        <div className="[text-shadow:0_1px_12px_rgb(0_40_90/0.35)]">
           <div className="grid grid-cols-2 gap-x-6 gap-y-7 md:grid-cols-[1.4fr_repeat(3,1fr)] md:gap-8">
             <div className="col-span-2 md:col-span-1">
               <p className="font-[family-name:var(--font-headline)] text-3xl leading-tight sm:text-4xl">CSE Spotlight</p>
@@ -69,12 +70,12 @@ export function SiteFooter() {
                           href={l.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="lift inline-flex items-center gap-1 text-[15px] font-medium hover:underline"
+                          className="underline-grow inline-flex items-center gap-1 text-[15px] font-medium"
                         >
                           {l.label} <ArrowUpRight className="size-4" aria-hidden />
                         </a>
                       ) : (
-                        <Link href={l.href} className="lift inline-block text-[15px] font-medium hover:underline">
+                        <Link href={l.href} className="underline-grow inline-block text-[15px] font-medium">
                           {l.label}
                         </Link>
                       )}
@@ -86,7 +87,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-auto flex flex-col items-center justify-between gap-2 rounded-full bg-black/25 px-5 py-2.5 text-center text-xs text-white/90 backdrop-blur-md sm:flex-row sm:text-left">
+        <div className="mt-auto flex flex-col items-center justify-between gap-1 border-t border-white/40 pt-4 text-center text-xs text-white [text-shadow:0_1px_8px_rgb(0_0_0/0.45)] sm:flex-row sm:text-left">
           <p>© {new Date().getFullYear()} Dept. Of Computer Science &amp; Engineering, SRMIST VDP</p>
           <p>Made by students, for students.</p>
         </div>

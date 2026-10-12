@@ -285,8 +285,9 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - The swipeable photo cards with Celebrate and Heart now live on the Spotlight page.
 - **Footer (done):**
   - Every page ends with an illustrated park and city skyline under a blue sky. The top of the picture fades into the grid, so the page flows into the sky.
-  - A liquid-glass panel in the sky holds the links: Explore (Home, Student Spotlight, All achievements), Students (Add your win, My posts, Log in or sign up) and College (SRMIST Vadapalani site, Faculty log in).
-  - A bar at the bottom says "© Dept. Of Computer Science & Engineering, SRMIST VDP" and "Made by students, for students."
+  - The links are written straight onto the sky (no panel): Explore (Home, Student Spotlight, All achievements), Students (Add your win, My posts, Log in or sign up) and College (SRMIST Vadapalani site, Faculty log in).
+  - Pointing at a link draws a line under it from left to right; it slides away when the mouse leaves. On phones the line shows when you tap a link.
+  - At the bottom, under a thin line: "© Dept. Of Computer Science & Engineering, SRMIST VDP" and "Made by students, for students."
 - **Two categories (done):**
   - Arts and Sports are gone everywhere: the Add a win form, filters, Spotlight, faculty review and the newsletter report. Only Technical and Non-Technical are left.
   - A sports event can still be posted as Non-Technical (the "Sports" kind of win stays).
