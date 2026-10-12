@@ -1,5 +1,7 @@
 # CSE Spotlight
 
+**Live site: [cse-spotlight.vercel.app](https://cse-spotlight.vercel.app)**
+
 A website to show what our students win and do.
 
 ## Why
