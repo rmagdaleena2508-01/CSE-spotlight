@@ -13,6 +13,8 @@ A website to show what our students win and do.
 - After that, log in with your roll number and password.
 - Add your event, date, prize, and photos.
 - Pick a group: Technical or Non-Technical.
+- Delete your own post from My posts if you want to. It asks first.
+- Change your password any time. You type your current one first.
 
 ## Everyone
 
@@ -292,6 +294,18 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - Arts and Sports are gone everywhere: the Add a win form, filters, Spotlight, faculty review and the newsletter report. Only Technical and Non-Technical are left.
   - A sports event can still be posted as Non-Technical (the "Sports" kind of win stays).
   - The palette and football stickers stay in the hero loop as decoration. The palette now opens Student Spotlight and the football opens all achievements.
+- **Faster uploads (done):**
+  - Uploading was slow because phone photos are often 3 to 12 MB, and the files went up one after another.
+  - Now each picture is made smaller in the browser the moment it is picked, using the free [browser-image-compression](https://www.npmjs.com/package/browser-image-compression) library. Photos become WebP, at most 1920 pixels wide. Certificates stay bigger (2400 pixels, JPG), so small print stays readable. PDFs are not changed.
+  - It runs in a background worker, so the page does not freeze. The worker file is kept in `public/vendor`, so nothing loads from another website.
+  - All files upload at the same time, and the button shows how many are done.
+  - In a test, a 4000 by 3000 picture became 1920 by 1440 and 86% smaller, in under a second.
+- **Delete your own post (done):** in My posts, each post has a Delete button. It asks first. The server checks the post is really yours before deleting it, then removes its certificate, photos, and cheers too.
+- **Change password (done):** a Change password page for students (from My posts) and faculty (from Review). Safety:
+  - You must type your current password first. Wrong tries count towards the same 5 tries in 15 minutes as the login page.
+  - The current password is checked on a separate connection, so your login is not touched.
+  - Passwords are only sent inside the form, never in the web address, never written to logs, and never sent back to the page. Supabase keeps only a scrambled copy (a hash).
+  - After a change, every other device that was logged in gets logged out.
 - **Still to do:** students editing a post while it waits, going online on Vercel, the faculty guide, and the final test.
 
 </details>

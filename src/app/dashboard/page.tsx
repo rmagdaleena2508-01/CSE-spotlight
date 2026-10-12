@@ -5,6 +5,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { categoryLabel, formatDate, resultLabel } from "@/lib/labels";
 import { requireStudent } from "@/lib/session";
 import { createClient } from "@/lib/supabase/server";
+import { DeletePostButton } from "./delete-post-button";
 
 export const metadata: Metadata = { title: "My posts · CSE Spotlight" };
 
@@ -37,7 +38,10 @@ export default async function Dashboard({ searchParams }: PageProps<"/dashboard"
 
       <div className="mt-8 flex items-center justify-between">
         <h2 className="text-2xl">My posts</h2>
-        <Link href="/submit" className={buttonVariants()}>Add a win</Link>
+        <div className="flex items-center gap-2">
+          <Link href="/account/password" className={buttonVariants({ variant: "outline" })}>Change password</Link>
+          <Link href="/submit" className={buttonVariants()}>Add a win</Link>
+        </div>
       </div>
 
       {!posts?.length ? (
@@ -57,7 +61,10 @@ export default async function Dashboard({ searchParams }: PageProps<"/dashboard"
                     <p className="mt-1 text-sm text-destructive">Reason: {p.remove_reason}</p>
                   )}
                 </div>
-                <Badge variant={s.variant}>{s.label}</Badge>
+                <div className="flex shrink-0 items-center gap-2">
+                  <Badge variant={s.variant}>{s.label}</Badge>
+                  <DeletePostButton id={p.id} eventName={p.event_name} />
+                </div>
               </li>
             );
           })}

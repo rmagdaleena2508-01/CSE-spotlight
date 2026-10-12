@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useFieldArray, useForm, useWatch, type FieldError as RHFError } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus, Star, Trash2, Upload, X } from "lucide-react";
+import { LoaderCircle, Plus, Star, Trash2, Upload, X } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -29,6 +29,7 @@ import {
   achievementSchema,
   type AchievementInput,
 } from "@/lib/schemas";
+import { shrinkImage } from "@/lib/shrink-image";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 
@@ -61,30 +62,44 @@ function FilePicker({
 }) {
   const rule = FILE_RULES[bucket];
   const [error, setError] = useState<string>();
+  const [shrinking, setShrinking] = useState(false);
   const inputId = `files-${bucket}`;
   const single = rule.max === 1;
 
-  function add(list: FileList | null) {
+  // Pictures are made smaller as soon as they are picked, all at the same
+  // time, so they are ready (and quick to upload) by the time you press Post.
+  async function add(list: FileList | null) {
     if (!list) return;
-    // A single-file picker replaces what is there.
-    const next = single ? [] : [...files];
+    const picked: File[] = [];
+    let problem: string | undefined;
+    const room = single ? 1 : rule.max - files.length;
     for (const f of Array.from(list)) {
       if (!(rule.types as readonly string[]).includes(f.type)) {
-        setError(`${f.name}: use ${rule.label}.`);
+        problem = `${f.name}: use ${rule.label}.`;
         continue;
       }
-      if (f.size > rule.maxBytes) {
-        setError(`${f.name} is too big. ${rule.label}.`);
+      if (f.size > rule.pickMaxBytes) {
+        problem = `${f.name} is too big. ${rule.label}.`;
         continue;
       }
-      if (next.length >= rule.max) {
-        setError(single ? "Only one file here." : `You can add up to ${rule.max} files here.`);
+      if (picked.length >= room) {
+        problem = single ? "Only one file here." : `You can add up to ${rule.max} files here.`;
         break;
       }
-      next.push(f);
-      setError(undefined);
+      picked.push(f);
     }
-    onChange(next);
+
+    setShrinking(true);
+    const ready = (await Promise.all(picked.map((f) => shrinkImage(f, bucket)))).filter((f) => {
+      if (f.size <= rule.maxBytes) return true;
+      problem = `${f.name} is still too big after making it smaller. ${rule.label}.`;
+      return false;
+    });
+    setShrinking(false);
+
+    setError(problem);
+    // A single-file picker replaces what is there.
+    onChange(single ? ready.slice(0, 1) : [...files, ...ready]);
   }
 
   return (
@@ -116,6 +131,11 @@ function FilePicker({
         }}
       />
       <FieldDescription>{hint}</FieldDescription>
+      {shrinking && (
+        <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground">
+          <LoaderCircle className="size-4 animate-spin" aria-hidden /> Making it smaller so it uploads fast…
+        </p>
+      )}
       {error && <FieldError>{error}</FieldError>}
       {files.length > 0 && (
         <ul className="space-y-1 text-sm">
@@ -235,13 +255,23 @@ export function SubmitForm({
         ...certificates.map((file) => ({ bucket: "certificates" as const, file })),
         ...photos.map((file) => ({ bucket: "photos" as const, file })),
       ];
-      for (const [i, { bucket, file }] of all.entries()) {
-        setStatus(`Uploading file ${i + 1} of ${all.length}…`);
-        const path = `${userId}/${crypto.randomUUID()}.${extension(file)}`;
-        const { error } = await supabase.storage.from(bucket).upload(path, file, { contentType: file.type });
-        if (error) throw new Error(`Could not upload ${file.name}. Try again.`);
-        uploaded.push({ bucket, path });
-      }
+      // Upload every file at the same time, not one after another. Each file
+      // gets its name first, so the list keeps the order the student chose
+      // (the first photo is the main one), whichever upload finishes first.
+      const planned = all.map(({ bucket, file }) => ({ bucket, file, path: `${userId}/${crypto.randomUUID()}.${extension(file)}` }));
+      let done = 0;
+      setStatus(`Uploading ${planned.length} ${planned.length === 1 ? "file" : "files"}…`);
+      const results = await Promise.allSettled(
+        planned.map(async ({ bucket, file, path }) => {
+          const { error } = await supabase.storage.from(bucket).upload(path, file, { contentType: file.type });
+          if (error) throw new Error(`Could not upload ${file.name}. Try again.`);
+          uploaded.push({ bucket, path }); // only files that really arrived, for the clean up below
+          done += 1;
+          setStatus(`Uploaded ${done} of ${planned.length}…`);
+        }),
+      );
+      const failed = results.find((r) => r.status === "rejected");
+      if (failed) throw (failed as PromiseRejectedResult).reason;
 
       setStatus("Saving…");
       const isAward = v.result_type === "award";
@@ -269,9 +299,9 @@ export function SubmitForm({
         mentor: optional(v.mentor),
         description: v.description,
         proof_url: optional(v.proof_url),
-        certificate_paths: uploaded.filter((u) => u.bucket === "certificates").map((u) => u.path),
+        certificate_paths: planned.filter((u) => u.bucket === "certificates").map((u) => u.path),
         // The first photo is the main one the newsletter team uses.
-        photo_paths: uploaded.filter((u) => u.bucket === "photos").map((u) => u.path),
+        photo_paths: planned.filter((u) => u.bucket === "photos").map((u) => u.path),
       });
       if (error) throw new Error("Could not save your post. Check the details and try again.");
 

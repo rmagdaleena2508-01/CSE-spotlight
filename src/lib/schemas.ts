@@ -124,17 +124,23 @@ export const achievementSchema = z
 
 export type AchievementInput = z.input<typeof achievementSchema>;
 
+// maxBytes is the size limit for what gets uploaded (the storage buckets use
+// the same limits). Pictures are made smaller in the browser first, so a
+// picked picture may be bigger, up to pickMaxBytes. PDFs are not shrunk, so
+// they must already fit maxBytes.
 export const FILE_RULES = {
   certificates: {
     max: 1,
     maxBytes: 10 * 1024 * 1024,
+    pickMaxBytes: 25 * 1024 * 1024,
     types: ["application/pdf", "image/jpeg", "image/png"],
-    label: "PDF, JPG or PNG, up to 10 MB",
+    label: "PDF up to 10 MB, or a JPG or PNG photo of it",
   },
   photos: {
     max: 5,
     maxBytes: 5 * 1024 * 1024,
+    pickMaxBytes: 25 * 1024 * 1024,
     types: ["image/jpeg", "image/png", "image/webp"],
-    label: "JPG, PNG or WebP, up to 5 MB each",
+    label: "JPG, PNG or WebP. Big phone photos are made smaller for you",
   },
 } as const;

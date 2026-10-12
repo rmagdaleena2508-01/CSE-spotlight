@@ -1,7 +1,8 @@
 import "server-only";
 import { createClient } from "@supabase/supabase-js";
 
-// Bypasses row level security. Only for account creation and login rate limits.
+// Bypasses row level security. Only for account creation, login rate limits,
+// password checks, and deleting a post after its owner has been checked.
 export function createAdminClient() {
   const key = process.env.SUPABASE_SECRET_KEY;
   if (!key) throw new Error("SUPABASE_SECRET_KEY is not set");

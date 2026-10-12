@@ -53,6 +53,9 @@ export default async function ReviewPage({ searchParams }: PageProps<"/faculty/r
       <p className="mt-2 text-muted-foreground">
         Posts are live as soon as students add them. Check the proof, then verify or remove.
       </p>
+      <p className="mt-1 text-sm">
+        <Link href="/account/password" className="underline underline-offset-4">Change your password</Link>
+      </p>
 
       <nav aria-label="Post status" className="mt-6 flex flex-wrap gap-2">
         {TABS.map((t, i) => (
