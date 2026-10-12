@@ -14,8 +14,6 @@ export const password = z
 export const CATEGORIES = [
   { value: "technical", label: "Technical" },
   { value: "non_technical", label: "Non-Technical" },
-  { value: "arts", label: "Arts" },
-  { value: "sports", label: "Sports" },
 ] as const;
 
 export const LEVELS = [
@@ -85,7 +83,7 @@ export const achievementSchema = z
       .trim()
       .refine((v) => v === "" || /^https:\/\/\S+$/.test(v), "Paste a full link starting with https://")
       .optional(),
-    category: z.enum(["technical", "non_technical", "arts", "sports"], { error: "Pick a category" }),
+    category: z.enum(["technical", "non_technical"], { error: "Pick a category" }),
     level: z.enum(["intra_college", "inter_college", "state", "national", "international"], {
       error: "Pick a level",
     }),

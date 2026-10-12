@@ -30,7 +30,7 @@ export type ReportRow = {
   verified_at: string;
 };
 
-const CATEGORY_ORDER = ["technical", "non_technical", "arts", "sports"];
+const CATEGORY_ORDER = ["technical", "non_technical"];
 
 // Verified posts only, grouped by category, oldest event first (newsletter order).
 // Runs as the signed-in faculty member, so row level security still applies.

@@ -22,8 +22,6 @@ import { cn } from "@/lib/utils";
 const TONE: Record<string, string> = {
   technical: "from-sky-200 via-blue-100 to-indigo-200",
   non_technical: "from-violet-200 via-fuchsia-100 to-purple-200",
-  arts: "from-rose-200 via-orange-100 to-amber-200",
-  sports: "from-emerald-200 via-lime-100 to-teal-200",
 };
 
 const EASE = [0.22, 0.61, 0.36, 1] as const;

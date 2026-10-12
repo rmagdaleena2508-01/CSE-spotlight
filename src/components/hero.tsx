@@ -39,16 +39,16 @@ const STICKERS: OrbitSticker[] = [
     w: 640,
     h: 610,
     size: 18,
-    href: "/achievements?category=arts",
-    label: "Arts achievements",
+    href: "/spotlight",
+    label: "Student Spotlight",
   },
   {
     src: "/stickers/football.webp",
     w: 640,
     h: 556,
     size: 19,
-    href: "/achievements?category=sports",
-    label: "Sports achievements",
+    href: "/achievements",
+    label: "All achievements",
   },
   {
     // Follows the football round the loop, filling what was a wide empty gap.
