@@ -36,7 +36,7 @@ import { cn } from "@/lib/utils";
 type Bucket = keyof typeof FILE_RULES;
 
 const selectClass =
-  "h-8 w-full rounded-lg border border-input bg-background px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive";
+  "h-10 w-full rounded-lg border border-input bg-background px-2.5 text-base md:h-8 md:text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive";
 
 const choiceClass =
   "flex cursor-pointer items-center gap-2 rounded-lg border bg-background px-3 py-2.5 text-sm has-checked:border-primary has-checked:bg-primary/5";

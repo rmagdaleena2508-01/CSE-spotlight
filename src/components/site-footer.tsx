@@ -49,7 +49,7 @@ export function SiteFooter() {
         <div className="absolute inset-x-0 top-0 h-2/3 bg-gradient-to-b from-sky-700/10 via-sky-700/25 to-transparent" />
       </div>
 
-      <div className="mx-auto flex min-h-[46rem] max-w-6xl flex-col px-4 pt-40 pb-6 sm:min-h-[52rem] sm:pt-48 lg:min-h-[58rem]">
+      <div className="mx-auto flex min-h-[46rem] max-w-6xl flex-col px-4 pt-40 pb-[calc(1.5rem+env(safe-area-inset-bottom))] sm:min-h-[52rem] sm:pt-48 lg:min-h-[58rem]">
         <div className="[text-shadow:0_1px_12px_rgb(0_40_90/0.35)]">
           <div className="grid grid-cols-2 gap-x-6 gap-y-7 md:grid-cols-[1.4fr_repeat(3,1fr)] md:gap-8">
             <div className="col-span-2 md:col-span-1">

@@ -61,11 +61,13 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${satoshi.variable} ${pixel.variable} ${headline.variable} ${cse.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col pt-[env(safe-area-inset-top)] pr-[env(safe-area-inset-right)] pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)]">
+      <body className="flex min-h-full flex-col pr-[env(safe-area-inset-right)] pl-[env(safe-area-inset-left)]">
         <SiteHeader />
         <ScrollBlur />
-        {/* The header floats over the page, so content starts below it. */}
-        <div className="flex-1 pt-[76px] sm:pt-[84px]">{children}</div>
+        {/* The header floats over the page, so content starts below it (and below the
+            phone's status bar). The top and bottom safe areas are not padded on the body,
+            so the hero and footer art run under the notch and home bar with no white strip. */}
+        <div className="flex-1 pt-[calc(76px+env(safe-area-inset-top))] sm:pt-[calc(84px+env(safe-area-inset-top))]">{children}</div>
         <SiteFooter />
         <Toaster />
         <ArrivalMarker />

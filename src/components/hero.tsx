@@ -106,14 +106,19 @@ export function Hero() {
     // Outer layer: white with a faint grid.
     <div
       className={cn(
-        "relative isolate overflow-hidden -mt-[76px] bg-white px-3 pt-[100px] pb-10 sm:-mt-[84px] sm:px-6 sm:max-[899px]:pt-[116px] sm:max-[899px]:pb-14",
+        "relative isolate overflow-x-clip -mt-[calc(76px+env(safe-area-inset-top))] bg-white px-3 pt-[calc(100px+env(safe-area-inset-top))] pb-10 sm:-mt-[calc(84px+env(safe-area-inset-top))] sm:px-6 sm:max-[899px]:pt-[calc(116px+env(safe-area-inset-top))] sm:max-[899px]:pb-14",
         // Laptops: the whole hero is exactly one screen tall, so nothing needs scrolling.
-        "min-[900px]:flex min-[900px]:h-[100svh] min-[900px]:flex-col min-[900px]:pt-[96px] min-[900px]:pb-5",
+        "min-[900px]:flex min-[900px]:h-[100svh] min-[900px]:flex-col min-[900px]:pt-[calc(96px+env(safe-area-inset-top))] min-[900px]:pb-5",
         OUTER_GRID,
       )}
     >
-      {/* Sunshine around the card: warm, blurred light pooling at the corners and edges. */}
-      <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
+      {/* Sunshine around the card: warm, blurred light pooling at the corners and edges.
+          The hero only clips sideways, so this light and the card's halo spill a little
+          below it and fade into the next section, with no hard line between them. */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 -bottom-24 -z-10 [mask-image:linear-gradient(to_bottom,black_70%,transparent)]"
+        aria-hidden
+      >
         <div className="absolute top-[-12%] left-[-6%] h-[70%] w-[55%] rounded-full bg-[radial-gradient(closest-side,rgb(255_214_102/0.75),rgb(255_183_77/0.35)_45%,transparent)] blur-3xl" />
         <div className="absolute top-[-6%] right-[-8%] h-[60%] w-[50%] rounded-full bg-[radial-gradient(closest-side,rgb(255_236_153/0.8),rgb(255_200_87/0.3)_50%,transparent)] blur-3xl" />
         <div className="absolute bottom-[-10%] left-[20%] h-[45%] w-[60%] rounded-full bg-[radial-gradient(closest-side,rgb(255_221_128/0.55),transparent)] blur-3xl" />

@@ -9,7 +9,7 @@ import { filtersToSearch, type Filters } from "@/lib/filters";
 import { CATEGORIES, LEVELS } from "@/lib/schemas";
 
 const selectClass =
-  "h-9 w-full rounded-lg border border-input bg-background px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50";
+  "h-10 w-full rounded-lg border border-input bg-background px-2.5 text-base md:h-9 md:text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50";
 
 // Every change rewrites the page address, so the filtered view can be shared,
 // refreshed or reached again with the Back button.

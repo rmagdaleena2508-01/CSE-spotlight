@@ -11,7 +11,7 @@ import { requireFaculty } from "@/lib/session";
 export const metadata: Metadata = { title: "Newsletter report · CSE Spotlight" };
 
 const selectClass =
-  "h-9 w-full rounded-lg border border-input bg-background px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50";
+  "h-10 w-full rounded-lg border border-input bg-background px-2.5 text-base md:h-9 md:text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50";
 
 export default async function ReportPage({ searchParams }: PageProps<"/faculty/report">) {
   await requireFaculty();

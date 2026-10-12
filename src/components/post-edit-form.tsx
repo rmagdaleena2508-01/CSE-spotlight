@@ -11,7 +11,7 @@ import { ACHIEVEMENT_TYPES, CATEGORIES, LEVELS, YEARS } from "@/lib/schemas";
 import type { EditState } from "@/lib/post-edit";
 
 const selectClass =
-  "h-8 w-full rounded-lg border border-input bg-background px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50";
+  "h-10 w-full rounded-lg border border-input bg-background px-2.5 text-base md:h-8 md:text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50";
 
 type Props = {
   id: string;

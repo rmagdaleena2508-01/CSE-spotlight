@@ -328,6 +328,13 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - The post, its certificate, its photos and its cheers are all deleted.
   - The student gets a notification under the bell that says which post was deleted, who deleted it, and why.
   - **Remove** is still there too. It hides a post but keeps it, so the student can see the reason on their page. **Delete for good** wipes it completely.
+- **Phone polish for Android and iPhone (done):**
+  - The warm light around the hero used to stop in a hard straight line. Now it fades softly into the Student Spotlight section, so scrolling down the page has no sharp cut.
+  - On iPhones with a notch or a home bar, there was a white strip at the very top and bottom. Now the hero runs under the status bar and the footer picture runs under the home bar, while the header, buttons and text stay clear of them.
+  - On phones, the moving spotlight cards and the hero stickers never stop, not even while you scroll the page with your finger on them. Before, a finger on a row or a sticker counted as "pointing at it", which paused it. Now only a real mouse on a laptop pauses them. On phones the hint under the heading says "Tap a card to open it".
+  - iPhones zoom in when you tap a text box with small writing. All text boxes and dropdowns now use 16 pixel writing on phones, so the page no longer jumps or zooms, and they are 40 pixels tall so they are easy to tap.
+  - Every page was checked at phone width (375 pixels). Nothing is wider than the screen, so there is no sideways scrolling.
+  - Moving from one page to another still uses the soft fade from before.
 - **Still to do:** going online on Vercel, the faculty guide, and the final test.
 
 </details>

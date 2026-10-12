@@ -261,7 +261,7 @@ function Expanded({ post, cheers, onClose }: { post: SpotlightPost; cheers: Reac
 
   const name = displayName(post.student_name);
   return (
-    <div className="fixed inset-0 z-[90] overflow-y-auto px-3 py-6 sm:px-6 sm:py-12">
+    <div className="fixed inset-0 z-[90] overflow-y-auto overscroll-contain px-3 pt-[calc(1.5rem+env(safe-area-inset-top))] pb-[calc(1.5rem+env(safe-area-inset-bottom))] sm:px-6 sm:pt-[calc(3rem+env(safe-area-inset-top))] sm:pb-[calc(3rem+env(safe-area-inset-bottom))]">
       <motion.div
         className="fixed inset-0 bg-[rgb(11_10_10/0.5)] backdrop-blur-md"
         initial={{ opacity: 0 }}

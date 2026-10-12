@@ -163,12 +163,15 @@ export function HeroSticker({
               href={href}
               aria-label={label}
               className="group block rounded-[24px] outline-none focus-visible:ring-3 focus-visible:ring-black/40 focus-visible:ring-offset-4"
-              onPointerMove={onPointerMove}
-              onPointerEnter={() => onHoverChange(true)}
+              // Only a real mouse pauses the loop. On phones a finger that lands on a
+              // sticker while scrolling the page must not stop it.
+              onPointerMove={(e) => e.pointerType === "mouse" && onPointerMove(e)}
+              onPointerEnter={(e) => e.pointerType === "mouse" && onHoverChange(true)}
               onPointerLeave={() => {
                 onPointerLeave();
                 onHoverChange(false);
               }}
+              onPointerCancel={() => onHoverChange(false)}
             >
               <motion.div
                 className="relative [transform-style:preserve-3d]"

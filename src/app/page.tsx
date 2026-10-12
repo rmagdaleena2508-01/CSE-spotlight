@@ -18,7 +18,9 @@ export default async function Home() {
               Student Spotlight
             </h2>
             <p className="mx-auto mt-2 max-w-xl text-muted-foreground">
-              Fresh wins from our department, rolling by. Point at a row to pause it.
+              Fresh wins from our department, rolling by.{" "}
+              <span className="[@media(hover:none)]:hidden">Point at a row to pause it.</span>
+              <span className="[@media(hover:hover)]:hidden">Tap a card to open it.</span>
             </p>
           </div>
 
