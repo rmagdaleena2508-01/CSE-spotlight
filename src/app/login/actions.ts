@@ -7,6 +7,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { namesMatch, studentEmail, facultyEmail } from "@/lib/roster";
 import { password, rollNo } from "@/lib/schemas";
+import { sendResetEmail } from "@/lib/notify/reset-email";
 import { sendSignupEmail } from "@/lib/notify/signup-email";
 
 export type FormState =
@@ -35,10 +36,14 @@ const BLOCKED = `Too many wrong tries. Wait ${WINDOW_MINUTES} minutes and try ag
 const NO_MATCH = "That roll number and name do not match the class list. Check the spelling or ask your faculty.";
 
 type RosterCheck =
-  | { ok: true; roll: string; rosterName: string }
+  | { ok: true; roll: string; rosterName: string; userId: string | null }
   | { ok: false; error: string };
 
-async function checkRoster(rawRoll: string, rawName: string): Promise<RosterCheck> {
+/**
+ * Roll number + name against the class list. Sign-up needs an account that is not set
+ * up yet; "Forgot password" needs one that is.
+ */
+async function checkRoster(rawRoll: string, rawName: string, want: "new" | "existing" = "new"): Promise<RosterCheck> {
   const parsed = z.object({ roll: rollNo, name: z.string().trim().min(1, "Enter your name") }).safeParse({
     roll: rawRoll,
     name: rawName,
@@ -58,13 +63,16 @@ async function checkRoster(rawRoll: string, rawName: string): Promise<RosterChec
     await recordFailure(roll);
     return { ok: false, error: NO_MATCH };
   }
-  if (student.auth_user_id) {
+  if (want === "new" && student.auth_user_id) {
     return {
       ok: false,
-      error: "This roll number is already signed up. Log in instead, or ask your faculty to reset it.",
+      error: "This roll number is already signed up. Log in instead, or press Forgot password.",
     };
   }
-  return { ok: true, roll, rosterName: student.name };
+  if (want === "existing" && !student.auth_user_id) {
+    return { ok: false, error: "This roll number has not signed up yet. Press Sign up to make your password." };
+  }
+  return { ok: true, roll, rosterName: student.name, userId: student.auth_user_id };
 }
 
 // First visit. Step 1 checks roll number + name; step 2 (with a password) creates the account.
@@ -131,6 +139,45 @@ async function claimAccount(_: FormState, form: FormData): Promise<FormState> {
   redirect(nextPath(form, "/dashboard"));
 }
 
+// Forgot password. There are no real email addresses (log in is by roll number), so a
+// student proves who they are the same way as at sign-up: roll number + name from the
+// class list. Step 1 checks them; step 2 sets the new password and logs them in. The
+// usual wrong-try limit applies, and the developer and faculty get an email each time.
+export async function resetPassword(_: FormState, form: FormData): Promise<FormState> {
+  const rawRoll = String(form.get("roll_no") ?? "");
+  const rawName = String(form.get("name") ?? "");
+
+  if (!form.has("password")) {
+    const result = await checkRoster(rawRoll, rawName, "existing");
+    if (!result.ok) return { error: result.error, rollNo: rawRoll, name: rawName };
+    return { step: "password", rollNo: result.roll, name: rawName };
+  }
+
+  const back = { step: "password" as const, rollNo: rawRoll, name: rawName };
+  const pw = password.safeParse(form.get("password"));
+  if (!pw.success) return { ...back, error: pw.error.issues[0].message };
+  if (form.get("password") !== form.get("confirm")) return { ...back, error: "The two passwords do not match." };
+
+  // Checked again, so step 2 cannot be called on its own.
+  const result = await checkRoster(rawRoll, rawName, "existing");
+  if (!result.ok || !result.userId) return { error: result.ok ? "Something went wrong. Try again." : result.error };
+
+  const { error: updateError } = await createAdminClient().auth.admin.updateUserById(result.userId, {
+    password: pw.data,
+  });
+  if (updateError) return { ...back, error: "Could not change your password. Try again." };
+
+  const { roll, rosterName } = result;
+  after(() =>
+    sendResetEmail(roll, rosterName).catch((e) => console.error("[reset-email] Failed:", e instanceof Error ? e.message : e)),
+  );
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInWithPassword({ email: studentEmail(roll), password: pw.data });
+  if (error) return { error: "Password changed. Log in with your new password." };
+  redirect(nextPath(form, "/dashboard"));
+}
+
 /** A path on this site to return to after logging in, or the fallback. Never another site. */
 function nextPath(form: FormData, fallback: string) {
   const next = String(form.get("next") ?? "");
@@ -150,7 +197,7 @@ export async function studentLogin(_: FormState, form: FormData): Promise<FormSt
   const { error } = await supabase.auth.signInWithPassword({ email: studentEmail(roll.data), password: pw });
   if (error) {
     await recordFailure(roll.data);
-    return { error: "Wrong roll number or password. New here? Press Sign up below.", rollNo: rawRoll };
+    return { error: "Wrong roll number or password. Forgot it? Press Forgot password. New here? Press Sign up below.", rollNo: rawRoll };
   }
   redirect(nextPath(form, "/dashboard"));
 }

@@ -16,6 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   firstLogin,
   facultyLogin,
+  resetPassword,
   studentLogin,
   type FormState,
 } from "./actions";
@@ -43,7 +44,7 @@ function FormError({ state }: { state: FormState }) {
   );
 }
 
-function StudentLogin() {
+function StudentLogin({ onForgot }: { onForgot: () => void }) {
   const [state, action, pending] = useActionState(studentLogin, undefined);
   return (
     <form action={action}>
@@ -69,6 +70,13 @@ function StudentLogin() {
             autoComplete="current-password"
             required
           />
+          <button
+            type="button"
+            onClick={onForgot}
+            className="underline-grow ml-auto !w-fit text-sm text-muted-foreground hover:text-foreground"
+          >
+            Forgot password?
+          </button>
         </Field>
         <Button type="submit" disabled={pending}>
           {pending ? "Logging in…" : "Log in"}
@@ -78,8 +86,13 @@ function StudentLogin() {
   );
 }
 
-function FirstTime() {
-  const [state, action, pending] = useActionState(firstLogin, undefined);
+/**
+ * Roll number + name, then a password. Used to sign up (first time) and to set a new
+ * password after forgetting the old one; only the wording and the server step differ.
+ */
+function FirstTime({ kind = "signup" }: { kind?: "signup" | "reset" }) {
+  const reset = kind === "reset";
+  const [state, action, pending] = useActionState(reset ? resetPassword : firstLogin, undefined);
 
   if (state?.step === "password" && state.rollNo) {
     return (
@@ -89,7 +102,7 @@ function FirstTime() {
           <FormError state={state} />
           <p className="text-sm">
             Found you, <span className="font-medium">{state.rollNo}</span>. Now
-            make a password.
+            make {reset ? "a new password" : "a password"}.
           </p>
           <input type="hidden" name="roll_no" value={state.rollNo} />
           <input type="hidden" name="name" value={state.name} />
@@ -117,7 +130,7 @@ function FirstTime() {
             />
           </Field>
           <Button type="submit" disabled={pending}>
-            {pending ? "Signing up…" : "Sign up and log in"}
+            {pending ? (reset ? "Saving…" : "Signing up…") : reset ? "Save and log in" : "Sign up and log in"}
           </Button>
         </FieldGroup>
       </form>
@@ -196,11 +209,28 @@ function FacultyLogin() {
   );
 }
 
-/** Student tab: log in, with a sign-up option for students who have not registered yet. */
+/** Student tab: log in, sign up (first time), or set a new password after forgetting it. */
 function StudentPanel({ startWithSignup }: { startWithSignup: boolean }) {
-  const [mode, setMode] = useState<"login" | "signup">(
+  const [mode, setMode] = useState<"login" | "signup" | "reset">(
     startWithSignup ? "signup" : "login",
   );
+  if (mode === "reset") {
+    return (
+      <div className="space-y-4">
+        <div>
+          <h2 className="text-xl">Forgot password</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Enter your roll number and name as on the class list, then make a new
+            password. Your faculty get a note that it was changed.
+          </p>
+        </div>
+        <FirstTime key="reset" kind="reset" />
+        <button type="button" onClick={() => setMode("login")} className={LIFT_LINK}>
+          Remembered it? Log in
+        </button>
+      </div>
+    );
+  }
   if (mode === "signup") {
     return (
       <div className="space-y-4">
@@ -211,7 +241,7 @@ function StudentPanel({ startWithSignup }: { startWithSignup: boolean }) {
             number and name, then make a password.
           </p>
         </div>
-        <FirstTime />
+        <FirstTime key="signup" />
         <button
           type="button"
           onClick={() => setMode("login")}
@@ -224,7 +254,7 @@ function StudentPanel({ startWithSignup }: { startWithSignup: boolean }) {
   }
   return (
     <div className="space-y-4">
-      <StudentLogin />
+      <StudentLogin onForgot={() => setMode("reset")} />
       <div
         className="flex items-center gap-3 text-xs text-muted-foreground"
         aria-hidden

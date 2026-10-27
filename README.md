@@ -375,6 +375,14 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - The first real post is up: G P Revanth Raj (II year, CSE Core A) won the Best Paper Award at the Transnational Tamil Welsh Conference 2026 (TWC'26) for the paper "TAURUS". The details were taken from his certificate.
   - His certificate is stored privately; only faculty can open it. The post waits for faculty to verify it.
   - The site now holds only real data: the 52 students on the class list and real posts.
+- **Forgot password (done):**
+  - The student log in has a "Forgot password?" link under the password box.
+  - Logins use roll numbers, not real email addresses, so there is no reset email. Instead the student types their roll number and name exactly as on the class list (like at sign-up), then makes a new password and is logged straight in.
+  - Only students who have already signed up can do this; new students are sent to Sign up.
+  - The usual limit applies: 5 wrong tries block that roll number for 15 minutes.
+  - Each reset emails the developer and faculty ("Password reset: NAME (ROLL)"), using the same Gmail settings as the sign-up email.
+  - **Known risk (chosen on purpose):** a classmate who knows someone's roll number and name could reset their password. The email exists so this gets noticed; faculty can then reset that student's login from the Class list page.
+  - Faculty passwords are still reset by the developer.
 - **Still to do:** the faculty guide, collecting feedback from live testing, and the final test.
 
 </details>
