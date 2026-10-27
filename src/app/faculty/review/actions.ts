@@ -55,7 +55,7 @@ export async function deletePostForGood(postId: string, reason: string): Promise
   const admin = createAdminClient();
   const { data: post } = await admin
     .from("achievements")
-    .select("id, roll_no, event_name, certificate_paths, photo_paths")
+    .select("id, roll_no, event_name, certificate_paths, photo_paths, thumb_path")
     .eq("id", postId)
     .maybeSingle();
   if (!post) return { error: "This post is already gone." };
@@ -65,7 +65,8 @@ export async function deletePostForGood(postId: string, reason: string): Promise
 
   // The post is already gone; a file that fails to delete here is only left over, never shown.
   if (post.certificate_paths?.length) await admin.storage.from("certificates").remove(post.certificate_paths);
-  if (post.photo_paths?.length) await admin.storage.from("photos").remove(post.photo_paths);
+  const photos = [...(post.photo_paths ?? []), ...(post.thumb_path ? [post.thumb_path] : [])];
+  if (photos.length) await admin.storage.from("photos").remove(photos);
 
   const { data: student } = await admin.from("students").select("auth_user_id").eq("roll_no", post.roll_no).maybeSingle();
   if (student?.auth_user_id) {

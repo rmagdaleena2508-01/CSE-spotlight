@@ -1,6 +1,6 @@
 // Columns safe for anyone to see. Kept in one place so every page asks for the same set.
 export const PUBLIC_CARD_COLUMNS =
-  "id, student_name, event_name, event_date, category, result_type, rank, award_title, participation_type, team_name, photo_paths, is_verified, celebrate_count, heart_count";
+  "id, student_name, event_name, event_date, category, result_type, rank, award_title, participation_type, team_name, photo_paths, thumb_path, is_verified, celebrate_count, heart_count";
 
 export type PublicCard = {
   id: string;
@@ -14,6 +14,8 @@ export type PublicCard = {
   participation_type: string;
   team_name: string | null;
   photo_paths: string[];
+  /** Optional square crop for the small rolling cards; the main photo can then be a full poster. */
+  thumb_path: string | null;
   is_verified: boolean;
   celebrate_count: number;
   heart_count: number;

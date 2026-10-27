@@ -187,10 +187,30 @@ function Row({
 }
 
 /** The picture side of a card (photo, or the category sticker on a soft gradient). */
-function Cover({ post, sizes, priority }: { post: SpotlightPost; sizes: string; priority?: boolean }) {
+function Cover({
+  post,
+  sizes,
+  priority,
+  whole,
+}: {
+  post: SpotlightPost;
+  sizes: string;
+  priority?: boolean;
+  /** Show the whole picture (letterboxed) instead of filling the box. */
+  whole?: boolean;
+}) {
   const photo = post.photo_paths[0];
   if (photo) {
-    return <Image src={photoUrl(photo)} alt="" fill sizes={sizes} priority={priority} className="object-cover" />;
+    return (
+      <Image
+        src={photoUrl(photo)}
+        alt=""
+        fill
+        sizes={sizes}
+        priority={priority}
+        className={whole ? "object-contain" : "object-cover"}
+      />
+    );
   }
   const sticker = CATEGORY_STICKER[post.category];
   return (
@@ -204,30 +224,34 @@ function Cover({ post, sizes, priority }: { post: SpotlightPost; sizes: string; 
 
 function Tile({ post, onOpen, priority }: { post: SpotlightPost; onOpen: () => void; priority?: boolean }) {
   const isAward = post.result_type === "award";
+  // The picture sits on top, whole and uncovered (a poster shows in full), in the 4:5
+  // shape of a phone poster; the words sit underneath it instead of over it.
   return (
     <motion.button
       type="button"
       layoutId={`spotlight-${post.id}`}
       onClick={onOpen}
       aria-label={`Read about ${post.event_name} by ${displayName(post.student_name)}`}
-      className="group relative isolate aspect-[3/4] w-full overflow-hidden rounded-[28px] bg-neutral-100 text-left shadow-[0_0_0_1px_rgb(0_0_0/0.06),0_18px_40px_-22px_rgb(0_0_0/0.45)] transition-[translate,scale] duration-500 ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:-translate-y-1 hover:scale-[1.015] focus-visible:ring-3 focus-visible:ring-black/40 focus-visible:outline-none motion-reduce:transition-none motion-reduce:hover:transform-none"
+      className="group relative isolate flex w-full flex-col overflow-hidden rounded-[28px] bg-white text-left shadow-[0_0_0_1px_rgb(0_0_0/0.06),0_18px_40px_-22px_rgb(0_0_0/0.45)] transition-[translate,scale] duration-500 ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:-translate-y-1 hover:scale-[1.015] focus-visible:ring-3 focus-visible:ring-black/40 focus-visible:outline-none motion-reduce:transition-none motion-reduce:hover:transform-none"
     >
-      <div className="absolute inset-0 transition-transform duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.04] motion-reduce:transition-none">
-        <Cover post={post} sizes="(min-width: 768px) 336px, 248px" priority={priority} />
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-neutral-100">
+        <div className="absolute inset-0 transition-transform duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.03] motion-reduce:transition-none">
+          <Cover post={post} sizes="(min-width: 768px) 336px, 248px" priority={priority} />
+        </div>
       </div>
-      {/* Shade at the top so white text stays readable on any photo. */}
-      <div className="absolute inset-x-0 top-0 h-2/3 bg-gradient-to-b from-black/70 via-black/25 to-transparent" aria-hidden />
-      <div className="relative flex h-full flex-col p-5 text-white">
-        <p className="text-xs font-semibold tracking-[0.12em] uppercase opacity-85">{categoryLabel(post.category)}</p>
-        <p className="mt-2 line-clamp-3 font-[family-name:var(--font-headline)] text-[1.45rem] leading-[1.15] text-balance md:text-[1.7rem]">
+      <div className="flex flex-1 flex-col gap-1.5 p-4 sm:p-5">
+        <p className="text-[0.6875rem] font-semibold tracking-[0.12em] text-muted-foreground uppercase">
+          {categoryLabel(post.category)}
+        </p>
+        <p className="line-clamp-2 font-[family-name:var(--font-headline)] text-[1.2rem] leading-[1.2] text-balance md:text-[1.35rem]">
           {post.event_name}
         </p>
-        <p className="mt-2 text-sm font-medium opacity-90">{displayName(post.student_name)}</p>
-        <div className="mt-auto flex flex-wrap items-center gap-1.5">
+        <p className="text-sm text-muted-foreground">{displayName(post.student_name)}</p>
+        <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
           <span
             className={cn(
               "rounded-full px-2.5 py-1 text-xs font-bold",
-              isAward ? "bg-[#fbbf24] text-[#080809]" : "bg-white/90 text-[#080809]",
+              isAward ? "bg-[#fbbf24] text-[#080809]" : "bg-muted text-foreground",
             )}
           >
             {resultLabel(post)}
@@ -279,9 +303,9 @@ function Expanded({ post, cheers, onClose }: { post: SpotlightPost; cheers: Reac
         className="relative mx-auto max-w-3xl overflow-hidden rounded-[28px] bg-white shadow-[0_40px_120px_-30px_rgb(0_0_0/0.6)]"
         transition={{ type: "spring", stiffness: 260, damping: 32 }}
       >
-        <div className="relative h-64 sm:h-96">
-          <Cover post={post} sizes="(min-width: 768px) 768px, 100vw" priority />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" aria-hidden />
+        {/* The whole picture, uncropped (a poster shows in full), on a soft backdrop. */}
+        <div className="relative h-[min(72vh,40rem)] bg-neutral-100">
+          <Cover post={post} sizes="(min-width: 768px) 768px, 100vw" priority whole />
           <button
             ref={closeRef}
             type="button"
@@ -291,12 +315,7 @@ function Expanded({ post, cheers, onClose }: { post: SpotlightPost; cheers: Reac
           >
             <X className="size-5" aria-hidden />
           </button>
-          <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-8">
-            <p className="text-xs font-semibold tracking-[0.12em] uppercase opacity-85">{categoryLabel(post.category)}</p>
-            <h3 className="mt-2 font-[family-name:var(--font-headline)] text-3xl leading-tight text-balance sm:text-4xl">
-              {post.event_name}
-            </h3>
-          </div>
+
         </div>
 
         <motion.div
@@ -305,7 +324,13 @@ function Expanded({ post, cheers, onClose }: { post: SpotlightPost; cheers: Reac
           animate={{ opacity: 1, y: 0, transition: { delay: 0.15, duration: 0.4, ease: EASE } }}
           exit={{ opacity: 0, transition: { duration: 0.1 } }}
         >
-          <p className="text-lg font-semibold">
+          <p className="text-xs font-semibold tracking-[0.12em] text-muted-foreground uppercase">
+            {categoryLabel(post.category)}
+          </p>
+          <h3 className="mt-2 font-[family-name:var(--font-headline)] text-3xl leading-tight text-balance sm:text-4xl">
+            {post.event_name}
+          </h3>
+          <p className="mt-3 text-lg font-semibold">
             {name}
             {post.participation_type === "team" && (
               <span className="font-normal text-muted-foreground">{post.team_name ? ` · Team ${post.team_name}` : " · Team"}</span>

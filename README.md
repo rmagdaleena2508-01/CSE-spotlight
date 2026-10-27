@@ -383,6 +383,10 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - Each reset emails the developer and faculty ("Password reset: NAME (ROLL)"), using the same Gmail settings as the sign-up email.
   - **Known risk (chosen on purpose):** a classmate who knows someone's roll number and name could reset their password. The email exists so this gets noticed; faculty can then reset that student's login from the Class list page.
   - Faculty passwords are still reset by the developer.
+- **Posters and thumbnails (done):**
+  - A post can now have a separate square thumbnail (a face crop) for the small rolling cards on the home page, while its main photo is a full poster.
+  - Spotlight cards show the whole picture on top, uncropped, with the words underneath instead of over it. Opening a card also shows the whole picture.
+  - On the home rolling cards, a win now leads with the award and year ("Best Paper Award 2026"), with the event's short name under it ("TWC 2026"). The tag shows the level instead of repeating the award.
 - **Still to do:** the faculty guide, collecting feedback from live testing, and the final test.
 
 </details>

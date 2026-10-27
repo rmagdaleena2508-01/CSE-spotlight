@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { BadgeCheck } from "lucide-react";
 import { CATEGORY_STICKER } from "@/lib/category-stickers";
-import { categoryLabel, resultLabel } from "@/lib/labels";
+import { categoryLabel, levelLabel, resultLabel } from "@/lib/labels";
 import { photoUrl } from "@/lib/photos";
 import { displayName } from "@/lib/reactions/kinds";
 import type { SpotlightPost } from "@/lib/spotlight";
@@ -64,9 +64,19 @@ function Row({ posts, direction, signedIn }: { posts: SpotlightPost[]; direction
 // Card pictures load straight away ("eager"), not when they slide into view: the rows
 // move sideways, so lazy loading made cards show up empty and fill in late on phones.
 function Card({ post, signedIn, tabbable }: { post: SpotlightPost; signedIn: boolean; tabbable: boolean }) {
-  const photo = post.photo_paths[0];
+  // The square thumbnail if there is one (a face crop), otherwise the main photo.
+  const photo = post.thumb_path ?? post.photo_paths[0];
   const sticker = CATEGORY_STICKER[post.category];
   const isAward = post.result_type === "award";
+  // Wins lead with the award ("Best Paper Award 2026"), with the event's short name under
+  // it ("TWC 2026", from the brackets in the event name). Other posts lead with the event.
+  const year = post.event_date.slice(0, 4);
+  const short = /\(([^()]+)\)\s*$/.exec(post.event_name)?.[1];
+  const title =
+    isAward && post.award_title
+      ? post.award_title.includes(year) ? post.award_title : `${post.award_title} ${year}`
+      : post.event_name;
+  const subtitle = isAward && post.award_title ? (short ?? post.event_name) : null;
   const detail = `/achievements/${post.id}`;
   // The full post is for people who are logged in; everyone else is asked to log in first.
   const href = signedIn ? detail : `/login?reason=more&next=${encodeURIComponent(detail)}`;
@@ -79,7 +89,7 @@ function Card({ post, signedIn, tabbable }: { post: SpotlightPost; signedIn: boo
     <Link
       href={href}
       tabIndex={tabbable ? undefined : -1}
-      aria-label={`${post.event_name}, ${displayName(post.student_name)}${signedIn ? "" : ". Log in to read the full post"}`}
+      aria-label={`${title}${subtitle ? `, ${subtitle}` : ""}, ${displayName(post.student_name)}${signedIn ? "" : ". Log in to read the full post"}`}
       className="lift flex w-[18.5rem] items-stretch gap-3.5 rounded-2xl bg-white p-4 shadow-[0_0_0_1px_rgb(0_0_0/0.07),0_10px_26px_-16px_rgb(0_0_0/0.35)] sm:w-[22rem] sm:gap-4 sm:p-5"
     >
       <span
@@ -110,8 +120,13 @@ function Card({ post, signedIn, tabbable }: { post: SpotlightPost; signedIn: boo
         </span>
         <span className="block">
           <span className="block truncate font-[family-name:var(--font-headline)] text-[1.1rem] leading-tight">
-            {post.event_name}
+            {title}
           </span>
+          {subtitle && (
+            <span className="mt-0.5 block truncate text-xs font-semibold tracking-[0.06em] text-foreground/70 uppercase">
+              {subtitle}
+            </span>
+          )}
           <span className="mt-1 block truncate text-sm leading-tight text-muted-foreground">
             {displayName(post.student_name)}
           </span>
@@ -123,7 +138,8 @@ function Card({ post, signedIn, tabbable }: { post: SpotlightPost; signedIn: boo
               isAward ? "bg-[#fbbf24] text-[#080809]" : "bg-muted text-foreground",
             )}
           >
-            {resultLabel(post)}
+            {/* The award is already the title, so the tag shows the level instead. */}
+            {subtitle ? levelLabel(post.level) : resultLabel(post)}
           </span>
           {post.is_verified && <BadgeCheck className="size-4 text-emerald-600" aria-label="Faculty verified" />}
         </span>

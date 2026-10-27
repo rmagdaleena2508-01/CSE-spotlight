@@ -22,7 +22,7 @@ export async function deleteMyPost(postId: string): Promise<{ error?: string }> 
   const supabase = await createClient();
   const { data: post } = await supabase
     .from("achievements")
-    .select("id, roll_no, certificate_paths, photo_paths")
+    .select("id, roll_no, certificate_paths, photo_paths, thumb_path")
     .eq("id", postId)
     .eq("roll_no", student.rollNo)
     .maybeSingle();
@@ -34,7 +34,7 @@ export async function deleteMyPost(postId: string): Promise<{ error?: string }> 
 
   const own = (paths: string[] | null) => (paths ?? []).filter((p) => p.startsWith(`${student.userId}/`));
   const certificates = own(post.certificate_paths);
-  const photos = own(post.photo_paths);
+  const photos = own([...(post.photo_paths ?? []), ...(post.thumb_path ? [post.thumb_path] : [])]);
   // The post is already gone; a file that fails to delete here is only left over, never shown.
   if (certificates.length) await admin.storage.from("certificates").remove(certificates);
   if (photos.length) await admin.storage.from("photos").remove(photos);
