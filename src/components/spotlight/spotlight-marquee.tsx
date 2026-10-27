@@ -119,7 +119,7 @@ function Card({ post, signedIn, tabbable }: { post: SpotlightPost; signedIn: boo
           {categoryLabel(post.category)}
         </span>
         <span className="block">
-          <span className="block truncate font-[family-name:var(--font-headline)] text-[1.1rem] leading-tight">
+          <span className="line-clamp-2 font-[family-name:var(--font-headline)] text-[1.05rem] leading-tight">
             {title}
           </span>
           {subtitle && (
