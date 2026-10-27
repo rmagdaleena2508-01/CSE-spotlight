@@ -2,6 +2,8 @@
 
 **Live site: [cse-spotlight.vercel.app](https://cse-spotlight.vercel.app)**
 
+**Status: live testing.** The first real student post is up, so the site is now being tested with real data.
+
 A website to show what our students win and do.
 
 ## Why
@@ -368,7 +370,12 @@ Day 3 adds the newsletter PDF report, a final polish pass, and puts the site onl
   - the footer picture is one of the small ready-made copies.
   - `npm run test:live` runs the same checks on the live site, and also checks that it answers from Mumbai in under 1.5 seconds.
   - These tests already caught one mistake while I was making the changes: the Student Spotlight section had become 1392 pixels wide on phones.
-- **Still to do:** going online on Vercel, the faculty guide, and the final test.
+- **Live testing started (27 Oct 2026):**
+  - The demo post ("Buildathon") was taken down, with its certificate and photo.
+  - The first real post is up: G P Revanth Raj (II year, CSE Core A) won the Best Paper Award at the Transnational Tamil Welsh Conference 2026 (TWC'26) for the paper "TAURUS". The details were taken from his certificate.
+  - His certificate is stored privately; only faculty can open it. The post waits for faculty to verify it.
+  - The site now holds only real data: the 52 students on the class list and real posts.
+- **Still to do:** the faculty guide, collecting feedback from live testing, and the final test.
 
 </details>
 
